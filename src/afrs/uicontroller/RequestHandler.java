@@ -1,5 +1,8 @@
 package afrs.uicontroller;
 
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * RequestHandler
  *
@@ -12,4 +15,8 @@ public class RequestHandler implements Observer {
    */
   public RequestHandler(){}
 
+  @Override
+  public void update(Observable o, Object arg) {
+
+  }
 }

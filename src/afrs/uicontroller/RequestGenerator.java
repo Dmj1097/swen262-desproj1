@@ -1,5 +1,7 @@
 package afrs.uicontroller;
 
+import java.util.Observable;
+
 /**
  * RequestGenerator
  *
