@@ -7,6 +7,13 @@ package afrs.appmodel;
  */
 public interface Journey {
 
+    public Airport getOrigin();
+
+    public Airport getDestination();
+
+    public double getCost();
+
+
 
 
 }
