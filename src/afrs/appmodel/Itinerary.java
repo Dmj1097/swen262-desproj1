@@ -32,7 +32,6 @@ public class Itinerary implements Journey{
    */
   public void addFlight(Journey flight){
     flights.add(flight);
-    connections += 1;
     adjustCost();
   }
 
@@ -42,7 +41,6 @@ public class Itinerary implements Journey{
    */
   public void removeFlight(Journey flight){
     flights.remove(flight);
-    connections -= 1;
     adjustCost();
   }
 
@@ -69,7 +67,6 @@ public class Itinerary implements Journey{
    */
   @Override
   public String getOrigin() {
-    origin = flights.get(0).getOrigin();
     return origin;
   }
 
@@ -78,7 +75,6 @@ public class Itinerary implements Journey{
    */
   @Override
   public String getDestination() {
-    destination = flights.get(flights.size() - 1).getDestination();
     return destination;
   }
 
