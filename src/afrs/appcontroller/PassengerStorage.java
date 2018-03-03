@@ -40,14 +40,19 @@ public class PassengerStorage {
           String[] split_itineraries = line_info[1].split("|");
           Itinerary it;
           for(String str: split_itineraries){
-              String[] it_line = str.split(",");
+              String[] it_line = str.split("-");
+              int total_cost = Integer.parseInt(it_line[0]);
+              String[] flights_line = it_line[1].split("[");
+              for(String flight:flights_line){
+                String[] flight_info = flight.split(",");
+              }
           }
           Reservation reservation = new Reservation(new Passenger(name),it);
           addPassengerOrReservation(name,reservation);
         }
         reader.close();
       } catch (Exception e) {
-        System.err.format("Exception occurred trying to read cities.txt");
+        System.err.format("Exception occurred trying to read passengers.txt");
         e.printStackTrace();
       }
     }
@@ -59,17 +64,26 @@ public class PassengerStorage {
     }
 
 
-    public void addPassengerOrReservation(String name, Reservation res){
-      if(passengers.containsKey(name)){
+    public boolean addPassengerOrReservation(String name, Reservation res) {
+      if (passengers.containsKey(name) && passengers.get(name).alreadyContains(res.getOrigin(), res.getDestination())){
+        return true;
+      }else if(passengers.containsKey(name) && !passengers.get(name).alreadyContains(res.getOrigin(),res.getDestination())){
         passengers.get(name).addReservation(res);
+        return false;
       }else {
         Passenger passenger = new Passenger(name);
         passenger.addReservation(res);
         passengers.put(name, passenger);
+        return false;
       }
     }
 
     public void writePassengersFile(){
 
+    }
+
+
+    public Reservation getReservation(String name){
+      return passengers.get(name)
     }
 }

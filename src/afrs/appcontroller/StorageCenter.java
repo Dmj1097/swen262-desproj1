@@ -45,8 +45,8 @@ public class StorageCenter {
     return passengers.getPassenger(ID);
   }
 
-  public void addPassengerOrReservation(String passenger, Reservation res){
-    passengers.addPassengerOrReservation(passenger, res);
+  public boolean addPassengerOrReservation(String passenger, Reservation res){
+    return passengers.addPassengerOrReservation(passenger, res);
   }
 
   public void close(){
