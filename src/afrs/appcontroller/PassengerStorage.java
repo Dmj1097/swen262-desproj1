@@ -41,7 +41,6 @@ public class PassengerStorage {
           Itinerary it;
           for(String str: split_itineraries){
               String[] it_line = str.split(",");
-
           }
           Reservation reservation = new Reservation(new Passenger(name),it);
           addPassengerOrReservation(name,reservation);

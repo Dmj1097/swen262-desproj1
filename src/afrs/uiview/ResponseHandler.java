@@ -12,7 +12,7 @@ public class ResponseHandler {
 		this.out = System.out;	// stdout
 	}
 
-	public writeResponse(Response response){
-		this.out.println( response.getText() );
+	public void writeResponse(Response response){
+		System.out.println( response.getText() );
 	}
 }
