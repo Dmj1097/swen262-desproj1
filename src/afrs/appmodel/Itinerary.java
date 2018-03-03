@@ -12,19 +12,14 @@ public class Itinerary implements Journey{
 
   
   private ArrayList<Journey> flights = new ArrayList<Journey>();
-  private String origin;
-  private String destination;
   private int cost;
-  private int connections;
+
   /**
    * Create a new Itinerary object
    */
-  public Itinerary(String origin, String destination, int connections){
-    this.origin = origin;
-    this.destination = destination;
-    this.connections = connections;
+  public Itinerary(){
+    this.flights = new ArrayList<>();
   }
-
 
   /*
    * Adds a flight and adds to the connection count
@@ -32,7 +27,6 @@ public class Itinerary implements Journey{
    */
   public void addFlight(Journey flight){
     flights.add(flight);
-    adjustCost();
   }
 
   /*
@@ -41,21 +35,12 @@ public class Itinerary implements Journey{
    */
   public void removeFlight(Journey flight){
     flights.remove(flight);
-    adjustCost();
   }
 
-  private void adjustCost(){
-    int curr_cost = 0;
-    for(Journey flight: flights){
-      curr_cost += flight.getCost();
-    }
-    cost = curr_cost;
-  }
-  
   @Override
   public String toString(){
     String all = "";
-    all += (cost + ", " + connections);
+    all += (cost + ", " + this.getConnections());
     for(Journey flight: flights){
       all += (flight.toString());
     }
@@ -64,7 +49,7 @@ public class Itinerary implements Journey{
 
   public String toStringForFile(){
     String all = "";
-    all += cost + "-" + connections;
+    all += cost + "-" + this.getConnections();
     for(Journey flight: flights){
       all += (flight.toString());
     }
@@ -76,7 +61,7 @@ public class Itinerary implements Journey{
    */
   @Override
   public String getOrigin() {
-    return origin;
+    return this.flights.get(0).toString();
   }
 
   /*
@@ -84,7 +69,11 @@ public class Itinerary implements Journey{
    */
   @Override
   public String getDestination() {
-    return destination;
+    if(this.flights.size() == 0){
+      return "no destination exists in this itinerary";
+    } else {
+      return this.flights.get(this.getConnections()).toString();
+    }
   }
 
   /*
@@ -92,6 +81,22 @@ public class Itinerary implements Journey{
    */
   @Override
   public int getCost() {
+    int cost = 0;
+    for (Journey flight : this.flights){
+      cost += flight.getCost();
+    }
     return cost;
+  }
+
+  /**
+   * Calculate and return the number of conenctions
+   * @return the number of connections
+   */
+  public int getConnections(){
+    int connections = -1;
+    for (Journey flight : this.flights ) {
+      connections++;
+    }
+    return connections;
   }
 }
