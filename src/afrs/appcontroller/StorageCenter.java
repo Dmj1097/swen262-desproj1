@@ -25,7 +25,6 @@ public class StorageCenter {
    * Create a new StorageCenter object
    */
   public StorageCenter(){
-
     flights = new FlightStorage();
     airports = new AirportStorage();
     passengers = new PassengerStorage();
