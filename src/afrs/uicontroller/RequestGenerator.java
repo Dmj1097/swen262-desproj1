@@ -12,6 +12,14 @@ public class RequestGenerator extends Observable {
   /**
    * Create a new RequestGenerator object
    */
-  public RequestGenerator(){}
+  public RequestGenerator() {
 
+  }
+
+  public void parseRequest(String input) {
+    Request request = null;
+
+    setChanged();
+    notifyObservers(request);
+  }
 }
