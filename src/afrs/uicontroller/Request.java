@@ -24,7 +24,7 @@ public abstract class Request {
     this.storageCenter = storageCenter;
   }
 
-  public abstract String execute();
+  public abstract Response execute();
 
   public boolean hasCompleted() {
     return complete;

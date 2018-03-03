@@ -20,9 +20,8 @@ public class FlightInfoRequest extends Request {
   }
 
   @Override
-  public String execute() {
-    String response = null;
+  public Response execute() {
     //Journey journey =
-    return response;
+    return new Response("");
   }
 }

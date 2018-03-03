@@ -20,15 +20,15 @@ public class AirportInfoRequest extends Request {
   }
 
   @Override
-  public String execute() {
+  public Response execute() {
     Airport airport = storageCenter.getAirport(parameters.get(0));
     if (airport != null) {
       complete = true;
-      return "airport," + airport.getName() + "," + airport.getWeather() + "," + airport.getDelayTime();
+      return new Response("airport," + airport.getName() + "," + airport.getWeather() + "," + airport.getDelayTime());
     } else {
       // Error
       complete = true;
-      return "error,unknown airport";
+      return new Response("error,unknown airport");
     }
   }
 }

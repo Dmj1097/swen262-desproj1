@@ -1,6 +1,7 @@
 package afrs.uicontroller;
 
 import afrs.appcontroller.StorageCenter;
+import afrs.uiview.Response;
 import java.util.List;
 
 public class InvalidRequest extends Request {
@@ -13,8 +14,8 @@ public class InvalidRequest extends Request {
   }
 
   @Override
-  public String execute() {
+  public Response execute() {
     complete = true;
-    return "error,unknown request";
+    return new Response("error,unknown request");
   }
 }
