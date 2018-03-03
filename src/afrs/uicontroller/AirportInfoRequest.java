@@ -1,6 +1,7 @@
 package afrs.uicontroller;
 
 import afrs.appcontroller.StorageCenter;
+import afrs.appmodel.Airport;
 import afrs.uiview.Response;
 import java.util.List;
 
@@ -16,11 +17,18 @@ public class AirportInfoRequest extends Request {
    */
   public AirportInfoRequest(StorageCenter storageCenter, List<String> parameters) {
     super(storageCenter, parameters);
-    this.receiver = new AirportInfoReceiver(storageCenter);
   }
 
   @Override
-  public Response execute() {
-    return receiver.execute();
+  public String execute() {
+    Airport airport = storageCenter.getAirport(parameters.get(0));
+    if (airport != null) {
+      complete = true;
+      return "airport," + airport.getName() + "," + airport.getWeather() + "," + airport.getTemperature() + "," + airport.getDelayTime();
+    } else {
+      // Error
+      complete = true;
+      return "error,unknown airport";
+    }
   }
 }

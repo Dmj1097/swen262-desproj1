@@ -14,7 +14,6 @@ public abstract class Request {
   protected boolean complete;
   protected List<String> parameters;
   protected StorageCenter storageCenter;
-  protected Receiver receiver;
 
   /**
    * Create a new Request object
@@ -23,10 +22,9 @@ public abstract class Request {
     this.complete = false;
     this.parameters = parameters;
     this.storageCenter = storageCenter;
-    this.receiver = null;
   }
 
-  public abstract Response execute();
+  public abstract String execute();
 
   public boolean hasCompleted() {
     return complete;

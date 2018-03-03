@@ -1,7 +1,7 @@
 package afrs.uicontroller;
 
 import afrs.appcontroller.StorageCenter;
-import afrs.uiview.Response;
+import afrs.appmodel.Reservation;
 import java.util.List;
 
 public class DeleteReservationRequest extends Request {
@@ -9,13 +9,21 @@ public class DeleteReservationRequest extends Request {
   /**
    * Create a new Request object
    */
-  protected DeleteReservationRequest(StorageCenter storageCenter, List<String> parameters) {
+  public DeleteReservationRequest(StorageCenter storageCenter, List<String> parameters) {
     super(storageCenter, parameters);
-    this.receiver = new DeleteReservationReceiver(storageCenter);
   }
 
   @Override
-  public Response execute() {
-    return receiver.execute();
+  public String execute() {
+    /*Reservation reservation =
+    if (deleteReservation(reservation)) {
+      complete = true;
+      return "delete,successful";
+    } else {
+      complete = true;
+      return "error,reservation not found";
+    }
+    */
+    return "";
   }
 }
