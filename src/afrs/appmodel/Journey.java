@@ -13,7 +13,7 @@ public interface Journey {
 
     public int getCost();
 
-
+    public String toStringForFile();
 
 
 }

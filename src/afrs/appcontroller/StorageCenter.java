@@ -61,4 +61,7 @@ public class StorageCenter {
     return latestItineraries.get(idx);
   }
 
+  public boolean removeReservation(String name, String origin, String destination){
+    return passengers.removeReservation(name,origin,destination);
+  }
 }

@@ -1,12 +1,8 @@
 package afrs.appcontroller;
 
-import afrs.appmodel.Itinerary;
-import afrs.appmodel.Passenger;
-import afrs.appmodel.Reservation;
+import afrs.appmodel.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,13 +34,22 @@ public class PassengerStorage {
           String[] line_info = line.split("^");
           String name = line_info[0];
           String[] split_itineraries = line_info[1].split("|");
-          Itinerary it;
+          Itinerary it = new Itinerary();
           for(String str: split_itineraries){
               String[] it_line = str.split("-");
               int total_cost = Integer.parseInt(it_line[0]);
-              String[] flights_line = it_line[1].split("[");
+              String[] flights_line = it_line[1].split("/");
+
               for(String flight:flights_line){
                 String[] flight_info = flight.split(",");
+                int ID = Integer.parseInt(flight_info[0]);
+                int cost = Integer.parseInt(flight_info[1]);
+                String origin = flight_info[2];
+                String depart = flight_info[3];
+                String destination = flight_info[4];
+                String arrive = flight_info[5];
+                Flight newFlight = new Flight(ID,origin,destination,cost,new Time(depart),new Time(arrive));
+                it.addFlight(newFlight);
               }
           }
           Reservation reservation = new Reservation(new Passenger(name),it);
@@ -78,12 +83,35 @@ public class PassengerStorage {
       }
     }
 
-    public void writePassengersFile(){
-
+    public boolean removeReservation(String name, String origin, String destination){
+      if (passengers.containsKey(name)){
+        return passengers.get(name).removeReservation(origin, destination);
+      }else{
+        return false;
+      }
     }
 
+    public void writePassengersFile(){
 
-    public Reservation getReservation(String name){
-      return passengers.get(name)
+      try {
+
+        //Creating a file
+        Writer fileWriter = new FileWriter("");
+        Writer bufferedWriter = new BufferedWriter(fileWriter);
+
+        // Writing the content
+        for(String key : passengers.keySet()) {
+          String line = "";
+          line += key + "^";
+          for(Reservation res: passengers.get(key).getReservations()){
+            line += res.getJourney().toStringForFile();
+          }
+          bufferedWriter.write(line);
+        }
+        bufferedWriter.close();
+      } catch (IOException e) {
+        System.out.println("Problem occurs when creating file " + "");
+        e.printStackTrace();
+       }
     }
 }

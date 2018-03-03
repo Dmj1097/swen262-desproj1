@@ -36,4 +36,19 @@ public class Passenger {
     return false;
   }
 
+  public boolean removeReservation(String origin, String destination){
+    if(alreadyContains(origin, destination)){
+      for(Reservation res: reservations){
+        if (res.equalsTo(origin,destination)){
+          reservations.remove(res);
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  public ArrayList<Reservation> getReservations() {
+    return reservations;
+  }
 }

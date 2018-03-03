@@ -31,5 +31,9 @@ public class Reservation {
     return journey.getDestination();
   }
 
+  public Journey getJourney(){
+    return journey;
+  }
+
 
 }

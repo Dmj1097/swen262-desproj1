@@ -63,7 +63,7 @@ public class Flight implements Journey {
   }
 
   public String toStringForFile(){
-    return "[" + ID + "," + cost + "," + origin + "," + depart + "," + destination + "," + arrive;
+    return "/" + ID + "," + cost + "," + origin + "," + depart + "," + destination + "," + arrive;
 
   }
 }
