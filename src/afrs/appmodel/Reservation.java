@@ -19,4 +19,17 @@ public class Reservation {
   }
 
 
+  public boolean equalsTo(String origin, String destination){
+      return (journey.getOrigin().equals(origin) && journey.getDestination().equals(destination));
+  }
+
+  public String getOrigin(){
+    return journey.getOrigin();
+  }
+
+  public String getDestination(){
+    return journey.getDestination();
+  }
+
+
 }

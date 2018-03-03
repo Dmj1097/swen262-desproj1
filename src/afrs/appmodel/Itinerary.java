@@ -62,6 +62,15 @@ public class Itinerary implements Journey{
     return all;
   }
 
+  public String toStringForFile(){
+    String all = "";
+    all += cost + "-" + connections;
+    for(Journey flight: flights){
+      all += (flight.toString());
+    }
+    return all;
+  }
+
   /*
    * Updates origin and returns it
    */

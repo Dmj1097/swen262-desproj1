@@ -17,6 +17,7 @@ public class Passenger {
    */
   public Passenger(String name){
     this.name = name;
+    reservations = new ArrayList<>();
   }
 
   /*
@@ -27,5 +28,12 @@ public class Passenger {
   }
 
   public String getName(){return name;}
+
+  public boolean alreadyContains(String origin, String destination){
+    for(Reservation res: reservations) {
+        return res.equalsTo(origin,destination);
+    }
+    return false;
+  }
 
 }
