@@ -3,6 +3,7 @@ import afrs.appmodel.Airport;
 import afrs.appmodel.Weather;
 
 import java.io.File;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,8 +36,7 @@ public class AirportStorage {
 
   private void setupAirportMap() {
     try {
-      File file = new File("src/afrs/appcontroller/data/cities.txt");
-      BufferedReader reader = new BufferedReader(new FileReader(file));
+      BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/cities.txt")));
       String line;
       while ((line = reader.readLine()) != null) {
         String[] line_info = line.split(",");
@@ -49,8 +49,7 @@ public class AirportStorage {
       e.printStackTrace();
     }
     try {
-      File file = new File("resources/connectTime.txt");
-      BufferedReader reader = new BufferedReader(new FileReader(file));
+      BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/connectTime.txt")));
       String line;
       while ((line = reader.readLine()) != null) {
         String[] line_info = line.split(",");
@@ -62,8 +61,7 @@ public class AirportStorage {
       e.printStackTrace();
     }
     try {
-      File file = new File("resources/delayTime.txt");
-      BufferedReader reader = new BufferedReader(new FileReader(file));
+      BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/delayTime.txt")));
       String line;
       while ((line = reader.readLine()) != null) {
         String[] line_info = line.split(",");
@@ -78,8 +76,7 @@ public class AirportStorage {
 
   private void setupAirportWeather(){
     try {
-      File file = new File("resources/weather.txt");
-      BufferedReader reader = new BufferedReader(new FileReader(file));
+      BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/weather.txt")));
       String line;
       while ((line = reader.readLine()) != null) {
         String[] line_info = line.split(",");

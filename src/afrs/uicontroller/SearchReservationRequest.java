@@ -42,7 +42,7 @@ public class SearchReservationRequest extends Request {
         return new Response("error,unknown destination");
       }
 
-      //getReservations
+      //storageCenter.setLatestItineraries();
       complete = true;
       return new Response("");
     } else {

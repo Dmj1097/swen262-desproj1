@@ -28,7 +28,7 @@ public class Time {
       new_timestamp = timestamp.replace("p","");
     }else{
       half = Half.AM;
-      new_timestamp = timestamp.replace("c","");
+      new_timestamp = timestamp.replace("a","");
     }
     String[] time_line = new_timestamp.split(":");
     hour = Integer.parseInt(time_line[0]);

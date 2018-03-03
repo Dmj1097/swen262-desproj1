@@ -33,14 +33,17 @@ public class Flight implements Journey {
     this.arrive = arrive;
   }
 
+  @Override
   public String getOrigin() {
     return origin;
   }
 
+  @Override
   public String getDestination() {
     return destination;
   }
 
+  @Override
   public int getCost() {
     return cost;
   }

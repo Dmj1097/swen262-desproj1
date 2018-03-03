@@ -7,6 +7,7 @@ import afrs.appmodel.Time;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,8 +32,7 @@ public class FlightStorage {
 
   private void setupFlightMap(){
     try {
-      File file = new File("resources/flights.txt");
-      BufferedReader reader = new BufferedReader(new FileReader(file));
+      BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/flights.txt")));
       String line;
       while ((line = reader.readLine()) != null) {
         String[] line_info = line.split(",");

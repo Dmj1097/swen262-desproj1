@@ -1,6 +1,7 @@
 package afrs.uicontroller;
 
 import afrs.appcontroller.StorageCenter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
@@ -23,12 +24,12 @@ public class RequestGenerator extends Observable {
 
   public void parseRequest(String input) {
     if (input.endsWith(";")) {
-      List<String> parameters = Arrays.asList(input.split(","));
-      Request request = new InvalidRequest(storageCenter, parameters);
+      String[] parms = input.replace(";", "").split(",");
+      String type = parms[0];
+      List<String> parameters = new ArrayList<>(Arrays.asList(parms).subList(1, parms.length));
+      Request request = new InvalidRequest(storageCenter, null);
 
-      if (parameters.size() >= 2) {
-        String type = parameters.remove(0);
-
+      if (parameters.size() >= 1) {
         switch (type) {
           case "airport":
             request = new AirportInfoRequest(storageCenter, parameters);
@@ -44,9 +45,6 @@ public class RequestGenerator extends Observable {
             break;
           case "delete":
             request = new DeleteReservationRequest(storageCenter, parameters);
-            break;
-          default:
-            // Invalid
             break;
         }
       }

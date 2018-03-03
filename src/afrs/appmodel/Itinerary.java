@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Itinerary implements Journey{
 
   
-  private ArrayList<Journey> flights = new ArrayList<Journey>();
+  private ArrayList<Journey> flights;
   private int cost;
 
   /**

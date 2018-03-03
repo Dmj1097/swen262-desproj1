@@ -4,6 +4,7 @@ import afrs.appcontroller.StorageCenter;
 import afrs.uicontroller.RequestGenerator;
 import afrs.uicontroller.RequestHandler;
 import afrs.uiview.ResponseHandler;
+import java.util.Scanner;
 
 public class Application {
 
@@ -16,8 +17,15 @@ public class Application {
 		System.out.println("Welcome to AFRS!");
 		storageCenter = new StorageCenter();
 		requestGenerator = new RequestGenerator( storageCenter );
-		requestHandler = new RequestHandler( requestGenerator );
 		responseHandler = new ResponseHandler();
+		requestHandler = new RequestHandler( requestGenerator, responseHandler );
+
+		Scanner in = new Scanner(System.in);
+		String input = in.nextLine();
+		while (!input.equals("quit")) {
+			requestGenerator.parseRequest(input);
+			input = in.nextLine();
+		}
 //		while(true){}
 	}
 }

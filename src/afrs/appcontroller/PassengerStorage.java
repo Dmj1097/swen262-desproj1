@@ -27,7 +27,8 @@ public class PassengerStorage {
 
     private void setupPassngerMap() {
       try {
-        File file = new File("resources/passengers.txt");
+        File file = new File(System.getProperty("user.home") + "\\passengers.txt");
+        file.createNewFile();
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line;
         while ((line = reader.readLine()) != null) {
@@ -96,7 +97,7 @@ public class PassengerStorage {
       try {
 
         //Creating a file
-        Writer fileWriter = new FileWriter("");
+        Writer fileWriter = new FileWriter(System.getProperty("user.home") + "\\passengers.txt");
         Writer bufferedWriter = new BufferedWriter(fileWriter);
 
         // Writing the content

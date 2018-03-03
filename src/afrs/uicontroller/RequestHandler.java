@@ -1,5 +1,6 @@
 package afrs.uicontroller;
 
+import afrs.uiview.ResponseHandler;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
@@ -14,13 +15,15 @@ import java.util.Queue;
 public class RequestHandler implements Observer {
 
   private LinkedList<Request> requestQueue;
+  private ResponseHandler handler;
 
   /**
    * Create a new RequestHandler object
    */
-  public RequestHandler(RequestGenerator requestGenerator) {
+  public RequestHandler(RequestGenerator requestGenerator, ResponseHandler responseHandler) {
     requestQueue = new LinkedList<>();
     requestGenerator.addObserver(this);
+    this.handler = responseHandler;
   }
 
   @Override
@@ -28,6 +31,6 @@ public class RequestHandler implements Observer {
     if (arg instanceof Request) {
       requestQueue.offer((Request) arg);
     }
-    System.out.println(requestQueue.poll().execute());
+    handler.writeResponse(requestQueue.poll().execute());
   }
 }

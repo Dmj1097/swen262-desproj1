@@ -42,6 +42,5 @@ public class CreateReservationRequest extends Request {
       complete = true;
       return new Response("error,invalid id");
     }
-    return new Response("");
   }
 }
