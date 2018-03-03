@@ -1,8 +1,10 @@
 package afrs.appcontroller;
 
 import afrs.appmodel.*;
+import jdk.nashorn.internal.scripts.JO;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -104,8 +106,8 @@ public class PassengerStorage {
         for(String key : passengers.keySet()) {
           String line = "";
           line += key + "^";
-          for(Reservation res: passengers.get(key).getReservations()){
-            line += res.getJourney().toStringForFile();
+          for(Journey res: passengers.get(key).getReservations()){
+            line += res.toStringForFile();
           }
           bufferedWriter.write(line);
         }
@@ -114,5 +116,34 @@ public class PassengerStorage {
         System.out.println("Problem occurs when creating file " + "");
         e.printStackTrace();
        }
+    }
+
+    public ArrayList<Journey> getReservations(String name, String origin, String desitination){
+      ArrayList<Journey> reservationArrayList = new ArrayList<>();
+      if(origin.equals("") && desitination.equals("")){
+        return passengers.get(name).getReservations();
+      } else if(!origin.equals("") && (desitination.equals(""))){
+        for(Journey reservation: passengers.get(name).getReservations()){
+          if (reservation.getOrigin().equals(origin)){
+            reservationArrayList.add(reservation);
+          }
+        }
+        return reservationArrayList;
+      } else if (origin.equals("") && !desitination.equals("")){
+        for(Journey reservation: passengers.get(name).getReservations()){
+          if (reservation.getDestination().equals(desitination)){
+            reservationArrayList.add(reservation);
+          }
+        }
+        return reservationArrayList;
+
+      }else{
+        for(Journey reservation: passengers.get(name).getReservations()){
+          if (reservation.getOrigin().equals(origin) && reservation.getDestination().equals(desitination)){
+            reservationArrayList.add(reservation);
+          }
+        }
+        return reservationArrayList;
+      }
     }
 }

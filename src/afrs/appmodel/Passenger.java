@@ -48,7 +48,11 @@ public class Passenger {
     return false;
   }
 
-  public ArrayList<Reservation> getReservations() {
-    return reservations;
+  public ArrayList<Journey> getReservations() {
+    ArrayList<Journey> journies = new ArrayList<>();
+    for(Reservation res: reservations){
+      journies.add(res.getJourney());
+    }
+    return journies;
   }
 }

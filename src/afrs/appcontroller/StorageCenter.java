@@ -64,4 +64,8 @@ public class StorageCenter {
   public boolean removeReservation(String name, String origin, String destination){
     return passengers.removeReservation(name,origin,destination);
   }
+  public ArrayList<Journey> getReservations(String name, String origin, String destination){
+    return passengers.getReservations(name, origin, destination);
+  }
+
 }
