@@ -1,6 +1,7 @@
 package afrs.appcontroller;
 
 import afrs.appmodel.Flight;
+import afrs.appmodel.Journey;
 import afrs.appmodel.Time;
 
 import java.io.BufferedReader;
@@ -31,7 +32,7 @@ public class FlightStorage {
 
   private void setupFlightMap(){
     try {
-      File file = new File("src/afrs/appcontroller/data/flights.txt");
+      File file = new File("resources/flights.txt");
       BufferedReader reader = new BufferedReader(new FileReader(file));
       String line;
       while ((line = reader.readLine()) != null) {
@@ -47,7 +48,7 @@ public class FlightStorage {
     }
   }
 
-  public Flight getFlight(int ID){
+  public Journey getFlight(int ID){
     return flights.get(ID);
   }
 

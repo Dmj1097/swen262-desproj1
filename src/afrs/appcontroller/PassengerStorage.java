@@ -31,7 +31,7 @@ public class PassengerStorage {
 
     private void setupPassngerMap() {
       try {
-        File file = new File("src/afrs/appcontroller/data/passengers.txt");
+        File file = new File("resources/passengers.txt");
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line;
         while ((line = reader.readLine()) != null) {

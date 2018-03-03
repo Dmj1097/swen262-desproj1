@@ -35,7 +35,7 @@ public class StorageCenter {
     return airports.getAirport(ID);
   }
 
-  public Flight getFlight(int ID){
+  public Journey getFlight(int ID){
     return flights.getFlight(ID);
   }
 

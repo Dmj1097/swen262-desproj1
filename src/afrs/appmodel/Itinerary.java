@@ -55,9 +55,9 @@ public class Itinerary implements Journey{
   @Override
   public String toString(){
     String all = "";
-    all.concat(cost + ", " + connections);
+    all += (cost + ", " + connections);
     for(Journey flight: flights){
-      all.concat(flight.toString());
+      all += (flight.toString());
     }
     return all;
   }
