@@ -17,34 +17,29 @@ public class ItineraryGenerator {
     }
 
     public ArrayList<Itinerary> generateItineraries(String origin, String destination, int connections){
-        ArrayList<Itinerary> itineraries = new ArrayList<>();
 
-        ArrayList<Flight> availableFlights = new ArrayList<>();
-        availableFlights.addAll(storageCenter.getFlightsFromOrigin(origin));
-
-        String current = origin; // the airport whos connections are being checked.
+        ArrayList<Itinerary> itineraries = new ArrayList<>();      // Collection of Itineraries
+        ArrayList<Flight> availableFlights = new ArrayList<>();    // Any flight that can be taken within the flight limit
+        ArrayList<Flight> flightPath = new ArrayList<>();
         Itinerary it;
 
-        // For each possible flight
+
         for( int i = 1; i <= FLIGHT_LIMIT; i++ ){
+            for (Flight flight : availableFlights) {
 
-            //
-            for(Journey flight : availableFlights ){
-                if( flight.getDestination() == destination ){
+                flightPath.set(i-1, flight);
+
+                if (flight.getDestination() == destination){
                     it = new Itinerary();
-                    it.addFlight(flight);
-
-
-
-                    itineraries.add( it );
+                    for (Flight validFlight : flightPath) {
+                        it.addFlight(validFlight);
+                    }
                 }
+                availableFlights.addAll( this.storageCenter.getFlightsFromOrigin(flight.getDestination()) );
             }
         }
-
 
         storageCenter.setLatestItineraries(itineraries);
         return itineraries;
     }
-
-
 }
