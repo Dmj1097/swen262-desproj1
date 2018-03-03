@@ -49,7 +49,7 @@ public class RequestGenerator extends Observable {
           break;
       }
     }
-    
+
     setChanged();
     notifyObservers(request);
   }
