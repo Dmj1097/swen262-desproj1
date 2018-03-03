@@ -34,8 +34,13 @@ public class PassengerStorage {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line;
         while ((line = reader.readLine()) != null) {
-          String[] line_info = line.split(",");
-          //TODO figure out format of passenger.txt line and parse info for startup
+          String[] line_info = line.split("^");
+          String name = line_info[0];
+          String[] split_itineraries = line_info[1].split("|");
+          for(String str: split_itineraries){
+              String[] it_line = str.split(",");
+
+          }
         }
         reader.close();
       } catch (Exception e) {
