@@ -1,4 +1,4 @@
-package afrs.model;
+package afrs.appmodel;
 
 /**
  * Journey
