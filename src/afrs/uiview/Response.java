@@ -5,5 +5,12 @@ package afrs.uiview;
  */
 public class Response {
 
+	private String responseText;
+
+	public Response(String text){
+		this.responseText = text;
+	}
+
+	public String getText(){ return this.responseText; }
 
 }
