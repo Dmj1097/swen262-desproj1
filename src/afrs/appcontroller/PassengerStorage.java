@@ -56,4 +56,8 @@ public class PassengerStorage {
       Passenger passenger = new Passenger();
       passengers.put(name,passenger);
     }
+
+    public void writePassengersFile(){
+
+    }
 }

@@ -5,9 +5,10 @@ package afrs.appmodel;
  *
  * Create By Alex Piazza - 03/01/2018
  */
-public class Flight {
+public class Flight implements Journey {
 
 
+  private int ID;
 
   private String origin;
 
@@ -24,7 +25,8 @@ public class Flight {
   /**
    * Create a new Flight object
    */
-  public Flight(String origin, String destination, int cost,String depart,String arrive){
+  public Flight(int ID,String origin, String destination, int cost,String depart,String arrive){
+    this.ID = ID;
     this.origin = origin;
     this.destination = destination;
     this.cost = cost;
@@ -50,5 +52,10 @@ public class Flight {
 
   public String getArrive() {
     return arrive;
+  }
+
+  @Override
+  public String toString(){
+    return "[," + ID + ","+  origin + "," + depart + "," + destination + "," + arrive +"]\n";
   }
 }

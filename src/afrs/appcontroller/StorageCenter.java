@@ -18,6 +18,8 @@ public class StorageCenter {
 
   private PassengerStorage passengers;
 
+  private ArrayList<Itinerary> latestItineraries;
+
 
   /**
    * Create a new StorageCenter object
@@ -47,6 +49,18 @@ public class StorageCenter {
   public void addPassenger(Passenger passenger){
     //TODO change parameters
     passengers.addPassenger(passenger.toString(),new Reservation());
+  }
+
+  public void close(){
+    passengers.writePassengersFile();
+  }
+
+  public void setLatestItineraries(ArrayList<Itinerary> itineraries){
+    latestItineraries = itineraries;
+  }
+
+  public Itinerary getItinerary(int idx){
+    return latestItineraries.get(idx);
   }
 
 }

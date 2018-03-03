@@ -5,11 +5,8 @@ package afrs.appmodel;
  *
  * Create By Alex Piazza - 03/01/2018
  */
-public class Journey {
+public interface Journey {
 
-  /**
-   * Create a new Journey object
-   */
-  public Journey(){}
+
 
 }

@@ -35,7 +35,7 @@ public class FlightStorage {
       String line;
       while ((line = reader.readLine()) != null) {
         String[] line_info = line.split(",");
-        flights.put(Integer.parseInt(line_info[4]), new Flight(line_info[0],line_info[1],Integer.parseInt(line_info[5]),line_info[2],line_info[3]));
+        flights.put(Integer.parseInt(line_info[4]), new Flight(Integer.parseInt(line_info[4]),line_info[0],line_info[1],Integer.parseInt(line_info[5]),line_info[2],line_info[3]));
       }
       reader.close();
     } catch (Exception e) {
