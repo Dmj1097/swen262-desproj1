@@ -14,16 +14,25 @@ import java.util.Observable;
 public class RequestGenerator extends Observable {
 
   private StorageCenter storageCenter;
+  private String partialRequestString;
 
   /**
    * Create a new RequestGenerator object
    */
   public RequestGenerator(StorageCenter storageCenter) {
     this.storageCenter = storageCenter;
+    this.partialRequestString = "";
   }
 
   public void parseRequest(String input) {
     if (input.endsWith(";")) {
+
+      // The current input is the end of a pre-existing, partially-complete request
+      if(!partialRequestString.equals("")){
+        input = String.format("%s%s", partialRequestString, input);
+        partialRequestString = "";
+      }
+
       String[] parms = input.replace(";", "").split(",");
       String type = parms[0];
       List<String> parameters = new ArrayList<>(Arrays.asList(parms).subList(1, parms.length));
@@ -51,6 +60,12 @@ public class RequestGenerator extends Observable {
 
       setChanged();
       notifyObservers(request);
+    }
+
+    // Partial requests
+    else{
+      // Track each input string as a continuous partial request
+      this.partialRequestString = String.format("%s%s", this.partialRequestString, input);
     }
   }
 }
