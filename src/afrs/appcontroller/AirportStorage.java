@@ -49,7 +49,7 @@ public class AirportStorage {
       e.printStackTrace();
     }
     try {
-      File file = new File("src/afrs/appcontroller/data/connectTime.txt");
+      File file = new File("resources/connectTime.txt");
       BufferedReader reader = new BufferedReader(new FileReader(file));
       String line;
       while ((line = reader.readLine()) != null) {
@@ -62,7 +62,7 @@ public class AirportStorage {
       e.printStackTrace();
     }
     try {
-      File file = new File("src/afrs/appcontroller/data/delayTime.txt");
+      File file = new File("resources/delayTime.txt");
       BufferedReader reader = new BufferedReader(new FileReader(file));
       String line;
       while ((line = reader.readLine()) != null) {
@@ -78,7 +78,7 @@ public class AirportStorage {
 
   private void setupAirportWeather(){
     try {
-      File file = new File("src/afrs/appcontroller/data/weather.txt");
+      File file = new File("resources/weather.txt");
       BufferedReader reader = new BufferedReader(new FileReader(file));
       String line;
       while ((line = reader.readLine()) != null) {
