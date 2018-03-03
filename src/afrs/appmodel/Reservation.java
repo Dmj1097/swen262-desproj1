@@ -7,9 +7,16 @@ package afrs.appmodel;
  */
 public class Reservation {
 
+  private Passenger passenger;
+  private Journey journey;
+
   /**
    * Create a new Reservation object
    */
-  public Reservation(){}
+  public Reservation(Passenger passenger, Journey journey){
+    this.passenger = passenger;
+    this.journey = journey;
+  }
+
 
 }
