@@ -10,11 +10,11 @@ public class Flight implements Journey {
 
   private int ID;
 
-  private Airport origin;
+  private String origin;
 
-  private Airport destination;
+  private String destination;
 
-  private double cost;
+  private int cost;
 
   private Time depart;
 
@@ -24,7 +24,7 @@ public class Flight implements Journey {
   /**
    * Create a new Flight object
    */
-  public Flight(int ID, Airport origin, Airport destination, double cost,Time depart,Time arrive){
+  public Flight(int ID, String origin, String destination, int cost,Time depart,Time arrive){
     this.ID = ID;
     this.origin = origin;
     this.destination = destination;
@@ -33,15 +33,15 @@ public class Flight implements Journey {
     this.arrive = arrive;
   }
 
-  public Airport getOrigin() {
+  public String getOrigin() {
     return origin;
   }
 
-  public Airport getDestination() {
+  public String getDestination() {
     return destination;
   }
 
-  public double getCost() {
+  public int getCost() {
     return cost;
   }
 
@@ -59,6 +59,6 @@ public class Flight implements Journey {
 
   @Override
   public String toString(){
-    return "[," + ID + ","+  origin.getName() + "," + depart + "," + destination.getName() + "," + arrive +"]\n";
+    return "[," + ID + ","+  origin + "," + depart + "," + destination + "," + arrive +"]\n";
   }
 }

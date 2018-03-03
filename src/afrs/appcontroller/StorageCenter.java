@@ -45,9 +45,8 @@ public class StorageCenter {
     return passengers.getPassenger(ID);
   }
 
-  public void addPassenger(Passenger passenger){
-    //TODO change parameters
-    passengers.addPassenger(passenger.toString(),new Reservation());
+  public void addPassengerOrReservation(Passenger passenger, Reservation res){
+    passengers.addPassengerOrReservation(passenger.getName(), res);
   }
 
   public void close(){

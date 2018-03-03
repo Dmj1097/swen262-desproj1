@@ -17,8 +17,6 @@ public class Airport {
 
   private ArrayList<Weather> weatherlist;
 
-  private double temperature;
-
   private int delayTime;
 
   private int layoverTime;
@@ -38,10 +36,6 @@ public class Airport {
     this.weatherlist = weather;
   }
 
-  public void setTemperature(double temp){
-    this.temperature = temp;
-  }
-
   public void setDelayTime(int delayTime){
     this.delayTime = delayTime;
   }
@@ -54,9 +48,6 @@ public class Airport {
     return name;
   }
 
-  public String getWeatherList(){
-    return weatherlist.toString();
-  }
   public String getWeather() {
     for(Weather weather: weatherlist){
       if(!weather.getChecked()){
@@ -68,10 +59,6 @@ public class Airport {
     }
     weatherlist.get(0).setChecked();
     return weatherlist.get(0).toString();
-  }
-
-  public double getTemperature() {
-    return temperature;
   }
 
   public int getDelayTime() {

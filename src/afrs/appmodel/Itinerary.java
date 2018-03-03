@@ -12,14 +12,14 @@ public class Itinerary implements Journey{
 
   
   private ArrayList<Journey> flights = new ArrayList<Journey>();
-  private Airport origin;
-  private Airport destination;
+  private String origin;
+  private String destination;
   private int cost;
   private int connections;
   /**
    * Create a new Itinerary object
    */
-  public Itinerary(Airport origin, Airport destination, int connections){
+  public Itinerary(String origin, String destination, int connections){
     this.origin = origin;
     this.destination = destination;
     this.connections = connections;
@@ -68,7 +68,7 @@ public class Itinerary implements Journey{
    * Updates origin and returns it
    */
   @Override
-  public Airport getOrigin() {
+  public String getOrigin() {
     origin = flights.get(0).getOrigin();
     return origin;
   }
@@ -77,7 +77,7 @@ public class Itinerary implements Journey{
    * Updates destination and returns it
    */
   @Override
-  public Airport getDestination() {
+  public String getDestination() {
     destination = flights.get(flights.size() - 1).getDestination();
     return destination;
   }
@@ -86,7 +86,7 @@ public class Itinerary implements Journey{
    * Returns the cost of the entire journey
    */
   @Override
-  public double getCost() {
+  public int getCost() {
     return cost;
   }
 }

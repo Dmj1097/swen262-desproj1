@@ -1,5 +1,6 @@
 package afrs.appcontroller;
 
+import afrs.appmodel.Itinerary;
 import afrs.appmodel.Passenger;
 import afrs.appmodel.Reservation;
 
@@ -37,10 +38,13 @@ public class PassengerStorage {
           String[] line_info = line.split("^");
           String name = line_info[0];
           String[] split_itineraries = line_info[1].split("|");
+          Itinerary it;
           for(String str: split_itineraries){
               String[] it_line = str.split(",");
 
           }
+          Reservation reservation = new Reservation(new Passenger(name),it);
+          addPassengerOrReservation(name,reservation);
         }
         reader.close();
       } catch (Exception e) {
@@ -56,10 +60,14 @@ public class PassengerStorage {
     }
 
 
-    public void addPassenger(String name, Reservation res){
-      //TODO add parameters to Passenger creation to have proper Passenger object be stored
-      Passenger passenger = new Passenger();
-      passengers.put(name,passenger);
+    public void addPassengerOrReservation(String name, Reservation res){
+      if(passengers.containsKey(name)){
+        passengers.get(name).addReservation(res);
+      }else {
+        Passenger passenger = new Passenger(name);
+        passenger.addReservation(res);
+        passengers.put(name, passenger);
+      }
     }
 
     public void writePassengersFile(){

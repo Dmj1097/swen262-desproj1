@@ -24,7 +24,7 @@ public class AirportInfoRequest extends Request {
     Airport airport = storageCenter.getAirport(parameters.get(0));
     if (airport != null) {
       complete = true;
-      return "airport," + airport.getName() + "," + airport.getWeather() + "," + airport.getTemperature() + "," + airport.getDelayTime();
+      return "airport," + airport.getName() + "," + airport.getWeather() + "," + airport.getDelayTime();
     } else {
       // Error
       complete = true;

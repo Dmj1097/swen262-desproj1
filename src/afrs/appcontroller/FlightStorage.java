@@ -1,6 +1,7 @@
 package afrs.appcontroller;
 
 import afrs.appmodel.Flight;
+import afrs.appmodel.Time;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,7 +36,9 @@ public class FlightStorage {
       String line;
       while ((line = reader.readLine()) != null) {
         String[] line_info = line.split(",");
-        flights.put(Integer.parseInt(line_info[4]), new Flight(Integer.parseInt(line_info[4]),line_info[0],line_info[1],Integer.parseInt(line_info[5]),line_info[2],line_info[3]));
+        Time arrive = new Time(line_info[3]);
+        Time depart = new Time(line_info[2]);
+        flights.put(Integer.parseInt(line_info[4]), new Flight(Integer.parseInt(line_info[4]),line_info[0],line_info[1],Integer.parseInt(line_info[5]),depart,arrive));
       }
       reader.close();
     } catch (Exception e) {

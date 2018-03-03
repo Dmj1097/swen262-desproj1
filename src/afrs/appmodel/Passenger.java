@@ -15,16 +15,17 @@ public class Passenger {
   /**
    * Create a new Passenger object
    */
-  public Passenger(String name, ArrayList<Reservation> reservations){
+  public Passenger(String name){
     this.name = name;
-    this.reservations = reservations;
   }
 
   /*
    * Add reservations to the passengers list of reservations
    */
-  public void AddReservation(Reservation r){
+  public void addReservation(Reservation r){
     reservations.add(r);
   }
+
+  public String getName(){return name;}
 
 }
