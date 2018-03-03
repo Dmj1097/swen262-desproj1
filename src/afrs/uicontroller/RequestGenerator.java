@@ -22,35 +22,37 @@ public class RequestGenerator extends Observable {
   }
 
   public void parseRequest(String input) {
-    List<String> parameters = Arrays.asList(input.split(","));
-    Request request = new InvalidRequest(storageCenter, parameters);
+    if (input.endsWith(";")) {
+      List<String> parameters = Arrays.asList(input.split(","));
+      Request request = new InvalidRequest(storageCenter, parameters);
 
-    if (parameters.size() >= 2) {
-      String type = parameters.remove(0);
+      if (parameters.size() >= 2) {
+        String type = parameters.remove(0);
 
-      switch (type) {
-        case "airport":
-          request = new AirportInfoRequest(storageCenter, parameters);
-          break;
-        case "info":
-          request = new FlightInfoRequest(storageCenter, parameters);
-          break;
-        case "retrieve":
-          request = new SearchReservationRequest(storageCenter, parameters);
-          break;
-        case "reserve":
-          request = new CreateReservationRequest(storageCenter, parameters);
-          break;
-        case "delete":
-          request = new DeleteReservationRequest(storageCenter, parameters);
-          break;
-        default:
-          // Invalid
-          break;
+        switch (type) {
+          case "airport":
+            request = new AirportInfoRequest(storageCenter, parameters);
+            break;
+          case "info":
+            request = new FlightInfoRequest(storageCenter, parameters);
+            break;
+          case "retrieve":
+            request = new SearchReservationRequest(storageCenter, parameters);
+            break;
+          case "reserve":
+            request = new CreateReservationRequest(storageCenter, parameters);
+            break;
+          case "delete":
+            request = new DeleteReservationRequest(storageCenter, parameters);
+            break;
+          default:
+            // Invalid
+            break;
+        }
       }
-    }
 
-    setChanged();
-    notifyObservers(request);
+      setChanged();
+      notifyObservers(request);
+    }
   }
 }

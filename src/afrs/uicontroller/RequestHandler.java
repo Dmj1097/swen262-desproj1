@@ -26,7 +26,8 @@ public class RequestHandler implements Observer {
   @Override
   public void update(Observable o, Object arg) {
     if (arg instanceof Request) {
-      requestQueue.push((Request) arg);
+      requestQueue.offer((Request) arg);
     }
+    System.out.println(requestQueue.poll().execute());
   }
 }

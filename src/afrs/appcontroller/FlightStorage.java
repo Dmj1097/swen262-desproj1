@@ -27,7 +27,6 @@ public class FlightStorage {
   public FlightStorage(){
     flights = new HashMap<>();
     setupFlightMap();
-
   }
 
   private void setupFlightMap(){

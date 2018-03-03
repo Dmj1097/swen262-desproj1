@@ -1,7 +1,10 @@
 package afrs.uicontroller;
 
 import afrs.appcontroller.StorageCenter;
+import afrs.appmodel.Airport;
+import afrs.appmodel.Passenger;
 import afrs.appmodel.Reservation;
+import afrs.uiview.Response;
 import java.util.List;
 
 public class DeleteReservationRequest extends Request {
@@ -14,16 +17,18 @@ public class DeleteReservationRequest extends Request {
   }
 
   @Override
-  public String execute() {
-    /*Reservation reservation =
-    if (deleteReservation(reservation)) {
+  public Response execute() {
+    Passenger passenger = storageCenter.getPassenger(parameters.get(0));
+    if (passenger == null) {
+      return new Response("error,reservation not found");
+    }
+
+    if (storageCenter.delete(passenger.alreadyContains(parameters.get(1), parameters.get(2)))) {
       complete = true;
-      return "delete,successful";
+      return new Response("delete,successful");
     } else {
       complete = true;
-      return "error,reservation not found";
+      return new Response("error,reservation not found");
     }
-    */
-    return "";
   }
 }

@@ -2,6 +2,9 @@ package afrs.uicontroller;
 
 import afrs.appcontroller.StorageCenter;
 import afrs.appmodel.Journey;
+import afrs.appmodel.Passenger;
+import afrs.appmodel.Reservation;
+import afrs.uiview.Response;
 import java.util.List;
 
 /**
@@ -19,22 +22,26 @@ public class CreateReservationRequest extends Request {
   }
 
   @Override
-  public String execute() {
-    /*Journey journey =
+  public Response execute() {
+    Journey journey = storageCenter.getItinerary(Integer.parseInt(parameters.get(0)));
     if (journey != null) {
-      //Reservation reservation =
-      if (!contains(reservation)) {
-        addReservation();
+      String name = parameters.get(1);
+      Passenger passenger = storageCenter.getPassenger(name);
+      if (passenger == null) {
+        passenger = new Passenger(name);
+      }
+      Reservation reservation = new Reservation(passenger, journey);
+      if (storageCenter.addPassengerOrReservation(name, reservation)) {
         complete = true;
-        return "reserve,successful";
+        return new Response("reserve,successful");
       } else {
         complete = true;
-        return "error,duplicate reservation";
+        return new Response("error,duplicate reservation");
       }
     } else {
       complete = true;
-      return "error,invalid id";
-    }*/
-    return "";
+      return new Response("error,invalid id");
+    }
+    return new Response("");
   }
 }
