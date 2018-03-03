@@ -66,6 +66,7 @@ public class RequestGenerator extends Observable {
     else{
       // Track each input string as a continuous partial request
       this.partialRequestString = String.format("%s%s", this.partialRequestString, input);
+      System.out.println("partial-request");
     }
   }
 }
