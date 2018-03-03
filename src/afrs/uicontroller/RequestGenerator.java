@@ -13,17 +13,25 @@ import java.util.Observable;
  */
 public class RequestGenerator extends Observable {
 
+  /** The storage of all relevant objects */
   private StorageCenter storageCenter;
+  /** String representing part of a request that has not yet been terminated */
   private String partialRequestString;
 
   /**
    * Create a new RequestGenerator object
+   * @param storageCenter - the object storage which will be queried
+   * @return a request generator with a given storage center
    */
   public RequestGenerator(StorageCenter storageCenter) {
     this.storageCenter = storageCenter;
     this.partialRequestString = "";
   }
 
+  /**
+   * Given an input string from stdin, parse it into a request, then execute the request.
+   * @param input - the string input from stdin
+   */
   public void parseRequest(String input) {
     if (input.endsWith(";")) {
 
@@ -66,7 +74,7 @@ public class RequestGenerator extends Observable {
     else{
       // Track each input string as a continuous partial request
       this.partialRequestString = String.format("%s%s", this.partialRequestString, input);
-      System.out.println("partial-request");
+      System.out.println("partial-request");  // Relevant output
     }
   }
 }
