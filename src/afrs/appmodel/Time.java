@@ -47,8 +47,7 @@ public class Time implements Comparable<Time> {
     }else {
       dayHalf = "p";
     }
-
-    return hour + ":" + minute + dayHalf;
+    return String.format("%d:%02d%s", hour, minute, dayHalf);
   }
 
   /**

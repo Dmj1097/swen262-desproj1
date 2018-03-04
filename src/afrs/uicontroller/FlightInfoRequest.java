@@ -4,6 +4,7 @@ import afrs.appcontroller.StorageCenter;
 import afrs.appmodel.Airport;
 import afrs.appmodel.Journey;
 import afrs.uiview.Response;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -54,11 +55,26 @@ public class FlightInfoRequest extends Request {
       }
     }
 
+    Comparator<Journey> sort = new DepartSort();
     if (parameters.size() > 3) {
-      // Sort order
+      String type = parameters.get(3);
+      switch (type) {
+        case "departure":
+          break;
+        case "arrival":
+          sort = new ArriveSort();
+          break;
+        case "airfare":
+          sort = new CostSort();
+          break;
+        default:
+          complete = true;
+          return new Response("error,invalid sort order");
+      }
     }
 
     List<Journey> journeys = storageCenter.getLatestJourneys(origin.getAbbreviation(), destination.getAbbreviation(), connections);
+    journeys.sort(sort);
     StringBuilder result = new StringBuilder();
     int index = 1;
     for (Journey j : journeys) {

@@ -37,4 +37,14 @@ public interface Journey {
      */
     String toString();
 
+    /**
+     * @return the departure time
+     */
+    Time getDepart();
+
+    /**
+     * @return the arrival time
+     */
+    Time getArrive();
+
 }
