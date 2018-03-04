@@ -58,6 +58,14 @@ public class Flight implements Journey {
   }
 
   /**
+   * @return single flight is single
+   */
+  @Override
+  public int getFlights() {
+    return 1;
+  }
+
+  /**
    * @return the departure time
    */
   public Time getDepart() {
@@ -83,7 +91,7 @@ public class Flight implements Journey {
    */
   @Override
   public String toString(){
-    return "[," + ID + ","+  origin + "," + depart + "," + destination + "," + arrive +"]";
+    return ID + ","+  origin + "," + depart + "," + destination + "," + arrive;
   }
 
   /**

@@ -44,10 +44,11 @@ public class Itinerary implements Journey{
   @Override
   public String toString(){
     StringBuilder all = new StringBuilder();
-    all.append(cost).append(",").append(this.getConnections());
+    all.append(getCost()).append(",").append(flights.size()).append(",");
     for(Journey flight: flights){
-      all.append(flight.toString());
+      all.append(flight.toString()).append(",");
     }
+    all.deleteCharAt(all.toString().length() - 1);
     return all.toString();
   }
 
@@ -56,7 +57,7 @@ public class Itinerary implements Journey{
    */
   public String toStringForFile(){
     StringBuilder all = new StringBuilder();
-    all.append(cost).append("-").append(this.getConnections());
+    all.append(getCost()).append("-").append(this.getConnections());
     for(Journey flight: flights){
       all.append(flight.toString());
     }
@@ -93,6 +94,14 @@ public class Itinerary implements Journey{
       cost += flight.getCost();
     }
     return cost;
+  }
+
+  /**
+   * @return number of flights in itinerary
+   */
+  @Override
+  public int getFlights() {
+    return flights.size();
   }
 
   /**

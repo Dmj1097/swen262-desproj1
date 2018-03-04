@@ -92,7 +92,7 @@ public class StorageCenter {
   /**
    * calls itineraryGenerator's getItinerary method
    */
-  public Itinerary getItinerary(int idx){
+  public Journey getItinerary(int idx){
     return itineraryGenerator.getItinerary(idx);
   }
 

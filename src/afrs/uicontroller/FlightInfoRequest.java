@@ -51,8 +51,10 @@ public class FlightInfoRequest extends Request {
 
     List<Journey> journeys = storageCenter.getLatestJourneys(origin.getAbbreviation(), destination.getAbbreviation(), connections);
     StringBuilder result = new StringBuilder();
+    int index = 1;
     for (Journey j : journeys) {
-      result.append(journeys.indexOf(j) + 1).append(j).append("\n");
+      result.append(index).append(",").append(j).append("\n");
+      index++;
     }
     complete = true;
     return new Response("info," + journeys.size() + "\n" + result);

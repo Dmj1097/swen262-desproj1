@@ -23,8 +23,18 @@ public interface Journey {
     int getCost();
 
     /**
+     * @return number of flights
+     */
+    int getFlights();
+
+    /**
      * @return a CSV friendly string representing this journey
      */
     String toStringForFile();
+
+    /**
+     * @return the string representation of this itinerary with labels
+     */
+    String toString();
 
 }
