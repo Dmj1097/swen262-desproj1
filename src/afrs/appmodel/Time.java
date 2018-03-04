@@ -5,8 +5,7 @@ package afrs.appmodel;
  *
  * Create By Alex Piazza - 03/01/2018
  */
-public class Time {
-
+public class Time implements Comparable<Time> {
 
 
   public enum Half{
@@ -43,5 +42,22 @@ public class Time {
 
   public String toString(){
     return "Time: " + hour + ":" + minute + half;
+  }
+
+  /**
+   * For comparing two objects
+   * @param t - any Time object
+   * @return a negative integer, 0, or a positive integer indicating whether o is less than, equal to, or greater than this
+   */
+  public int compareTo(Time t){
+    if (t.half == this.half){
+      if(this.hour == t.hour){ return this.minute - t.minute; }
+      else{ return this.hour - t.hour; }
+
+    } else if (t.half == Half.AM && this.half == Half.PM){
+      return 1;
+    } else if (t.half == Half.PM && this.half == Half.AM){
+      return -1;
+    } else { return 0; }
   }
 }

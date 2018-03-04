@@ -19,13 +19,49 @@ public class ItineraryGenerator {
         this.storageCenter = storageCenter;
     }
 
+    /**
+     * Create a collection of valid journeys from an origin and destination
+     * @param origin - the name of the origin airport
+     * @param destination - the name of the destination airport
+     * @return a collection of journeys
+     */
     public List<Journey> generateJourneys(String origin, String destination, int connections){
 
-        List<String> flightPath = new LinkedList<>();
+        LinkedList<Flight> flightPath = new LinkedList<>();
         List<Journey> journeys = new ArrayList<>();      // Collection of Itineraries
         List<Journey> availableFlights = new ArrayList<>();    // Any flight that can be taken within the flight limit
 
         availableFlights.addAll( this.storageCenter.getFlightsFromOrigin(origin) );
+        Itinerary it;
+
+        for (Journey firstLeg : availableFlights){
+            Flight firstFlight = (Flight) firstLeg;
+
+            // Test each possible second flight
+            for(Journey secondLeg : this.storageCenter.getFlightsFromOrigin(firstFlight.getDestination())){
+                Flight secondFlight = (Flight) secondLeg;
+                if( isValidNextFlight( firstFlight, secondFlight ) ){
+                    if(secondFlight.getDestination() == destination){
+                        it = new Itinerary();
+                        it.addFlight(firstFlight);
+                        it.addFlight(secondFlight);
+                        journeys.add( it );
+                    }
+
+                    // Test each possible third flight
+                    for(Journey thirdLeg : this.storageCenter.getFlightsFromOrigin(secondFlight.getDestination())){
+                        Flight thirdFlight = (Flight) thirdLeg;
+                        if( isValidNextFlight(secondFlight, thirdFlight) && thirdFlight.getDestination() == destination ){
+                            it = new Itinerary();
+                            it.addFlight(firstFlight);
+                            it.addFlight(secondFlight);
+                            it.addFlight(thirdFlight);
+                            journeys.add( it );
+                        }
+                    }
+                }
+            }
+        }
 
         // Add all single-flights that go from the origin to the destination
         for (Journey flight : availableFlights) {
@@ -36,4 +72,17 @@ public class ItineraryGenerator {
 
         return journeys;
     }
+
+    /**
+     * Determine if a flight can be a valid subsequent flight
+     * Itineraries cannot have a second flight which has an earlier time than the first
+     * @param firstFlight - the first flight of a flight sequence
+     * @param secondFlight - the second flight of a flight sequence
+     * @return true if second flight can be followed by the second
+     */
+    private boolean isValidNextFlight(Flight firstFlight, Flight secondFlight){
+
+       return firstFlight.getArrivalTime().compareTo( secondFlight.getArrivalTime() ) >= 0;
+    }
+
 }

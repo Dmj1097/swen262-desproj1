@@ -93,4 +93,7 @@ public class Flight implements Journey {
     return "/" + ID + "," + cost + "," + origin + "," + depart + "," + destination + "," + arrive;
 
   }
+
+  public Time getArrivalTime(){ return this.arrive; }
+  public Time getDepartureTime(){ return this.depart; }
 }
