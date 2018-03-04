@@ -1,23 +1,22 @@
 package afrs.appcontroller;
 
 import afrs.appmodel.*;
-import jdk.nashorn.internal.scripts.JO;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * PassengerStorage
+ * PassengerStorage class that stores all passengers with their respective reservations into a map. Also writes storage
+ * changes to file when program is quit
  *
- * Create By Alex Piazza - 03/01/2018
+ * @author Dylan Johnston
  */
 public class PassengerStorage {
 
 
 
-    private Map<String,Passenger> passengers;
+    private Map<String,Passenger> passengers; //map of name of passenger to their respective object
   /**
    * Create a new PassengerStorage object
    */
@@ -26,24 +25,27 @@ public class PassengerStorage {
     setupPassngerMap();
   }
 
-
-    private void setupPassngerMap() {
+  /**
+   * setup for the passenger map. reads line by line of passenger.txt and parses it down to individual flights,then creates
+   * itineraries, which turns it into reservations which is placed in passenger object
+   */
+  private void setupPassngerMap() {
       try {
         File file = new File(System.getProperty("user.home") + "\\passengers.txt");
         file.createNewFile();
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line;
         while ((line = reader.readLine()) != null) {
-          String[] line_info = line.split("^");
+          String[] line_info = line.split("^"); //splits line on name and itineraries
           String name = line_info[0];
-          String[] split_itineraries = line_info[1].split("|");
+          String[] split_itineraries = line_info[1].split("|"); //splits line on each itinerary
           Itinerary it = new Itinerary();
           for(String str: split_itineraries){
-              String[] it_line = str.split("-");
+              String[] it_line = str.split("-"); //splits line on each flight
               int total_cost = Integer.parseInt(it_line[0]);
               String[] flights_line = it_line[1].split("/");
 
-              for(String flight:flights_line){
+              for(String flight:flights_line){ // splits line on each paramter of flight
                 String[] flight_info = flight.split(",");
                 int ID = Integer.parseInt(flight_info[0]);
                 int cost = Integer.parseInt(flight_info[1]);
@@ -52,11 +54,12 @@ public class PassengerStorage {
                 String destination = flight_info[4];
                 String arrive = flight_info[5];
                 Flight newFlight = new Flight(ID,origin,destination,cost,new Time(depart),new Time(arrive));
-                it.addFlight(newFlight);
+                it.addFlight(newFlight); //addition of flight into itinerary
               }
           }
-          Reservation reservation = new Reservation(new Passenger(name),it);
-          addPassengerOrReservation(name,reservation);
+          Reservation reservation = new Reservation(new Passenger(name),it); //create reservation object
+          addPassengerOrReservation(name,reservation); //function that creates passenger and/or adds reservation to said
+                                                      // passenger object
         }
         reader.close();
       } catch (Exception e) {
@@ -66,12 +69,22 @@ public class PassengerStorage {
     }
 
 
-
+  /**
+   * gets specific passenger based on name
+   * @param ID name of passenger
+   * @return passenger with name
+   */
     public Passenger getPassenger(String ID){
       return passengers.get(ID);
     }
 
-
+  /**
+   * takes a name of passenger and a reservation object. checks if passenger is present, then if reservation is present in
+   * passenger, otherwise it creates a passenger and adds a resservation to it
+   * @param name name of passenger
+   * @param res reservation object
+   * @return true if reservation exists for passenger, false otherwise
+   */
     public boolean addPassengerOrReservation(String name, Reservation res) {
       if (passengers.containsKey(name) && passengers.get(name).alreadyContains(res.getOrigin(), res.getDestination())){
         return true;
@@ -86,6 +99,13 @@ public class PassengerStorage {
       }
     }
 
+  /**
+   * checks if passenger is in storage and then tries to remove it from that passengers reservations
+   * @param name name of passenger
+   * @param origin name of origin airport
+   * @param destination name of destination aiport
+   * @return true if removed, false otherwise
+   */
     public boolean removeReservation(String name, String origin, String destination){
       if (passengers.containsKey(name)){
         return passengers.get(name).removeReservation(origin, destination);
@@ -94,7 +114,10 @@ public class PassengerStorage {
       }
     }
 
-    public void writePassengersFile(){
+  /**
+   * Takes all information from passenger storage and writes it to a file in a certain format.
+   */
+  public void writePassengersFile(){
 
       try {
 
@@ -106,8 +129,8 @@ public class PassengerStorage {
         for(String key : passengers.keySet()) {
           String line = "";
           line += key + "^";
-          for(Journey res: passengers.get(key).getReservations()){
-            line += res.toStringForFile();
+          for(Journey res: passengers.get(key).getReservations()){ //creates String of all journey objects in passenger's
+            line += res.toStringForFile();                         // reservations
           }
           bufferedWriter.write(line);
         }
@@ -118,12 +141,19 @@ public class PassengerStorage {
        }
     }
 
+  /**
+   * gets all journey objects associated with a passenger, with possible specification of origin and destination airports
+   * @param name name of passenger
+   * @param origin name of origin airport
+   * @param desitination name of destination airport
+   * @return list of journey objects
+   */
     public ArrayList<Journey> getReservations(String name, String origin, String desitination){
       ArrayList<Journey> reservationArrayList = new ArrayList<>();
-      if(origin.equals("") && desitination.equals("")){
+      if(origin.equals("") && desitination.equals("")){ //checks if client provided origin and destination names
         return passengers.get(name).getReservations();
       } else if(!origin.equals("") && (desitination.equals(""))){
-        for(Journey reservation: passengers.get(name).getReservations()){
+        for(Journey reservation: passengers.get(name).getReservations()){ //goes through to find matching journeys
           if (reservation.getOrigin().equals(origin)){
             reservationArrayList.add(reservation);
           }
