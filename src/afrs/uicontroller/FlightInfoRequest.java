@@ -49,7 +49,7 @@ public class FlightInfoRequest extends Request {
       }
     }
 
-    List<Journey> journeys = storageCenter.getLatestItineraries(origin.getAbbreviation(), destination.getAbbreviation(), connections);
+    List<Journey> journeys = storageCenter.getLatestJourneys(origin.getAbbreviation(), destination.getAbbreviation(), connections);
     StringBuilder result = new StringBuilder();
     for (Journey j : journeys) {
       result.append(journeys.indexOf(j) + 1).append(j).append("\n");

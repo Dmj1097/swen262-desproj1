@@ -3,6 +3,7 @@ package afrs.appcontroller;
 import afrs.appmodel.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * StorageCenter class that handles the different types of storages and the itinerary generator
@@ -90,6 +91,13 @@ public class StorageCenter {
    */
   public void setLatestItineraries(ArrayList<Itinerary> itineraries){
     latestItineraries = itineraries;
+  }
+
+  /**
+   *
+   */
+  public List<Journey> getLatestJourneys(String origin, String destination, int connections ){
+    return this.itineraryGenerator.generateJourneys(origin, destination, connections);
   }
 
   /**
