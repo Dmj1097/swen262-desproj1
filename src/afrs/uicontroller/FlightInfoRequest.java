@@ -29,23 +29,27 @@ public class FlightInfoRequest extends Request {
    */
   @Override
   public Response execute() {
+    // If invalid number of parameters
     if (!(parameters.size() >= 2 && parameters.size() <= 4)) {
       complete = true;
       return new Response("error,unknown request");
     }
 
+    // Validate origin airport
     Airport origin = storageCenter.getAirport(parameters.get(0));
     if (origin == null) {
       complete = true;
       return new Response("error,unknown origin");
     }
 
+    // Validate destination airport
     Airport destination = storageCenter.getAirport(parameters.get(1));
     if (destination == null) {
       complete = true;
       return new Response("error,unknown destination");
     }
 
+    // Validate connection limit if exists
     int connections = 2;
     if (parameters.size() > 2 && !parameters.get(2).equals("")) {
       connections = Integer.parseInt(parameters.get(2));
@@ -55,6 +59,7 @@ public class FlightInfoRequest extends Request {
       }
     }
 
+    // Validate sort order if exists
     Comparator<Journey> sort = new DepartSort();
     if (parameters.size() > 3) {
       String type = parameters.get(3);
@@ -73,8 +78,11 @@ public class FlightInfoRequest extends Request {
       }
     }
 
+    // Get list of journeys, sorted
     List<Journey> journeys = storageCenter.getLatestJourneys(origin.getAbbreviation(), destination.getAbbreviation(), connections);
     journeys.sort(sort);
+
+    // Create response
     StringBuilder result = new StringBuilder();
     int index = 1;
     for (Journey j : journeys) {

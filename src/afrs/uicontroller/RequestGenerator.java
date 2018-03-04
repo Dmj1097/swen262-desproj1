@@ -33,6 +33,7 @@ public class RequestGenerator extends Observable {
    * @param input - the string input from stdin
    */
   public void parseRequest(String input) {
+    // Non-partial request
     if (input.endsWith(";")) {
 
       // The current input is the end of a pre-existing, partially-complete request
@@ -41,11 +42,13 @@ public class RequestGenerator extends Observable {
         partialRequestString = "";
       }
 
+      // Get request type and create list of parameters
       String[] parms = input.replace(";", "").split(",");
       String type = parms[0];
       List<String> parameters = new ArrayList<>(Arrays.asList(parms).subList(1, parms.length));
       Request request = new InvalidRequest();
 
+      // Validate request type and create request
       if (parameters.size() >= 1) {
         switch (type) {
           case "airport":
@@ -66,11 +69,12 @@ public class RequestGenerator extends Observable {
         }
       }
 
+      // Update RequestHandler
       setChanged();
       notifyObservers(request);
     }
 
-    // Partial requests
+    // Partial request
     else{
       // Track each input string as a continuous partial request
       this.partialRequestString += input;

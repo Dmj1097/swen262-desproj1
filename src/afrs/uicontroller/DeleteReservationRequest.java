@@ -29,16 +29,19 @@ public class DeleteReservationRequest extends Request {
    */
   @Override
   public Response execute() {
+    // If invalid number of parameters
     if (!(parameters.size() == 3)) {
       complete = true;
       return new Response("error,unknown request");
     }
 
+    // Validate passenger
     Passenger passenger = storageCenter.getPassenger(parameters.get(0));
     if (passenger == null) {
       return new Response("error,reservation not found");
     }
 
+    // Attempt deletion of reservation
     if (storageCenter.removeReservation(parameters.get(0), parameters.get(1), parameters.get(2))) {
       complete = true;
       return new Response("delete,successful");

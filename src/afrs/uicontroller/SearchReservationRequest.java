@@ -32,11 +32,13 @@ public class SearchReservationRequest extends Request {
    */
   @Override
   public Response execute() {
+    // If invalid number of parameters
     if (!(parameters.size() >= 1 && parameters.size() <= 3)) {
       complete = true;
       return new Response("error,unknown request");
     }
 
+    // Get [optional] parameters
     String name = parameters.get(0);
     String origin = "";
     String destination = "";
@@ -47,12 +49,14 @@ public class SearchReservationRequest extends Request {
       destination = parameters.get(2);
     }
 
+    // Validate passenger
     Passenger passenger = storageCenter.getPassenger(name);
     if (passenger == null) {
       complete = true;
       return new Response("retrieve,0");
     }
 
+    // Validate origin airport if exists
     if (!origin.equals("")) {
       Airport orig = storageCenter.getAirport(origin);
       if (orig == null) {
@@ -61,6 +65,7 @@ public class SearchReservationRequest extends Request {
       }
     }
 
+    // Validate destination airport if exists
     if (!destination.equals("")) {
       Airport dest = storageCenter.getAirport(destination);
       if (dest == null) {
@@ -69,8 +74,11 @@ public class SearchReservationRequest extends Request {
       }
     }
 
+    // Get list of journeys, sorted
     List<Journey> journeys = storageCenter.getReservations(name, origin, destination);
     journeys.sort(new AirportSort());
+
+    // Create response
     StringBuilder result = new StringBuilder();
     for (Journey j : journeys) {
       result.append(j).append("\n");

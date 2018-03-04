@@ -29,18 +29,24 @@ public class CreateReservationRequest extends Request {
    */
   @Override
   public Response execute() {
+    // If invalid number of parameters
     if (!(parameters.size() == 2)) {
       complete = true;
       return new Response("error,unknown request");
     }
 
     try {
+      // Attempt to get journey from latestJourneys
       Journey journey = storageCenter.getItinerary(Integer.parseInt(parameters.get(0)));
+
+      // Validate passenger
       String name = parameters.get(1);
       Passenger passenger = storageCenter.getPassenger(name);
       if (passenger == null) {
         passenger = new Passenger(name);
       }
+
+      // Attempt reservation
       Reservation reservation = new Reservation(passenger, journey);
       if (storageCenter.addPassengerOrReservation(name, reservation)) {
         complete = true;
