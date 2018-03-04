@@ -18,6 +18,8 @@ public class StorageCenter {
 
   private PassengerStorage passengers;
 
+  private ItineraryGenerator itineraryGenerator;
+
   private ArrayList<Itinerary> latestItineraries;
 
 
@@ -28,6 +30,7 @@ public class StorageCenter {
     flights = new FlightStorage();
     airports = new AirportStorage();
     passengers = new PassengerStorage();
+    itineraryGenerator = new ItineraryGenerator(this);
   }
 
   /**
