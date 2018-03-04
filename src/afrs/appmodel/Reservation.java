@@ -25,7 +25,7 @@ public class Reservation {
    * @return true if equal, false otherwise
    */
   public boolean equalsTo(String origin, String destination){
-      return (journey.getOrigin().equals(origin) && journey.getDestination().equals(destination));
+    return (journey.getOrigin().equals(origin) && journey.getDestination().equals(destination));
   }
 
   /**

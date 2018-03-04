@@ -14,9 +14,8 @@ import java.util.Map;
  */
 public class PassengerStorage {
 
-
-
-    private Map<String,Passenger> passengers; //map of name of passenger to their respective object
+  private static String location = PassengerStorage.class.getProtectionDomain().getCodeSource().getLocation().getPath().replaceFirst("/", "").replaceFirst("/[^/]*\\.jar$", "");
+  private Map<String,Passenger> passengers; //map of name of passenger to their respective object
   /**
    * Create a new PassengerStorage object
    */
@@ -31,19 +30,19 @@ public class PassengerStorage {
    */
   private void setupPassngerMap() {
       try {
-        File file = new File(System.getProperty("user.home") + "\\passengers.txt");
+        File file = new File(location + "/passengers.txt");
         file.createNewFile();
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line;
         while ((line = reader.readLine()) != null) {
-          String[] line_info = line.split("^"); //splits line on name and itineraries
+          String[] line_info = line.split("\\^"); //splits line on name and itineraries
           String name = line_info[0];
-          String[] split_itineraries = line_info[1].split("|"); //splits line on each itinerary
+          String[] split_itineraries = line_info[1].replaceFirst("\\|", "").split("\\|"); //splits line on each itinerary
           Itinerary it = new Itinerary();
           for(String str: split_itineraries){
               String[] it_line = str.split("-"); //splits line on each flight
               int total_cost = Integer.parseInt(it_line[0]);
-              String[] flights_line = it_line[1].split("/");
+              String[] flights_line = it_line[1].replaceFirst("/", "").split("/");
 
               for(String flight:flights_line){ // splits line on each paramter of flight
                 String[] flight_info = flight.split(",");
@@ -108,12 +107,9 @@ public class PassengerStorage {
    * @param destination name of destination aiport
    * @return true if removed, false otherwise
    */
-    public boolean removeReservation(String name, String origin, String destination){
-      if (passengers.containsKey(name)){
-        return passengers.get(name).removeReservation(origin, destination);
-      }else{
-        return false;
-      }
+    public boolean removeReservation(String name, String origin, String destination) {
+      return passengers.containsKey(name) && passengers.get(name)
+          .removeReservation(origin, destination);
     }
 
   /**
@@ -124,17 +120,17 @@ public class PassengerStorage {
       try {
 
         //Creating a file writer
-        Writer fileWriter = new FileWriter(System.getProperty("user.home") + "\\passengers.txt");
+        Writer fileWriter = new FileWriter(location + "/passengers.txt");
         Writer bufferedWriter = new BufferedWriter(fileWriter);
 
         // Writing the content
         for(String key : passengers.keySet()) {
-          String line = "";
-          line += key + "^";
+          StringBuilder line = new StringBuilder();
+          line.append(key).append("^");
           for(Journey res: passengers.get(key).getReservations()){ //creates String of all journey objects in passenger's
-            line += "|" + res.toStringForFile();                         // reservations
+            line.append("|").append(res.toStringForFile());        // reservations
           }
-          bufferedWriter.write(line);
+          bufferedWriter.write(line + "\n");
         }
         bufferedWriter.close();
       } catch (IOException e) {

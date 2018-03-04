@@ -29,6 +29,11 @@ public class DeleteReservationRequest extends Request {
    */
   @Override
   public Response execute() {
+    if (!(parameters.size() == 3)) {
+      complete = true;
+      return new Response("error,unknown request");
+    }
+
     Passenger passenger = storageCenter.getPassenger(parameters.get(0));
     if (passenger == null) {
       return new Response("error,reservation not found");

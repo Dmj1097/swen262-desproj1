@@ -1,6 +1,7 @@
 package afrs;
 
 import afrs.appcontroller.ItineraryGenerator;
+import afrs.appcontroller.PassengerStorage;
 import afrs.appcontroller.StorageCenter;
 import afrs.uicontroller.RequestGenerator;
 import afrs.uicontroller.RequestHandler;
