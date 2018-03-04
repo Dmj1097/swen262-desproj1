@@ -1,5 +1,6 @@
 package afrs.appmodel;
 
+import java.util.LinkedList;
 import javax.print.attribute.standard.JobHoldUntil;
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 public class Itinerary implements Journey{
 
   /** The flights associated with this itinerary, in order from origin to destination */
-  private ArrayList<Journey> flights;
+  private LinkedList<Journey> flights;
   /** The total airfare of each flight in the itinerary */
   private int cost;
 
@@ -19,7 +20,7 @@ public class Itinerary implements Journey{
    * Create a new Itinerary object
    */
   public Itinerary(){
-    this.flights = new ArrayList<>();
+    this.flights = new LinkedList<>();
   }
 
   /**
@@ -57,9 +58,9 @@ public class Itinerary implements Journey{
    */
   public String toStringForFile(){
     StringBuilder all = new StringBuilder();
-    all.append(getCost()).append("-").append(this.getConnections());
+    all.append(getCost()).append("-");
     for(Journey flight: flights){
-      all.append(flight.toString());
+      all.append(flight.toStringForFile());
     }
     return all.toString();
   }
@@ -69,7 +70,7 @@ public class Itinerary implements Journey{
    */
   @Override
   public String getOrigin() {
-    return this.flights.get(0).toString();
+    return this.flights.getFirst().getOrigin();
   }
 
   /**
@@ -77,11 +78,7 @@ public class Itinerary implements Journey{
    */
   @Override
   public String getDestination() {
-    if(this.flights.size() == 0){
-      return "no destination exists in this itinerary";
-    } else {
-      return this.flights.get(this.getConnections()).toString();
-    }
+    return this.flights.getLast().getDestination();
   }
 
   /**

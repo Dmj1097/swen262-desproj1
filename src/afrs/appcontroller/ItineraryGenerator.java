@@ -30,9 +30,8 @@ public class ItineraryGenerator {
 
         LinkedList<Flight> flightPath = new LinkedList<>();
         List<Journey> journeys = new ArrayList<>();      // Collection of Itineraries
-        List<Journey> availableFlights = new ArrayList<>();    // Any flight that can be taken within the flight limit
 
-        availableFlights.addAll( this.storageCenter.getFlightsFromOrigin(origin) );
+      List<Journey> availableFlights = new ArrayList<>(this.storageCenter.getFlightsFromOrigin(origin));
         Itinerary it;
 
         for (Journey firstLeg : availableFlights){
@@ -101,6 +100,6 @@ public class ItineraryGenerator {
      * @return specfic itinerary
      */
     public Journey getItinerary(int idx){
-        return latestItineraries.get(idx);
+        return latestItineraries.get(idx - 1);
     }
 }

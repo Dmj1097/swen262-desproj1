@@ -29,6 +29,11 @@ public class CreateReservationRequest extends Request {
    */
   @Override
   public Response execute() {
+    if (!(parameters.size() == 2)) {
+      complete = true;
+      return new Response("error,unknown request");
+    }
+
     try {
       Journey journey = storageCenter.getItinerary(Integer.parseInt(parameters.get(0)));
       String name = parameters.get(1);

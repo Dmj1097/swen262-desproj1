@@ -28,6 +28,11 @@ public class FlightInfoRequest extends Request {
    */
   @Override
   public Response execute() {
+    if (!(parameters.size() >= 2 && parameters.size() <= 4)) {
+      complete = true;
+      return new Response("error,unknown request");
+    }
+
     Airport origin = storageCenter.getAirport(parameters.get(0));
     if (origin == null) {
       complete = true;
@@ -41,12 +46,16 @@ public class FlightInfoRequest extends Request {
     }
 
     int connections = 2;
-    if (parameters.size() > 2) {
+    if (parameters.size() > 2 && !parameters.get(2).equals("")) {
       connections = Integer.parseInt(parameters.get(2));
       if (connections < 0 || connections > 2) {
         complete = true;
         return new Response("error,invalid connection limit");
       }
+    }
+
+    if (parameters.size() > 3) {
+      // Sort order
     }
 
     List<Journey> journeys = storageCenter.getLatestJourneys(origin.getAbbreviation(), destination.getAbbreviation(), connections);

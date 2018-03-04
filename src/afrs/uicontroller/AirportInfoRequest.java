@@ -27,6 +27,11 @@ public class AirportInfoRequest extends Request {
    */
   @Override
   public Response execute() {
+    if (!(parameters.size() == 1)) {
+      complete = true;
+      return new Response("error,unknown request");
+    }
+
     Airport airport = storageCenter.getAirport(parameters.get(0));
     if (airport != null) {
       complete = true;

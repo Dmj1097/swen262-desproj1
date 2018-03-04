@@ -32,12 +32,19 @@ public class SearchReservationRequest extends Request {
    */
   @Override
   public Response execute() {
+    if (!(parameters.size() >= 1 && parameters.size() <= 3)) {
+      complete = true;
+      return new Response("error,unknown request");
+    }
+
     String name = parameters.get(0);
     String origin = "";
     String destination = "";
     if (parameters.size() > 1) {
       origin = parameters.get(1);
-      destination =  parameters.get(2);
+    }
+    if (parameters.size() > 2) {
+      destination = parameters.get(2);
     }
 
     Passenger passenger = storageCenter.getPassenger(name);
@@ -46,17 +53,19 @@ public class SearchReservationRequest extends Request {
       return new Response("retrieve,0");
     }
 
-    Airport dest = storageCenter.getAirport(destination);
-    if (dest == null) {
-      complete = true;
-      return new Response("error,unknown destination");
-    }
-
-    if (parameters.size() == 3) {
+    if (!origin.equals("")) {
       Airport orig = storageCenter.getAirport(origin);
       if (orig == null) {
         complete = true;
         return new Response("error,unknown origin");
+      }
+    }
+
+    if (!destination.equals("")) {
+      Airport dest = storageCenter.getAirport(destination);
+      if (dest == null) {
+        complete = true;
+        return new Response("error,unknown destination");
       }
     }
 
