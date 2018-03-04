@@ -34,7 +34,14 @@ public class ItineraryGenerator {
       List<Journey> availableFlights = new ArrayList<>(this.storageCenter.getFlightsFromOrigin(origin));
         Itinerary it;
 
-        if(connections == 1) {
+        if(connections == 0) {
+            // Add all single-flights that go from the origin to the destination
+            for (Journey flight : availableFlights) {
+                if (flight.getDestination().equals(destination)) {
+                    journeys.add(flight);
+                }
+            }
+        }else if(connections == 1) {
             for (Journey firstLeg : availableFlights) {
                 Flight firstFlight = (Flight) firstLeg;
 
@@ -52,7 +59,7 @@ public class ItineraryGenerator {
                     }
                 }
             }
-        }else if (connections == 2){
+        }else{
             for (Journey firstLeg : availableFlights) {
                 Flight firstFlight = (Flight) firstLeg;
 
@@ -60,13 +67,6 @@ public class ItineraryGenerator {
                 for (Journey secondLeg : this.storageCenter.getFlightsFromOrigin(firstFlight.getDestination())) {
                     Flight secondFlight = (Flight) secondLeg;
                     if (isValidNextFlight(firstFlight, secondFlight)) {
-                        if (secondFlight.getDestination().equals(destination)) {
-                            it = new Itinerary();
-                            it.addFlight(firstFlight);
-                            it.addFlight(secondFlight);
-                            journeys.add(it);
-                        }
-
                         // Test each possible third flight
                         for (Journey thirdLeg : this.storageCenter.getFlightsFromOrigin(secondFlight.getDestination())) {
                             Flight thirdFlight = (Flight) thirdLeg;
@@ -80,13 +80,6 @@ public class ItineraryGenerator {
                         }
                     }
                 }
-            }
-        }
-
-        // Add all single-flights that go from the origin to the destination
-        for (Journey flight : availableFlights) {
-            if (flight.getDestination().equals(destination)){
-                journeys.add(flight);
             }
         }
         setLatestItineraries(journeys);
