@@ -101,8 +101,8 @@ public class ItineraryGenerator {
      * @return true if second flight can be followed by the second
      */
     private boolean isValidNextFlight(Flight firstFlight, Flight secondFlight){
-
-       return firstFlight.getArrivalTime().compareTo( secondFlight.getDepartureTime() ) >= 0;
+        int inBetTime = firstFlight.getArrivalTime().getInBetweenTime(secondFlight.getDepartureTime());
+       return (storageCenter.getAirport(secondFlight.getOrigin()).getDelayTime() + storageCenter.getAirport(secondFlight.getOrigin()).getLayoverTime()) <= inBetTime;
     }
 
     /**

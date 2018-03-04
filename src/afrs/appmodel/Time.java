@@ -66,5 +66,33 @@ public class Time implements Comparable<Time> {
     } else if (t.half == Half.PM && this.half == Half.AM){
       return -1;
     } else { return 0; }
+
+
   }
+
+  public int getInBetweenTime(Time time){
+    int inBetTime = 0;
+    if(this.half == time.half){
+      if (this.hour >= time.hour){
+        inBetTime += (this.hour-time.hour)*60;
+      }else{
+        inBetTime += (this.hour+24 - time.hour)*60;
+
+      }
+    } else{
+      if (this.half == Half.AM && time.half == Half.PM){
+        inBetTime += (time.hour - this.hour + 12)*60;
+      } else {
+        inBetTime += (this.hour - time.hour + 12)*60;
+      }
+    }
+    if (this.minute >= time.minute){
+      inBetTime += (this.minute - time.minute);
+    }else{
+      inBetTime -= 60;
+      inBetTime += (this.minute + 60 - time.minute);
+    }
+    return inBetTime;
+  }
+
 }
