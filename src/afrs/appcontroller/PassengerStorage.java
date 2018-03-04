@@ -121,7 +121,7 @@ public class PassengerStorage {
 
       try {
 
-        //Creating a file
+        //Creating a file writer
         Writer fileWriter = new FileWriter(System.getProperty("user.home") + "\\passengers.txt");
         Writer bufferedWriter = new BufferedWriter(fileWriter);
 

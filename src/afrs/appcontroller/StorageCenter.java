@@ -21,9 +21,6 @@ public class StorageCenter {
 
   private ItineraryGenerator itineraryGenerator;
 
-  private ArrayList<Itinerary> latestItineraries;
-
-
   /**
    * Create a new StorageCenter object
    */
@@ -86,27 +83,17 @@ public class StorageCenter {
   }
 
   /**
-   * takes all itineraries that were just queryed and stores them for potential reservation creation
-   * @param itineraries list of itineraries just quereyed
-   */
-  public void setLatestItineraries(ArrayList<Itinerary> itineraries){
-    latestItineraries = itineraries;
-  }
-
-  /**
-   *
+   *calls itineraryGenerqator's getLatestJourneys method
    */
   public List<Journey> getLatestJourneys(String origin, String destination, int connections ){
     return this.itineraryGenerator.generateJourneys(origin, destination, connections);
   }
 
   /**
-   * gets specific itinerary from latestItitneraries
-   * @param idx
-   * @return itinerary at given index
+   * calls itineraryGenerator's getItinerary method
    */
   public Itinerary getItinerary(int idx){
-    return latestItineraries.get(idx);
+    return itineraryGenerator.getItinerary(idx);
   }
 
   /**
