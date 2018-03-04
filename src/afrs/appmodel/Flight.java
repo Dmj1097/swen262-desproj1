@@ -89,19 +89,27 @@ public class Flight implements Journey {
   }
 
   /**
-   * @return a string representing this flight instance
+   * @return a string representing the flight info
    */
   @Override
-  public String toString(){
+  public String flightInfo() {
     return ID + ","+  origin + "," + depart + "," + destination + "," + arrive;
   }
 
   /**
-   * @return a CSV friendly string
+   * @return a string representing this flight instance
    */
-  public String toStringForFile(){
-    return "/" + ID + "," + cost + "," + origin + "," + depart + "," + destination + "," + arrive;
+  @Override
+  public String toString(){
+    return String.valueOf(getCost()) + "," + 1 + "," + flightInfo();
+  }
 
+  /**
+   * @return a CSV friendly string representing this flight
+   */
+  @Override
+  public String toStringForFile(){
+    return ID + "," + cost + "," + origin + "," + depart + "," + destination + "," + arrive;
   }
 
   public Time getArrivalTime(){ return this.arrive; }

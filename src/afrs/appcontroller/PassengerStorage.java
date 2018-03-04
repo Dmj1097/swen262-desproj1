@@ -37,28 +37,24 @@ public class PassengerStorage {
         while ((line = reader.readLine()) != null) {
           String[] line_info = line.split("\\^"); //splits line on name and itineraries
           String name = line_info[0];
-          String[] split_itineraries = line_info[1].replaceFirst("\\|", "").split("\\|"); //splits line on each itinerary
-          Itinerary it = new Itinerary();
+          String[] split_itineraries = line_info[1].split("\\|"); //splits line on each itinerary
           for(String str: split_itineraries){
-              String[] it_line = str.split("-"); //splits line on each flight
-              int total_cost = Integer.parseInt(it_line[0]);
-              String[] flights_line = it_line[1].replaceFirst("/", "").split("/");
-
-              for(String flight:flights_line){ // splits line on each paramter of flight
-                String[] flight_info = flight.split(",");
-                int ID = Integer.parseInt(flight_info[0]);
-                int cost = Integer.parseInt(flight_info[1]);
-                String origin = flight_info[2];
-                String depart = flight_info[3];
-                String destination = flight_info[4];
-                String arrive = flight_info[5];
-                Flight newFlight = new Flight(ID,origin,destination,cost,new Time(depart),new Time(arrive));
-                it.addFlight(newFlight); //addition of flight into itinerary
-              }
+            Itinerary it = new Itinerary();
+            String[] flights_line = str.split("/");
+            for(String flight : flights_line){ // splits line on each paramter of flight
+              String[] flight_info = flight.split(",");
+              int ID = Integer.parseInt(flight_info[0]);
+              int cost = Integer.parseInt(flight_info[1]);
+              String origin = flight_info[2];
+              String depart = flight_info[3];
+              String destination = flight_info[4];
+              String arrive = flight_info[5];
+              Flight newFlight = new Flight(ID,origin,destination,cost,new Time(depart),new Time(arrive));
+              it.addFlight(newFlight); //addition of flight into itinerary
+            }
+            Reservation reservation = new Reservation(new Passenger(name),it); //create reservation object
+            addPassengerOrReservation(name,reservation); //function that creates passenger and/or adds reservation to said passenger object
           }
-          Reservation reservation = new Reservation(new Passenger(name),it); //create reservation object
-          addPassengerOrReservation(name,reservation); //function that creates passenger and/or adds reservation to said
-                                                      // passenger object
         }
         reader.close();
       } catch (Exception e) {
@@ -128,9 +124,10 @@ public class PassengerStorage {
           StringBuilder line = new StringBuilder();
           line.append(key).append("^");
           for(Journey res: passengers.get(key).getReservations()){ //creates String of all journey objects in passenger's
-            line.append("|").append(res.toStringForFile());        // reservations
+            line.append(res.toStringForFile()).append("|");        // reservations
           }
-          bufferedWriter.write(line + "\n");
+          line.deleteCharAt(line.toString().length() - 1);
+          bufferedWriter.write(line.toString() + "\n");
         }
         bufferedWriter.close();
       } catch (IOException e) {

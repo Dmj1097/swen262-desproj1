@@ -84,7 +84,7 @@ public class SearchReservationRequest extends Request {
       result.append(j).append("\n");
     }
     complete = true;
-    return new Response("info," + journeys.size() + "\n" + result);
+    return new Response("retrieve," + journeys.size() + "\n" + result);
 
   }
 }

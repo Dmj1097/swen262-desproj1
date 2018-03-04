@@ -40,17 +40,25 @@ public class Itinerary implements Journey{
   }
 
   /**
-   * @return the string representation of this itinerary
+   * @return a string representing the flight info
    */
   @Override
-  public String toString(){
+  public String flightInfo() {
     StringBuilder all = new StringBuilder();
     all.append(getCost()).append(",").append(flights.size()).append(",");
     for(Journey flight: flights){
-      all.append(flight.toString()).append(",");
+      all.append(flight.flightInfo()).append(",");
     }
     all.deleteCharAt(all.toString().length() - 1);
     return all.toString();
+  }
+
+    /**
+     * @return the string representation of this itinerary
+     */
+  @Override
+  public String toString(){
+    return flightInfo();
   }
 
   @Override
@@ -63,17 +71,7 @@ public class Itinerary implements Journey{
     return flights.getLast().getArrive();
   }
 
-  /**
-   * @return a CSV friendly string representing this itinerary
-   */
-  public String toStringForFile(){
-    StringBuilder all = new StringBuilder();
-    all.append(getCost()).append("-");
-    for(Journey flight: flights){
-      all.append(flight.toStringForFile());
-    }
-    return all.toString();
-  }
+
 
   /**
    * @return the origin airport's name
@@ -109,6 +107,19 @@ public class Itinerary implements Journey{
   @Override
   public int getFlights() {
     return flights.size();
+  }
+
+  /**
+   * @return a CSV friendly string representing this itinerary
+   */
+  @Override
+  public String toStringForFile(){
+    StringBuilder all = new StringBuilder();
+    for(Journey flight: flights){
+      all.append(flight.toStringForFile()).append("/");
+    }
+    all.deleteCharAt(all.toString().length() - 1);
+    return all.toString();
   }
 
   /**

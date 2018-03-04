@@ -38,6 +38,11 @@ public interface Journey {
     String toString();
 
     /**
+     * @return the string representing the flight information
+     */
+    String flightInfo();
+
+    /**
      * @return the departure time
      */
     Time getDepart();
