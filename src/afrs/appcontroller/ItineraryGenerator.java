@@ -34,29 +34,49 @@ public class ItineraryGenerator {
       List<Journey> availableFlights = new ArrayList<>(this.storageCenter.getFlightsFromOrigin(origin));
         Itinerary it;
 
-        for (Journey firstLeg : availableFlights){
-            Flight firstFlight = (Flight) firstLeg;
+        if(connections == 1) {
+            for (Journey firstLeg : availableFlights) {
+                Flight firstFlight = (Flight) firstLeg;
 
-            // Test each possible second flight
-            for(Journey secondLeg : this.storageCenter.getFlightsFromOrigin(firstFlight.getDestination())){
-                Flight secondFlight = (Flight) secondLeg;
-                if( isValidNextFlight( firstFlight, secondFlight ) ){
-                    if(secondFlight.getDestination().equals(destination)){
-                        it = new Itinerary();
-                        it.addFlight(firstFlight);
-                        it.addFlight(secondFlight);
-                        journeys.add( it );
-                    }
-
-                    // Test each possible third flight
-                    for(Journey thirdLeg : this.storageCenter.getFlightsFromOrigin(secondFlight.getDestination())){
-                        Flight thirdFlight = (Flight) thirdLeg;
-                        if( isValidNextFlight(secondFlight, thirdFlight) && thirdFlight.getDestination().equals(destination)){
+                // Test each possible second flight
+                for (Journey secondLeg : this.storageCenter.getFlightsFromOrigin(firstFlight.getDestination())) {
+                    Flight secondFlight = (Flight) secondLeg;
+                    if (isValidNextFlight(firstFlight, secondFlight)) {
+                        if (secondFlight.getDestination().equals(destination)) {
                             it = new Itinerary();
                             it.addFlight(firstFlight);
                             it.addFlight(secondFlight);
-                            it.addFlight(thirdFlight);
-                            journeys.add( it );
+                            journeys.add(it);
+                        }
+
+                    }
+                }
+            }
+        }else if (connections == 2){
+            for (Journey firstLeg : availableFlights) {
+                Flight firstFlight = (Flight) firstLeg;
+
+                // Test each possible second flight
+                for (Journey secondLeg : this.storageCenter.getFlightsFromOrigin(firstFlight.getDestination())) {
+                    Flight secondFlight = (Flight) secondLeg;
+                    if (isValidNextFlight(firstFlight, secondFlight)) {
+                        if (secondFlight.getDestination().equals(destination)) {
+                            it = new Itinerary();
+                            it.addFlight(firstFlight);
+                            it.addFlight(secondFlight);
+                            journeys.add(it);
+                        }
+
+                        // Test each possible third flight
+                        for (Journey thirdLeg : this.storageCenter.getFlightsFromOrigin(secondFlight.getDestination())) {
+                            Flight thirdFlight = (Flight) thirdLeg;
+                            if (isValidNextFlight(secondFlight, thirdFlight) && thirdFlight.getDestination().equals(destination)) {
+                                it = new Itinerary();
+                                it.addFlight(firstFlight);
+                                it.addFlight(secondFlight);
+                                it.addFlight(thirdFlight);
+                                journeys.add(it);
+                            }
                         }
                     }
                 }
@@ -82,7 +102,7 @@ public class ItineraryGenerator {
      */
     private boolean isValidNextFlight(Flight firstFlight, Flight secondFlight){
 
-       return firstFlight.getArrivalTime().compareTo( secondFlight.getArrivalTime() ) >= 0;
+       return firstFlight.getArrivalTime().compareTo( secondFlight.getDepartureTime() ) >= 0;
     }
 
     /**
