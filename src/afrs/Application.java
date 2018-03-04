@@ -1,5 +1,6 @@
 package afrs;
 
+import afrs.appcontroller.ItineraryGenerator;
 import afrs.appcontroller.StorageCenter;
 import afrs.uicontroller.RequestGenerator;
 import afrs.uicontroller.RequestHandler;
@@ -16,9 +17,9 @@ public class Application {
 	public static void main(String[] args) {
 		System.out.println("Welcome to AFRS!");
 		storageCenter = new StorageCenter();
-		requestGenerator = new RequestGenerator( storageCenter );
+		requestGenerator = new RequestGenerator(storageCenter);
 		responseHandler = new ResponseHandler();
-		requestHandler = new RequestHandler( requestGenerator, responseHandler );
+		requestHandler = new RequestHandler(requestGenerator, responseHandler);
 
 		Scanner in = new Scanner(System.in);
 		String input = in.nextLine();
@@ -26,6 +27,8 @@ public class Application {
 			requestGenerator.parseRequest(input);
 			input = in.nextLine();
 		}
-//		while(true){}
+
+		storageCenter.close();
+
 	}
 }

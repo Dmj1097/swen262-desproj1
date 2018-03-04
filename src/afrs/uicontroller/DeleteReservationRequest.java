@@ -23,7 +23,7 @@ public class DeleteReservationRequest extends Request {
       return new Response("error,reservation not found");
     }
 
-    if (false) {//storageCenter.remove(parameters.get(0), parameters.get(1), parameters.get(2))) {
+    if (storageCenter.removeReservation(parameters.get(0), parameters.get(1), parameters.get(2))) {
       complete = true;
       return new Response("delete,successful");
     } else {

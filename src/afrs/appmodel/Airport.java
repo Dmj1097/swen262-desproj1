@@ -48,6 +48,10 @@ public class Airport {
     return name;
   }
 
+  public String getAbbreviation() {
+    return abbreviation;
+  }
+
   public String getWeather() {
     for(Weather weather: weatherlist){
       if(!weather.getChecked()){
@@ -67,6 +71,11 @@ public class Airport {
 
   public int getLayoverTime() {
     return layoverTime;
+  }
+
+  @Override
+  public String toString() {
+    return (name + "," + getWeather() + "," + delayTime);
   }
 }
 

@@ -62,7 +62,7 @@ public class Flight implements Journey {
 
   @Override
   public String toString(){
-    return "[," + ID + ","+  origin + "," + depart + "," + destination + "," + arrive +"]\n";
+    return "[," + ID + ","+  origin + "," + depart + "," + destination + "," + arrive +"]";
   }
 
   public String toStringForFile(){

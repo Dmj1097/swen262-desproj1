@@ -24,9 +24,8 @@ public class AirportInfoRequest extends Request {
     Airport airport = storageCenter.getAirport(parameters.get(0));
     if (airport != null) {
       complete = true;
-      return new Response("airport," + airport.getName() + "," + airport.getWeather() + "," + airport.getDelayTime());
+      return new Response("airport," + airport.toString());
     } else {
-      // Error
       complete = true;
       return new Response("error,unknown airport");
     }

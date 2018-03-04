@@ -39,21 +39,21 @@ public class Itinerary implements Journey{
 
   @Override
   public String toString(){
-    String all = "";
-    all += (cost + ", " + this.getConnections());
+    StringBuilder all = new StringBuilder();
+    all.append(cost).append(",").append(this.getConnections());
     for(Journey flight: flights){
-      all += (flight.toString());
+      all.append(flight.toString());
     }
-    return all;
+    return all.toString();
   }
 
   public String toStringForFile(){
-    String all = "";
-    all += cost + "-" + this.getConnections();
+    StringBuilder all = new StringBuilder();
+    all.append(cost).append("-").append(this.getConnections());
     for(Journey flight: flights){
-      all += (flight.toString());
+      all.append(flight.toString());
     }
-    return all;
+    return all.toString();
   }
 
   /*

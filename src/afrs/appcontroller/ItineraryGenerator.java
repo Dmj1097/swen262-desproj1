@@ -6,6 +6,7 @@ import afrs.appmodel.Journey;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItineraryGenerator {
 
@@ -16,11 +17,11 @@ public class ItineraryGenerator {
         this.storageCenter = storageCenter;
     }
 
-    public ArrayList<Itinerary> generateItineraries(String origin, String destination, int connections){
+    public List<Journey> generateItineraries(String origin, String destination, int connections){
 
-        ArrayList<Itinerary> itineraries = new ArrayList<>();      // Collection of Itineraries
-        ArrayList<Flight> availableFlights = new ArrayList<>();    // Any flight that can be taken within the flight limit
-        ArrayList<Flight> flightPath = new ArrayList<>();
+        List<Journey> itineraries = new ArrayList<>();      // Collection of Itineraries
+        List<Flight> availableFlights = new ArrayList<>();    // Any flight that can be taken within the flight limit
+        List<Flight> flightPath = new ArrayList<>();
         Itinerary it;
 
 
@@ -29,7 +30,7 @@ public class ItineraryGenerator {
 
                 flightPath.set(i-1, flight);
 
-                if (flight.getDestination() == destination){
+                if (flight.getDestination().equals(destination)){
                     it = new Itinerary();
                     for (Flight validFlight : flightPath) {
                         it.addFlight(validFlight);
@@ -39,7 +40,6 @@ public class ItineraryGenerator {
             }
         }
 
-        storageCenter.setLatestItineraries(itineraries);
         return itineraries;
     }
 }

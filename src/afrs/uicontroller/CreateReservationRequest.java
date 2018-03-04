@@ -23,8 +23,8 @@ public class CreateReservationRequest extends Request {
 
   @Override
   public Response execute() {
-    Journey journey = storageCenter.getItinerary(Integer.parseInt(parameters.get(0)));
-    if (journey != null) {
+    try {
+      Journey journey = storageCenter.getItinerary(Integer.parseInt(parameters.get(0)));
       String name = parameters.get(1);
       Passenger passenger = storageCenter.getPassenger(name);
       if (passenger == null) {
@@ -38,7 +38,7 @@ public class CreateReservationRequest extends Request {
         complete = true;
         return new Response("error,duplicate reservation");
       }
-    } else {
+    } catch (IndexOutOfBoundsException ignored) {
       complete = true;
       return new Response("error,invalid id");
     }

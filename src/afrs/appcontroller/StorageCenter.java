@@ -3,6 +3,8 @@ package afrs.appcontroller;
 import afrs.appmodel.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * StorageCenter
@@ -18,16 +20,20 @@ public class StorageCenter {
 
   private PassengerStorage passengers;
 
-  private ArrayList<Itinerary> latestItineraries;
+  private ItineraryGenerator itineraryGenerator;
+
+  private List<Journey> latestItineraries;
 
 
   /**
    * Create a new StorageCenter object
    */
-  public StorageCenter(){
+  public StorageCenter() {
     flights = new FlightStorage();
     airports = new AirportStorage();
     passengers = new PassengerStorage();
+    latestItineraries = new ArrayList<>();
+    this.itineraryGenerator = new ItineraryGenerator(this);
   }
 
 
@@ -39,7 +45,7 @@ public class StorageCenter {
     return flights.getFlight(ID);
   }
 
-  public ArrayList<Flight> getFlightsFromOrigin(String ID){ return flights.getFlightsFromOrigin(ID);}
+  public List<Flight> getFlightsFromOrigin(String ID){ return flights.getFlightsFromOrigin(ID);}
 
   public Passenger getPassenger(String ID){
     return passengers.getPassenger(ID);
@@ -53,18 +59,18 @@ public class StorageCenter {
     passengers.writePassengersFile();
   }
 
-  public void setLatestItineraries(ArrayList<Itinerary> itineraries){
-    latestItineraries = itineraries;
+  public List<Journey> getLatestItineraries(String origin, String destination, int connections){
+    return (latestItineraries = itineraryGenerator.generateItineraries(origin, destination, connections));
   }
 
-  public Itinerary getItinerary(int idx){
+  public Journey getItinerary(int idx){
     return latestItineraries.get(idx);
   }
 
   public boolean removeReservation(String name, String origin, String destination){
     return passengers.removeReservation(name,origin,destination);
   }
-  public ArrayList<Journey> getReservations(String name, String origin, String destination){
+  public List<Journey> getReservations(String name, String origin, String destination){
     return passengers.getReservations(name, origin, destination);
   }
 
