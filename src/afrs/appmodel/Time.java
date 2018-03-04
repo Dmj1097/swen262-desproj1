@@ -41,7 +41,14 @@ public class Time implements Comparable<Time> {
   }
 
   public String toString(){
-    return "Time: " + hour + ":" + minute + half;
+    String dayHalf;
+    if(half.equals(Half.AM)){
+      dayHalf = "a";
+    }else {
+      dayHalf = "p";
+    }
+
+    return hour + ":" + minute + dayHalf;
   }
 
   /**
