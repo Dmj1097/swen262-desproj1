@@ -26,7 +26,7 @@ import java.util.Map;
 public class PassengerStorage {
 
   private static String location = PassengerStorage.class.getProtectionDomain().getCodeSource()
-      .getLocation().getPath().replaceFirst("/", "").replaceFirst("/[^/]*\\.jar$", "");
+      .getLocation().getPath().replaceFirst("/", "").replaceFirst("/[^/]*\\.jar$", "").replaceAll("%20", " ");
   private Map<String, Passenger> passengers; //map of name of passenger to their respective object
 
   /**
