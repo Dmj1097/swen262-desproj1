@@ -86,16 +86,18 @@ public class PassengerStorage {
    * @return true if reservation exists for passenger, false otherwise
    */
     public boolean addPassengerOrReservation(String name, Reservation res) {
-      if (passengers.containsKey(name) && passengers.get(name).alreadyContains(res.getOrigin(), res.getDestination())){
-        return true;
-      }else if(passengers.containsKey(name) && !passengers.get(name).alreadyContains(res.getOrigin(),res.getDestination())){
-        passengers.get(name).addReservation(res);
-        return false;
+      if (passengers.containsKey(name)){
+        if(passengers.get(name).alreadyContains(res.getOrigin(), res.getDestination())){
+            return false;
+        }else{
+          passengers.get(name).addReservation(res);
+          return true;
+        }
       }else {
         Passenger passenger = new Passenger(name);
         passenger.addReservation(res);
         passengers.put(name, passenger);
-        return false;
+        return true;
       }
     }
 
