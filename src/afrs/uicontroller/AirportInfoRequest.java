@@ -27,11 +27,13 @@ public class AirportInfoRequest extends Request {
    */
   @Override
   public Response execute() {
+    // If invalid number of parameters
     if (!(parameters.size() == 1)) {
       complete = true;
       return new Response("error,unknown request");
     }
 
+    // If airport exists, respond with information
     Airport airport = storageCenter.getAirport(parameters.get(0));
     if (airport != null) {
       complete = true;

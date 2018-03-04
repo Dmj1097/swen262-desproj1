@@ -19,7 +19,7 @@ public class InvalidRequest extends Request {
   }
 
   /**
-   * Nothing happens, invalid command
+   * Nothing happens, invalid request
    * @return the command's response
    */
   @Override

@@ -26,6 +26,9 @@ public class RequestHandler implements Observer {
     this.handler = responseHandler;
   }
 
+  /**
+   * Gets new request from RequestGenerator and executes it, handling its response
+   */
   @Override
   public void update(Observable o, Object arg) {
     if (arg instanceof Request) {
