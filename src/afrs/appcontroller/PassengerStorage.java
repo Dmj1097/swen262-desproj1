@@ -130,13 +130,13 @@ public class PassengerStorage {
           String line = "";
           line += key + "^";
           for(Journey res: passengers.get(key).getReservations()){ //creates String of all journey objects in passenger's
-            line += res.toStringForFile();                         // reservations
+            line += "|" + res.toStringForFile();                         // reservations
           }
           bufferedWriter.write(line);
         }
         bufferedWriter.close();
       } catch (IOException e) {
-        System.out.println("Problem occurs when creating file " + "");
+        System.out.println("Problem occurs when creating file " + "passengers.txt");
         e.printStackTrace();
        }
     }
