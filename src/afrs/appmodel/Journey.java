@@ -7,13 +7,24 @@ package afrs.appmodel;
  */
 public interface Journey {
 
-    public String getOrigin();
+    /**
+     * @return the origin airport's name
+     */
+    String getOrigin();
 
-    public String getDestination();
+    /**
+     * @return the destination airport's name
+     */
+    String getDestination();
 
-    public int getCost();
+    /**
+     * @return the cost of the journey
+     */
+    int getCost();
 
-    public String toStringForFile();
-
+    /**
+     * @return a CSV friendly string representing this journey
+     */
+    String toStringForFile();
 
 }

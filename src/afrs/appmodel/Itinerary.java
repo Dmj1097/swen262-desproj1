@@ -10,8 +10,9 @@ import java.util.ArrayList;
  */
 public class Itinerary implements Journey{
 
-  
+  /** The flights associated with this itinerary, in order from origin to destination */
   private ArrayList<Journey> flights;
+  /** The total airfare of each flight in the itinerary */
   private int cost;
 
   /**
@@ -21,7 +22,7 @@ public class Itinerary implements Journey{
     this.flights = new ArrayList<>();
   }
 
-  /*
+  /**
    * Adds a flight and adds to the connection count
    * Adjusts cost
    */
@@ -29,7 +30,7 @@ public class Itinerary implements Journey{
     flights.add(flight);
   }
 
-  /*
+  /**
    * Removes a flight and adds to the connection count.
    * Adjusts cost
    */
@@ -37,35 +38,41 @@ public class Itinerary implements Journey{
     flights.remove(flight);
   }
 
+  /**
+   * @return the string representation of this itinerary
+   */
   @Override
   public String toString(){
-    String all = "";
-    all += (cost + ", " + this.getConnections());
+    StringBuilder all = new StringBuilder();
+    all.append(cost).append(",").append(this.getConnections());
     for(Journey flight: flights){
-      all += (flight.toString());
+      all.append(flight.toString());
     }
-    return all;
+    return all.toString();
   }
 
+  /**
+   * @return a CSV friendly string representing this itinerary
+   */
   public String toStringForFile(){
-    String all = "";
-    all += cost + "-" + this.getConnections();
+    StringBuilder all = new StringBuilder();
+    all.append(cost).append("-").append(this.getConnections());
     for(Journey flight: flights){
-      all += (flight.toString());
+      all.append(flight.toString());
     }
-    return all;
+    return all.toString();
   }
 
-  /*
-   * Updates origin and returns it
+  /**
+   * @return the origin airport's name
    */
   @Override
   public String getOrigin() {
     return this.flights.get(0).toString();
   }
 
-  /*
-   * Updates destination and returns it
+  /**
+   * @return the destination airport's name
    */
   @Override
   public String getDestination() {
@@ -76,7 +83,7 @@ public class Itinerary implements Journey{
     }
   }
 
-  /*
+  /**
    * Returns the cost of the entire journey
    */
   @Override
@@ -89,7 +96,7 @@ public class Itinerary implements Journey{
   }
 
   /**
-   * Calculate and return the number of conenctions
+   * Calculate and return the number of connections
    * @return the number of connections
    */
   public int getConnections(){

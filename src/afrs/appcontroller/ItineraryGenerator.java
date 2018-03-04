@@ -6,6 +6,9 @@ import afrs.appmodel.Journey;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
 
 public class ItineraryGenerator {
 
@@ -16,30 +19,21 @@ public class ItineraryGenerator {
         this.storageCenter = storageCenter;
     }
 
-    public ArrayList<Itinerary> generateItineraries(String origin, String destination, int connections){
+    public List<Journey> generateJourneys(String origin, String destination, int connections){
 
-        ArrayList<Itinerary> itineraries = new ArrayList<>();      // Collection of Itineraries
-        ArrayList<Flight> availableFlights = new ArrayList<>();    // Any flight that can be taken within the flight limit
-        ArrayList<Flight> flightPath = new ArrayList<>();
-        Itinerary it;
+        List<String> flightPath = new LinkedList<>();
+        List<Journey> journeys = new ArrayList<>();      // Collection of Itineraries
+        List<Journey> availableFlights = new ArrayList<>();    // Any flight that can be taken within the flight limit
 
+        availableFlights.addAll( this.storageCenter.getFlightsFromOrigin(origin) );
 
-        for( int i = 1; i <= FLIGHT_LIMIT; i++ ){
-            for (Flight flight : availableFlights) {
-
-                flightPath.set(i-1, flight);
-
-                if (flight.getDestination() == destination){
-                    it = new Itinerary();
-                    for (Flight validFlight : flightPath) {
-                        it.addFlight(validFlight);
-                    }
-                }
-                availableFlights.addAll( this.storageCenter.getFlightsFromOrigin(flight.getDestination()) );
+        // Add all single-flights that go from the origin to the destination
+        for (Journey flight : availableFlights) {
+            if (flight.getDestination().equals(destination)){
+                journeys.add(flight);
             }
         }
 
-        storageCenter.setLatestItineraries(itineraries);
-        return itineraries;
+        return journeys;
     }
 }

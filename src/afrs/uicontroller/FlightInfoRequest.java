@@ -1,6 +1,7 @@
 package afrs.uicontroller;
 
 import afrs.appcontroller.StorageCenter;
+import afrs.appmodel.Airport;
 import afrs.appmodel.Journey;
 import afrs.uiview.Response;
 import java.util.List;
@@ -21,7 +22,33 @@ public class FlightInfoRequest extends Request {
 
   @Override
   public Response execute() {
-    //Journey journey =
-    return new Response("");
+    Airport origin = storageCenter.getAirport(parameters.get(0));
+    if (origin == null) {
+      complete = true;
+      return new Response("error,unknown origin");
+    }
+
+    Airport destination = storageCenter.getAirport(parameters.get(1));
+    if (destination == null) {
+      complete = true;
+      return new Response("error,unknown destination");
+    }
+
+    int connections = 2;
+    if (parameters.size() > 2) {
+      connections = Integer.parseInt(parameters.get(2));
+      if (connections < 0 || connections > 2) {
+        complete = true;
+        return new Response("error,invalid connection limit");
+      }
+    }
+
+    List<Journey> journeys = storageCenter.getLatestItineraries(origin.getAbbreviation(), destination.getAbbreviation(), connections);
+    StringBuilder result = new StringBuilder();
+    for (Journey j : journeys) {
+      result.append(journeys.indexOf(j) + 1).append(j).append("\n");
+    }
+    complete = true;
+    return new Response("info," + journeys.size() + "\n" + result);
   }
 }
