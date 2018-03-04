@@ -14,6 +14,7 @@ public class AirportInfoRequest extends Request {
 
   /**
    * Create a new AirportInfoRequest object
+   *
    * @param storageCenter the StorageCenter instance
    * @param parameters the list of parameters to the command
    */
@@ -23,6 +24,7 @@ public class AirportInfoRequest extends Request {
 
   /**
    * Executes the command
+   *
    * @return the command's response
    */
   @Override

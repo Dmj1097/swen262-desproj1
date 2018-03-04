@@ -15,7 +15,7 @@ public class Passenger {
   /**
    * Create a new Passenger object
    */
-  public Passenger(String name){
+  public Passenger(String name) {
     this.name = name;
     reservations = new ArrayList<>();
   }
@@ -23,24 +23,27 @@ public class Passenger {
   /**
    * Add reservations to the passengers list of reservations
    */
-  public void addReservation(Reservation r){
+  public void addReservation(Reservation r) {
     reservations.add(r);
   }
 
   /**
    * @return name of passenger
    */
-  public String getName(){return name;}
+  public String getName() {
+    return name;
+  }
 
   /**
    * checks if a given origin airport name and a given destination airport is already in this passengers reservations
+   *
    * @param origin origin airport name
    * @param destination destination airport name
    * @return true if it contains it, false otherwise
    */
-  public boolean alreadyContains(String origin, String destination){
-    for(Reservation res: reservations) {
-      if (res.equalsTo(origin,destination)) {
+  public boolean alreadyContains(String origin, String destination) {
+    for (Reservation res : reservations) {
+      if (res.equalsTo(origin, destination)) {
         return true;
       }
     }
@@ -49,14 +52,15 @@ public class Passenger {
 
   /**
    * checks if reservation is already present in this passenger's reservations, deletes if it is
+   *
    * @param origin origin airport name
    * @param destination destination airport name
    * @return true if reservation was present and removed, false otherwise
    */
-  public boolean removeReservation(String origin, String destination){
-    if(alreadyContains(origin, destination)){
-      for(Reservation res: reservations){
-        if (res.equalsTo(origin,destination)){
+  public boolean removeReservation(String origin, String destination) {
+    if (alreadyContains(origin, destination)) {
+      for (Reservation res : reservations) {
+        if (res.equalsTo(origin, destination)) {
           reservations.remove(res);
           return true;
         }
@@ -70,7 +74,7 @@ public class Passenger {
    */
   public ArrayList<Journey> getReservations() {
     ArrayList<Journey> journies = new ArrayList<>();
-    for(Reservation res: reservations){
+    for (Reservation res : reservations) {
       journies.add(res.getJourney());
     }
     return journies;

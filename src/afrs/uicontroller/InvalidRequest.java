@@ -1,8 +1,6 @@
 package afrs.uicontroller;
 
-import afrs.appcontroller.StorageCenter;
 import afrs.uiview.Response;
-import java.util.List;
 
 /**
  * InvalidRequest
@@ -20,6 +18,7 @@ public class InvalidRequest extends Request {
 
   /**
    * Nothing happens, invalid request
+   *
    * @return the command's response
    */
   @Override

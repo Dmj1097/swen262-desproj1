@@ -1,9 +1,7 @@
 package afrs.uicontroller;
 
 import afrs.appcontroller.StorageCenter;
-import afrs.appmodel.Airport;
 import afrs.appmodel.Passenger;
-import afrs.appmodel.Reservation;
 import afrs.uiview.Response;
 import java.util.List;
 
@@ -16,6 +14,7 @@ public class DeleteReservationRequest extends Request {
 
   /**
    * Create a new Request object
+   *
    * @param storageCenter the StorageCenter instance
    * @param parameters the list of parameters to the command
    */
@@ -25,6 +24,7 @@ public class DeleteReservationRequest extends Request {
 
   /**
    * Executes the command
+   *
    * @return the command's response
    */
   @Override

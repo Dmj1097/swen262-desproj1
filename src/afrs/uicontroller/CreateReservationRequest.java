@@ -16,6 +16,7 @@ public class CreateReservationRequest extends Request {
 
   /**
    * Create a new CreateReservationRequest object
+   *
    * @param storageCenter the StorageCenter instance
    * @param parameters the list of parameters to the command
    */
@@ -25,6 +26,7 @@ public class CreateReservationRequest extends Request {
 
   /**
    * Executes the command
+   *
    * @return the command's response
    */
   @Override

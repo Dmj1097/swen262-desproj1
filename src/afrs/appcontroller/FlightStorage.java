@@ -3,7 +3,6 @@ package afrs.appcontroller;
 import afrs.appmodel.Flight;
 import afrs.appmodel.Journey;
 import afrs.appmodel.Time;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class FlightStorage {
   /**
    * Create a new FlightStorage object
    */
-  public FlightStorage(){
+  public FlightStorage() {
     flights = new HashMap<>();
     setupFlightMap();
   }
@@ -31,15 +30,19 @@ public class FlightStorage {
   /**
    * setup for the flight map. reads each line, parses it, creates the object, and stores it
    */
-  private void setupFlightMap(){
+  private void setupFlightMap() {
     try {
-      BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/flights.txt")));
+      BufferedReader reader = new BufferedReader(
+          new InputStreamReader(getClass().getResourceAsStream("/flights.txt")));
       String line;
       while ((line = reader.readLine()) != null) {
         String[] line_info = line.split(",");
-        Time arrive = new Time(line_info[3]); //creates time objects that will be used during itinerary generation
+        Time arrive = new Time(
+            line_info[3]); //creates time objects that will be used during itinerary generation
         Time depart = new Time(line_info[2]);
-        flights.put(Integer.parseInt(line_info[4]), new Flight(Integer.parseInt(line_info[4]),line_info[0],line_info[1],Integer.parseInt(line_info[5]),depart,arrive));
+        flights.put(Integer.parseInt(line_info[4]),
+            new Flight(Integer.parseInt(line_info[4]), line_info[0], line_info[1],
+                Integer.parseInt(line_info[5]), depart, arrive));
       }                                             // new flight object created with info from parsed line
       reader.close();
     } catch (Exception e) {
@@ -50,22 +53,24 @@ public class FlightStorage {
 
   /**
    * finds a journey object from the flight storage based on the given ID
+   *
    * @param ID flight number
    * @return corresponding flight
    */
-  public Journey getFlight(int ID){
+  public Journey getFlight(int ID) {
     return flights.get(ID);
   }
 
   /**
    * gets all flights with given airport as destination
+   *
    * @param ID Origin Id name
    * @return all flights that start at origin airport
    */
-  public ArrayList<Flight> getFlightsFromOrigin(String ID){
+  public ArrayList<Flight> getFlightsFromOrigin(String ID) {
     ArrayList<Flight> flightsFromOrigin = new ArrayList<>();
-    for(Flight flight: flights.values()){
-      if(flight.getOrigin().equals(ID)){
+    for (Flight flight : flights.values()) {
+      if (flight.getOrigin().equals(ID)) {
         flightsFromOrigin.add(flight);
       }
     }

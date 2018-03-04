@@ -7,24 +7,36 @@ package afrs.appmodel;
  */
 public class Flight implements Journey {
 
-  /** The flight's numerical id */
+  /**
+   * The flight's numerical id
+   */
   private int ID;
-  /** The origin airport's name, corresponds with airport name */
+  /**
+   * The origin airport's name, corresponds with airport name
+   */
   private String origin;
-  /** The destination airport's name, corresponds with airport name */
+  /**
+   * The destination airport's name, corresponds with airport name
+   */
   private String destination;
-  /** The airfare, cost of the flight */
+  /**
+   * The airfare, cost of the flight
+   */
   private int cost;
-  /** The departure time */
+  /**
+   * The departure time
+   */
   private Time depart;
-  /** The arrival time */
+  /**
+   * The arrival time
+   */
   private Time arrive;
 
 
   /**
    * Create a new Flight object
    */
-  public Flight(int ID, String origin, String destination, int cost,Time depart,Time arrive){
+  public Flight(int ID, String origin, String destination, int cost, Time depart, Time arrive) {
     this.ID = ID;
     this.origin = origin;
     this.destination = destination;
@@ -84,7 +96,7 @@ public class Flight implements Journey {
   /**
    * @return the flight's id
    */
-  public int getFlightID(){
+  public int getFlightID() {
     return ID;
   }
 
@@ -93,14 +105,14 @@ public class Flight implements Journey {
    */
   @Override
   public String flightInfo() {
-    return ID + ","+  origin + "," + depart + "," + destination + "," + arrive;
+    return ID + "," + origin + "," + depart + "," + destination + "," + arrive;
   }
 
   /**
    * @return a string representing this flight instance
    */
   @Override
-  public String toString(){
+  public String toString() {
     return String.valueOf(getCost()) + "," + 1 + "," + flightInfo();
   }
 
@@ -108,10 +120,15 @@ public class Flight implements Journey {
    * @return a CSV friendly string representing this flight
    */
   @Override
-  public String toStringForFile(){
+  public String toStringForFile() {
     return ID + "," + cost + "," + origin + "," + depart + "," + destination + "," + arrive;
   }
 
-  public Time getArrivalTime(){ return this.arrive; }
-  public Time getDepartureTime(){ return this.depart; }
+  public Time getArrivalTime() {
+    return this.arrive;
+  }
+
+  public Time getDepartureTime() {
+    return this.depart;
+  }
 }

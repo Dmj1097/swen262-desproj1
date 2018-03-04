@@ -8,7 +8,7 @@ package afrs.appmodel;
 public class Time implements Comparable<Time> {
 
 
-  public enum Half{
+  public enum Half {
     AM, PM
   }
 
@@ -19,32 +19,32 @@ public class Time implements Comparable<Time> {
   /**
    * Create a new Time object
    */
-  public Time(String timestamp){
+  public Time(String timestamp) {
 
     String new_timestamp;
-    if(timestamp.contains("p")){
+    if (timestamp.contains("p")) {
       half = Half.PM;
-      new_timestamp = timestamp.replace("p","");
-    }else{
+      new_timestamp = timestamp.replace("p", "");
+    } else {
       half = Half.AM;
-      new_timestamp = timestamp.replace("a","");
+      new_timestamp = timestamp.replace("a", "");
     }
     String[] time_line = new_timestamp.split(":");
     hour = Integer.parseInt(time_line[0]);
     minute = Integer.parseInt(time_line[1]);
   }
 
-  public Time(int hour, int minute, Half half){
+  public Time(int hour, int minute, Half half) {
     this.hour = hour;
     this.minute = minute;
     this.half = half;
   }
 
-  public String toString(){
+  public String toString() {
     String dayHalf;
-    if(half.equals(Half.AM)){
+    if (half.equals(Half.AM)) {
       dayHalf = "a";
-    }else {
+    } else {
       dayHalf = "p";
     }
     return String.format("%d:%02d%s", hour, minute, dayHalf);
@@ -52,42 +52,48 @@ public class Time implements Comparable<Time> {
 
   /**
    * For comparing two objects
+   *
    * @param t - any Time object
    * @return a negative integer, 0, or a positive integer indicating whether o is less than, equal to, or greater than this
    */
-  public int compareTo(Time t){
-    if (t.half == this.half){
-      if(this.hour == t.hour){ return this.minute - t.minute; }
-      else{ return this.hour - t.hour; }
+  public int compareTo(Time t) {
+    if (t.half == this.half) {
+      if (this.hour == t.hour) {
+        return this.minute - t.minute;
+      } else {
+        return this.hour - t.hour;
+      }
 
-    } else if (t.half == Half.AM && this.half == Half.PM){
+    } else if (t.half == Half.AM && this.half == Half.PM) {
       return 1;
-    } else if (t.half == Half.PM && this.half == Half.AM){
+    } else if (t.half == Half.PM && this.half == Half.AM) {
       return -1;
-    } else { return 0; }
+    } else {
+      return 0;
+    }
 
 
   }
 
-  public int getInBetweenTime(Time time){
+  public int getInBetweenTime(Time time) {
     int inBetTime = 0;
-    if(this.half == time.half){
-      if (this.hour >= time.hour){
-        inBetTime += (this.hour-time.hour)*60;
-      }else{
-        inBetTime += (this.hour+24 - time.hour)*60;
+    if (this.half == time.half) {
+      if (this.hour >= time.hour) {
+        inBetTime += (this.hour - time.hour) * 60;
+      } else {
+        inBetTime += (this.hour + 24 - time.hour) * 60;
 
       }
-    } else{
-      if (this.half == Half.AM && time.half == Half.PM){
-        inBetTime += (time.hour - this.hour + 12)*60;
+    } else {
+      if (this.half == Half.AM && time.half == Half.PM) {
+        inBetTime += (time.hour - this.hour + 12) * 60;
       } else {
-        inBetTime += (this.hour - time.hour + 12)*60;
+        inBetTime += (this.hour - time.hour + 12) * 60;
       }
     }
-    if (this.minute >= time.minute){
+    if (this.minute >= time.minute) {
       inBetTime += (this.minute - time.minute);
-    }else{
+    } else {
       inBetTime -= 60;
       inBetTime += (this.minute + 60 - time.minute);
     }

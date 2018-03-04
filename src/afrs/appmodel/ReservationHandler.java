@@ -10,6 +10,7 @@ public class ReservationHandler {
   /**
    * Create a new ReservationHandler object
    */
-  public ReservationHandler(){}
+  public ReservationHandler() {
+  }
 
 }

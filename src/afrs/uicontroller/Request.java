@@ -17,6 +17,7 @@ public abstract class Request {
 
   /**
    * Create a new Request object
+   *
    * @param storageCenter the StorageCenter instance
    * @param parameters the list of parameters to the command
    */
@@ -28,6 +29,7 @@ public abstract class Request {
 
   /**
    * Executes the command
+   *
    * @return the command's response
    */
   public abstract Response execute();

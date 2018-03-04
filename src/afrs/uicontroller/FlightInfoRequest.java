@@ -16,6 +16,7 @@ public class FlightInfoRequest extends Request {
 
   /**
    * Create a new FlightInfoRequest object
+   *
    * @param storageCenter the StorageCenter instance
    * @param parameters the list of parameters to the command
    */
@@ -25,6 +26,7 @@ public class FlightInfoRequest extends Request {
 
   /**
    * Executes the command
+   *
    * @return the command's response
    */
   @Override
@@ -79,7 +81,8 @@ public class FlightInfoRequest extends Request {
     }
 
     // Get list of journeys, sorted
-    List<Journey> journeys = storageCenter.getLatestJourneys(origin.getAbbreviation(), destination.getAbbreviation(), connections);
+    List<Journey> journeys = storageCenter
+        .getLatestJourneys(origin.getAbbreviation(), destination.getAbbreviation(), connections);
     journeys.sort(sort);
 
     // Create response

@@ -21,6 +21,7 @@ public class RequestGenerator extends Observable {
 
   /**
    * Create a new RequestGenerator object
+   *
    * @param storageCenter the instance of StorageCenter
    */
   public RequestGenerator(StorageCenter storageCenter) {
@@ -30,6 +31,7 @@ public class RequestGenerator extends Observable {
 
   /**
    * Given an input string from stdin, parse it into a request, then execute the request.
+   *
    * @param input - the string input from stdin
    */
   public void parseRequest(String input) {
@@ -37,7 +39,7 @@ public class RequestGenerator extends Observable {
     if (input.endsWith(";")) {
 
       // The current input is the end of a pre-existing, partially-complete request
-      if(!partialRequestString.equals("")){
+      if (!partialRequestString.equals("")) {
         input = partialRequestString + input;
         partialRequestString = "";
       }
@@ -75,7 +77,7 @@ public class RequestGenerator extends Observable {
     }
 
     // Partial request
-    else{
+    else {
       // Track each input string as a continuous partial request
       this.partialRequestString += input;
       System.out.println("partial-request");  // Relevant output
