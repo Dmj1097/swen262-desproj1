@@ -14,6 +14,7 @@ public class ItineraryGenerator {
 
     private static final int FLIGHT_LIMIT = 3;
     private StorageCenter storageCenter;
+    private List<Journey> latestItineraries;
 
     public ItineraryGenerator(StorageCenter storageCenter){
         this.storageCenter = storageCenter;
@@ -41,7 +42,7 @@ public class ItineraryGenerator {
             for(Journey secondLeg : this.storageCenter.getFlightsFromOrigin(firstFlight.getDestination())){
                 Flight secondFlight = (Flight) secondLeg;
                 if( isValidNextFlight( firstFlight, secondFlight ) ){
-                    if(secondFlight.getDestination() == destination){
+                    if(secondFlight.getDestination().equals(destination)){
                         it = new Itinerary();
                         it.addFlight(firstFlight);
                         it.addFlight(secondFlight);
@@ -51,7 +52,7 @@ public class ItineraryGenerator {
                     // Test each possible third flight
                     for(Journey thirdLeg : this.storageCenter.getFlightsFromOrigin(secondFlight.getDestination())){
                         Flight thirdFlight = (Flight) thirdLeg;
-                        if( isValidNextFlight(secondFlight, thirdFlight) && thirdFlight.getDestination() == destination ){
+                        if( isValidNextFlight(secondFlight, thirdFlight) && thirdFlight.getDestination().equals(destination)){
                             it = new Itinerary();
                             it.addFlight(firstFlight);
                             it.addFlight(secondFlight);
@@ -69,7 +70,7 @@ public class ItineraryGenerator {
                 journeys.add(flight);
             }
         }
-
+        setLatestItineraries(journeys);
         return journeys;
     }
 
@@ -85,4 +86,21 @@ public class ItineraryGenerator {
        return firstFlight.getArrivalTime().compareTo( secondFlight.getArrivalTime() ) >= 0;
     }
 
+    /**
+     * takes the query of itineraries and sets it as the current list of itineraries that can be called back for
+     * reservation
+     * @param itineraries list of itineraries
+     */
+    private void setLatestItineraries(List<Journey> itineraries){
+        latestItineraries = itineraries;
+    }
+
+    /**
+     * gets specfic itinerary from the list based on given index
+     * @param idx index being looked at
+     * @return specfic itinerary
+     */
+    public Journey getItinerary(int idx){
+        return latestItineraries.get(idx);
+    }
 }
