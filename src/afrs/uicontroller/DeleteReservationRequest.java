@@ -7,15 +7,26 @@ import afrs.appmodel.Reservation;
 import afrs.uiview.Response;
 import java.util.List;
 
+/**
+ * DeleteReservationRequest
+ *
+ * Created By Brian Taylor - 03/03/2018
+ */
 public class DeleteReservationRequest extends Request {
 
   /**
    * Create a new Request object
+   * @param storageCenter the StorageCenter instance
+   * @param parameters the list of parameters to the command
    */
   public DeleteReservationRequest(StorageCenter storageCenter, List<String> parameters) {
     super(storageCenter, parameters);
   }
 
+  /**
+   * Executes the command
+   * @return the command's response
+   */
   @Override
   public Response execute() {
     Passenger passenger = storageCenter.getPassenger(parameters.get(0));

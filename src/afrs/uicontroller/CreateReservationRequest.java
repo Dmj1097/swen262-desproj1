@@ -10,17 +10,23 @@ import java.util.List;
 /**
  * CreateReservationRequest
  *
- * Create By Alex Piazza - 03/01/2018
+ * Created By Brian Taylor - 03/03/2018
  */
 public class CreateReservationRequest extends Request {
 
   /**
    * Create a new CreateReservationRequest object
+   * @param storageCenter the StorageCenter instance
+   * @param parameters the list of parameters to the command
    */
   public CreateReservationRequest(StorageCenter storageCenter, List<String> parameters) {
     super(storageCenter, parameters);
   }
 
+  /**
+   * Executes the command
+   * @return the command's response
+   */
   @Override
   public Response execute() {
     try {

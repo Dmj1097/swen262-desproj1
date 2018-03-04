@@ -8,17 +8,23 @@ import java.util.List;
 /**
  * AirportInfoRequest
  *
- * Create By Alex Piazza - 03/01/2018
+ * Created By Brian Taylor - 03/03/2018
  */
 public class AirportInfoRequest extends Request {
 
   /**
    * Create a new AirportInfoRequest object
+   * @param storageCenter the StorageCenter instance
+   * @param parameters the list of parameters to the command
    */
   public AirportInfoRequest(StorageCenter storageCenter, List<String> parameters) {
     super(storageCenter, parameters);
   }
 
+  /**
+   * Executes the command
+   * @return the command's response
+   */
   @Override
   public Response execute() {
     Airport airport = storageCenter.getAirport(parameters.get(0));

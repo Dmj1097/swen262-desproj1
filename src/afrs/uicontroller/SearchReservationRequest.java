@@ -13,17 +13,23 @@ import sun.security.provider.certpath.OCSPResponse.ResponseStatus;
 /**
  * SearchReservationRequest
  *
- * Create By Alex Piazza - 03/01/2018
+ * Created By Brian Taylor - 03/03/2018
  */
 public class SearchReservationRequest extends Request {
 
   /**
    * Create a new SearchReservationRequest object
+   * @param storageCenter the StorageCenter instance
+   * @param parameters the list of parameters to the command
    */
   public SearchReservationRequest(StorageCenter storageCenter, List<String> parameters) {
     super(storageCenter, parameters);
   }
 
+  /**
+   * Executes the command
+   * @return the command's response
+   */
   @Override
   public Response execute() {
     String name = parameters.get(0);

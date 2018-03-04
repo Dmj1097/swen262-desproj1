@@ -4,15 +4,24 @@ import afrs.appcontroller.StorageCenter;
 import afrs.uiview.Response;
 import java.util.List;
 
+/**
+ * InvalidRequest
+ *
+ * Created By Brian Taylor - 03/03/2018
+ */
 public class InvalidRequest extends Request {
 
   /**
    * Create a new Request object
    */
-  public InvalidRequest(StorageCenter storageCenter, List<String> parameters) {
-    super(storageCenter, parameters);
+  public InvalidRequest() {
+    super(null, null);
   }
 
+  /**
+   * Nothing happens, invalid command
+   * @return the command's response
+   */
   @Override
   public Response execute() {
     complete = true;

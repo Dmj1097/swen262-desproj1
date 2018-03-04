@@ -9,17 +9,23 @@ import java.util.List;
 /**
  * FlightInfoRequest
  *
- * Create By Alex Piazza - 03/01/2018
+ * Created By Brian Taylor - 03/03/2018
  */
 public class FlightInfoRequest extends Request {
 
   /**
    * Create a new FlightInfoRequest object
+   * @param storageCenter the StorageCenter instance
+   * @param parameters the list of parameters to the command
    */
   public FlightInfoRequest(StorageCenter storageCenter, List<String> parameters) {
     super(storageCenter, parameters);
   }
 
+  /**
+   * Executes the command
+   * @return the command's response
+   */
   @Override
   public Response execute() {
     Airport origin = storageCenter.getAirport(parameters.get(0));

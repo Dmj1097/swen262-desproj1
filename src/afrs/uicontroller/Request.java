@@ -7,16 +7,18 @@ import java.util.List;
 /**
  * Request
  *
- * Create By Alex Piazza - 03/01/2018
+ * Created By Brian Taylor - 03/03/2018
  */
 public abstract class Request {
 
-  protected boolean complete;
-  protected List<String> parameters;
   protected StorageCenter storageCenter;
+  protected List<String> parameters;
+  protected boolean complete;
 
   /**
    * Create a new Request object
+   * @param storageCenter the StorageCenter instance
+   * @param parameters the list of parameters to the command
    */
   protected Request(StorageCenter storageCenter, List<String> parameters) {
     this.complete = false;
@@ -24,8 +26,15 @@ public abstract class Request {
     this.storageCenter = storageCenter;
   }
 
+  /**
+   * Executes the command
+   * @return the command's response
+   */
   public abstract Response execute();
 
+  /**
+   * @return boolean representing execution completion
+   */
   public boolean hasCompleted() {
     return complete;
   }

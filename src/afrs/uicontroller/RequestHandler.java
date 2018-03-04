@@ -10,7 +10,7 @@ import java.util.Queue;
 /**
  * RequestHandler
  *
- * Create By Alex Piazza - 03/01/2018
+ * Created By Brian Taylor - 03/03/2018
  */
 public class RequestHandler implements Observer {
 

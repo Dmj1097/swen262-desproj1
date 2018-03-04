@@ -9,19 +9,19 @@ import java.util.Observable;
 /**
  * RequestGenerator
  *
- * Create By Alex Piazza - 03/01/2018
+ * Created By Brian Taylor - 03/03/2018
  */
 public class RequestGenerator extends Observable {
 
-  /** The storage of all relevant objects */
+  // The storage of all relevant objects
   private StorageCenter storageCenter;
-  /** String representing part of a request that has not yet been terminated */
+
+  // String representing part of a request that has not yet been terminated
   private String partialRequestString;
 
   /**
    * Create a new RequestGenerator object
-   * @param storageCenter - the object storage which will be queried
-   * @return a request generator with a given storage center
+   * @param storageCenter the instance of StorageCenter
    */
   public RequestGenerator(StorageCenter storageCenter) {
     this.storageCenter = storageCenter;
@@ -37,14 +37,14 @@ public class RequestGenerator extends Observable {
 
       // The current input is the end of a pre-existing, partially-complete request
       if(!partialRequestString.equals("")){
-        input = String.format("%s%s", partialRequestString, input);
+        input = partialRequestString + input;
         partialRequestString = "";
       }
 
       String[] parms = input.replace(";", "").split(",");
       String type = parms[0];
       List<String> parameters = new ArrayList<>(Arrays.asList(parms).subList(1, parms.length));
-      Request request = new InvalidRequest(storageCenter, null);
+      Request request = new InvalidRequest();
 
       if (parameters.size() >= 1) {
         switch (type) {
@@ -73,7 +73,7 @@ public class RequestGenerator extends Observable {
     // Partial requests
     else{
       // Track each input string as a continuous partial request
-      this.partialRequestString = String.format("%s%s", this.partialRequestString, input);
+      this.partialRequestString += input;
       System.out.println("partial-request");  // Relevant output
     }
   }
