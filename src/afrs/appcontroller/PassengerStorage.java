@@ -21,14 +21,14 @@ public class PassengerStorage {
    */
   public PassengerStorage(){
     passengers = new HashMap<>();
-    setupPassngerMap();
+    setupPassengerMap();
   }
 
   /**
    * setup for the passenger map. reads line by line of passenger.txt and parses it down to individual flights,then creates
    * itineraries, which turns it into reservations which is placed in passenger object
    */
-  private void setupPassngerMap() {
+  private void setupPassengerMap() {
       try {
         File file = new File(location + "/passengers.txt");
         file.createNewFile();

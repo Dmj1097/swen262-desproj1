@@ -70,6 +70,7 @@ public class SearchReservationRequest extends Request {
     }
 
     List<Journey> journeys = storageCenter.getReservations(name, origin, destination);
+    journeys.sort(new AirportSort());
     StringBuilder result = new StringBuilder();
     for (Journey j : journeys) {
       result.append(j).append("\n");

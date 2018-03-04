@@ -53,6 +53,16 @@ public class Itinerary implements Journey{
     return all.toString();
   }
 
+  @Override
+  public Time getDepart() {
+    return flights.getFirst().getDepart();
+  }
+
+  @Override
+  public Time getArrive() {
+    return flights.getLast().getArrive();
+  }
+
   /**
    * @return a CSV friendly string representing this itinerary
    */

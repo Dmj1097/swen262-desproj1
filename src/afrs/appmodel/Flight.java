@@ -68,6 +68,7 @@ public class Flight implements Journey {
   /**
    * @return the departure time
    */
+  @Override
   public Time getDepart() {
     return depart;
   }
@@ -75,6 +76,7 @@ public class Flight implements Journey {
   /**
    * @return the arrival time
    */
+  @Override
   public Time getArrive() {
     return arrive;
   }
