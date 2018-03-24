@@ -1,8 +1,11 @@
-package afrs.uicontroller;
+package afrs.uicontroller.requests;
 
 import afrs.appcontroller.StorageCenter;
 import afrs.appmodel.Airport;
 import afrs.appmodel.Journey;
+import afrs.uicontroller.sort.ArriveSort;
+import afrs.uicontroller.sort.CostSort;
+import afrs.uicontroller.sort.DepartSort;
 import afrs.uiview.Response;
 import java.util.Comparator;
 import java.util.List;
@@ -33,21 +36,18 @@ public class FlightInfoRequest extends Request {
   public Response execute() {
     // If invalid number of parameters
     if (!(parameters.size() >= 2 && parameters.size() <= 4)) {
-      complete = true;
       return new Response("error,unknown request");
     }
 
     // Validate origin airport
     Airport origin = storageCenter.getAirport(parameters.get(0));
     if (origin == null) {
-      complete = true;
       return new Response("error,unknown origin");
     }
 
     // Validate destination airport
     Airport destination = storageCenter.getAirport(parameters.get(1));
     if (destination == null) {
-      complete = true;
       return new Response("error,unknown destination");
     }
 
@@ -56,7 +56,6 @@ public class FlightInfoRequest extends Request {
     if (parameters.size() > 2 && !parameters.get(2).equals("")) {
       connections = Integer.parseInt(parameters.get(2));
       if (connections < 0 || connections > 2) {
-        complete = true;
         return new Response("error,invalid connection limit");
       }
     }
@@ -75,7 +74,6 @@ public class FlightInfoRequest extends Request {
           sort = new CostSort();
           break;
         default:
-          complete = true;
           return new Response("error,invalid sort order");
       }
     }
@@ -92,7 +90,6 @@ public class FlightInfoRequest extends Request {
       result.append(index).append(",").append(j).append("\n");
       index++;
     }
-    complete = true;
     return new Response("info," + journeys.size() + "\n" + result);
   }
 }

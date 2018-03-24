@@ -1,4 +1,4 @@
-package afrs.uicontroller;
+package afrs.uicontroller.sort;
 
 import afrs.appmodel.Journey;
 import java.util.Comparator;

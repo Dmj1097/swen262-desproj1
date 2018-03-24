@@ -1,4 +1,4 @@
-package afrs.uicontroller;
+package afrs.uicontroller.requests;
 
 import afrs.appcontroller.StorageCenter;
 import afrs.appmodel.Airport;
@@ -31,17 +31,14 @@ public class AirportInfoRequest extends Request {
   public Response execute() {
     // If invalid number of parameters
     if (!(parameters.size() == 1)) {
-      complete = true;
       return new Response("error,unknown request");
     }
 
     // If airport exists, respond with information
     Airport airport = storageCenter.getAirport(parameters.get(0));
     if (airport != null) {
-      complete = true;
       return new Response("airport," + airport.toString());
     } else {
-      complete = true;
       return new Response("error,unknown airport");
     }
   }

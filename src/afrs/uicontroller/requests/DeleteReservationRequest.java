@@ -1,7 +1,8 @@
-package afrs.uicontroller;
+package afrs.uicontroller.requests;
 
 import afrs.appcontroller.StorageCenter;
 import afrs.appmodel.Passenger;
+import afrs.appmodel.Reservation;
 import afrs.uiview.Response;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import java.util.List;
  */
 public class DeleteReservationRequest extends Request {
 
+  private Reservation deleted;
+
   /**
    * Create a new Request object
    *
@@ -20,6 +23,7 @@ public class DeleteReservationRequest extends Request {
    */
   public DeleteReservationRequest(StorageCenter storageCenter, List<String> parameters) {
     super(storageCenter, parameters);
+    this.deleted = null;
   }
 
   /**
@@ -31,7 +35,6 @@ public class DeleteReservationRequest extends Request {
   public Response execute() {
     // If invalid number of parameters
     if (!(parameters.size() == 3)) {
-      complete = true;
       return new Response("error,unknown request");
     }
 
@@ -42,12 +45,21 @@ public class DeleteReservationRequest extends Request {
     }
 
     // Attempt deletion of reservation
-    if (storageCenter.removeReservation(parameters.get(0), parameters.get(1), parameters.get(2))) {
-      complete = true;
+    this.deleted = storageCenter.getReservation(parameters.get(0), parameters.get(1), parameters.get(2));
+    if (deleted != null && storageCenter.removeReservation(parameters.get(0), parameters.get(1), parameters.get(2))) {
       return new Response("delete,successful");
     } else {
-      complete = true;
       return new Response("error,reservation not found");
     }
+  }
+
+  @Override
+  public void undo() {
+    storageCenter.addPassengerOrReservation(deleted.getPassenger().getName(), deleted);
+  }
+
+  @Override
+  public void redo() {
+    storageCenter.removeReservation(parameters.get(0), parameters.get(1), parameters.get(2));
   }
 }

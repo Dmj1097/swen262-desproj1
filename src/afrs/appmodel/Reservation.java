@@ -29,6 +29,10 @@ public class Reservation {
     return (journey.getOrigin().equals(origin) && journey.getDestination().equals(destination));
   }
 
+  public Passenger getPassenger() {
+    return passenger;
+  }
+
   /**
    * @return origin airport name from journey
    */

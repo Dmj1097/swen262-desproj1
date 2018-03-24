@@ -1,7 +1,10 @@
 package afrs.uicontroller;
 
+import afrs.uicontroller.collection.RequestCollection;
+import afrs.uicontroller.requests.CreateReservationRequest;
+import afrs.uicontroller.requests.DeleteReservationRequest;
+import afrs.uicontroller.requests.Request;
 import afrs.uiview.ResponseHandler;
-import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -12,14 +15,14 @@ import java.util.Observer;
  */
 public class RequestHandler implements Observer {
 
-  private LinkedList<Request> requestQueue;
+  private RequestCollection requests;
   private ResponseHandler handler;
 
   /**
    * Create a new RequestHandler object
    */
   public RequestHandler(RequestGenerator requestGenerator, ResponseHandler responseHandler) {
-    requestQueue = new LinkedList<>();
+    this.requests = new RequestCollection();
     requestGenerator.addObserver(this);
     this.handler = responseHandler;
   }
@@ -27,11 +30,14 @@ public class RequestHandler implements Observer {
   /**
    * Gets new request from RequestGenerator and executes it, handling its response
    */
+  @SuppressWarnings("ConstantConditions")
   @Override
   public void update(Observable o, Object arg) {
     if (arg instanceof Request) {
-      requestQueue.offer((Request) arg);
+      handler.writeResponse(((Request) arg).execute());
+      if (arg instanceof CreateReservationRequest || arg instanceof DeleteReservationRequest) {
+        requests.add((Request) arg);
+      }
     }
-    handler.writeResponse(requestQueue.poll().execute());
   }
 }

@@ -1,9 +1,10 @@
-package afrs.uicontroller;
+package afrs.uicontroller.requests;
 
 import afrs.appcontroller.StorageCenter;
 import afrs.appmodel.Airport;
 import afrs.appmodel.Journey;
 import afrs.appmodel.Passenger;
+import afrs.uicontroller.sort.AirportSort;
 import afrs.uiview.Response;
 import java.util.List;
 
@@ -33,7 +34,6 @@ public class SearchReservationRequest extends Request {
   public Response execute() {
     // If invalid number of parameters
     if (!(parameters.size() >= 1 && parameters.size() <= 3)) {
-      complete = true;
       return new Response("error,unknown request");
     }
 
@@ -51,7 +51,6 @@ public class SearchReservationRequest extends Request {
     // Validate passenger
     Passenger passenger = storageCenter.getPassenger(name);
     if (passenger == null) {
-      complete = true;
       return new Response("retrieve,0");
     }
 
@@ -59,7 +58,6 @@ public class SearchReservationRequest extends Request {
     if (!origin.equals("")) {
       Airport orig = storageCenter.getAirport(origin);
       if (orig == null) {
-        complete = true;
         return new Response("error,unknown origin");
       }
     }
@@ -68,7 +66,6 @@ public class SearchReservationRequest extends Request {
     if (!destination.equals("")) {
       Airport dest = storageCenter.getAirport(destination);
       if (dest == null) {
-        complete = true;
         return new Response("error,unknown destination");
       }
     }
@@ -82,7 +79,6 @@ public class SearchReservationRequest extends Request {
     for (Journey j : journeys) {
       result.append(j).append("\n");
     }
-    complete = true;
     return new Response("retrieve," + journeys.size() + "\n" + result);
 
   }

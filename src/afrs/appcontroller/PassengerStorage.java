@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -194,5 +195,18 @@ public class PassengerStorage {
       }
       return reservationArrayList;
     }
+  }
+
+  public Reservation getReservation(String name, String origin, String destination) {
+    Passenger p = passengers.get(name);
+    if (p != null) {
+      List<Journey> reservations = p.getReservations();
+      for (Journey j : reservations) {
+        if (j.getOrigin().equals(origin) && j.getDestination().equals(destination)) {
+            return new Reservation(p, j);
+        }
+      }
+    }
+    return null;
   }
 }

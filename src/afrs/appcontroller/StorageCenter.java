@@ -120,4 +120,8 @@ public class StorageCenter {
     return passengers.getReservations(name, origin, destination);
   }
 
+  public Reservation getReservation(String name, String origin, String destination) {
+    return passengers.getReservation(name, origin, destination);
+  }
+
 }

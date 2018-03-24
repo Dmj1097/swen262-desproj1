@@ -1,5 +1,6 @@
 package afrs;
 
+import afrs.appcontroller.PassengerStorage;
 import afrs.appcontroller.StorageCenter;
 import afrs.uicontroller.RequestGenerator;
 import afrs.uicontroller.RequestHandler;
@@ -19,6 +20,9 @@ public class Application {
     requestGenerator = new RequestGenerator(storageCenter);
     responseHandler = new ResponseHandler();
     requestHandler = new RequestHandler(requestGenerator, responseHandler);
+
+    System.out.println(PassengerStorage.class.getProtectionDomain().getCodeSource()
+        .getLocation());
 
     Scanner in = new Scanner(System.in);
     String input = in.nextLine();

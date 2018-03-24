@@ -1,4 +1,4 @@
-package afrs.uicontroller;
+package afrs.uicontroller.requests;
 
 import afrs.appcontroller.StorageCenter;
 import afrs.uiview.Response;
@@ -13,7 +13,7 @@ public abstract class Request {
 
   protected StorageCenter storageCenter;
   protected List<String> parameters;
-  protected boolean complete;
+
 
   /**
    * Create a new Request object
@@ -22,7 +22,6 @@ public abstract class Request {
    * @param parameters the list of parameters to the command
    */
   protected Request(StorageCenter storageCenter, List<String> parameters) {
-    this.complete = false;
     this.parameters = parameters;
     this.storageCenter = storageCenter;
   }
@@ -34,11 +33,7 @@ public abstract class Request {
    */
   public abstract Response execute();
 
-  /**
-   * @return boolean representing execution completion
-   */
-  public boolean hasCompleted() {
-    return complete;
-  }
+  public void undo() {}
 
+  public void redo() {}
 }

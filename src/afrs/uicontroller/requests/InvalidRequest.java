@@ -1,4 +1,4 @@
-package afrs.uicontroller;
+package afrs.uicontroller.requests;
 
 import afrs.uiview.Response;
 
@@ -23,7 +23,6 @@ public class InvalidRequest extends Request {
    */
   @Override
   public Response execute() {
-    complete = true;
     return new Response("error,unknown request");
   }
 }

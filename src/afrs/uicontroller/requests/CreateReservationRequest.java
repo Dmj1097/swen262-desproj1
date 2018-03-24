@@ -1,4 +1,4 @@
-package afrs.uicontroller;
+package afrs.uicontroller.requests;
 
 import afrs.appcontroller.StorageCenter;
 import afrs.appmodel.Journey;
@@ -14,6 +14,8 @@ import java.util.List;
  */
 public class CreateReservationRequest extends Request {
 
+  private Reservation created;
+
   /**
    * Create a new CreateReservationRequest object
    *
@@ -22,6 +24,7 @@ public class CreateReservationRequest extends Request {
    */
   public CreateReservationRequest(StorageCenter storageCenter, List<String> parameters) {
     super(storageCenter, parameters);
+    this.created = null;
   }
 
   /**
@@ -33,7 +36,6 @@ public class CreateReservationRequest extends Request {
   public Response execute() {
     // If invalid number of parameters
     if (!(parameters.size() == 2)) {
-      complete = true;
       return new Response("error,unknown request");
     }
 
@@ -49,17 +51,24 @@ public class CreateReservationRequest extends Request {
       }
 
       // Attempt reservation
-      Reservation reservation = new Reservation(passenger, journey);
-      if (storageCenter.addPassengerOrReservation(name, reservation)) {
-        complete = true;
+      this.created = new Reservation(passenger, journey);
+      if (storageCenter.addPassengerOrReservation(created.getPassenger().getName(), created)) {
         return new Response("reserve,successful");
       } else {
-        complete = true;
         return new Response("error,duplicate reservation");
       }
     } catch (IndexOutOfBoundsException ignored) {
-      complete = true;
       return new Response("error,invalid id");
     }
+  }
+
+  @Override
+  public void undo() {
+    storageCenter.removeReservation(created.getPassenger().getName(), created.getOrigin(), created.getDestination());
+  }
+
+  @Override
+  public void redo() {
+    storageCenter.addPassengerOrReservation(created.getPassenger().getName(), created);
   }
 }
