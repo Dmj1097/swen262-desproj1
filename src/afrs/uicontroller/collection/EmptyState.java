@@ -16,8 +16,12 @@ public class EmptyState extends RequestState {
   }
 
   @Override
-  public void undo() {}
+  public boolean undo() {
+    return false;
+  }
 
   @Override
-  public void redo() {}
+  public boolean redo() {
+    return false;
+  }
 }
