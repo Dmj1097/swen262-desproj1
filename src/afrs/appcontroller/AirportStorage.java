@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -112,5 +113,11 @@ public class AirportStorage {
       System.err.format("Exception occurred trying to read weather.txt");
       e.printStackTrace();
     }
+  }
+
+  public List<String> getAirportCodes(){
+    List<String> result = new ArrayList<>();
+    result.addAll( this.airports.keySet());
+    return result;
   }
 }

@@ -24,6 +24,8 @@ public class StorageCenter {
 
   private ItineraryGenerator itineraryGenerator;
 
+  private Clients clients;
+
   /**
    * Create a new StorageCenter object
    */
@@ -32,6 +34,7 @@ public class StorageCenter {
     airports = new AirportStorage();
     passengers = new PassengerStorage();
     itineraryGenerator = new ItineraryGenerator(this);
+    clients = new Clients(airports.getAirportCodes());
   }
 
   /**
@@ -123,5 +126,8 @@ public class StorageCenter {
   public Reservation getReservation(String name, String origin, String destination) {
     return passengers.getReservation(name, origin, destination);
   }
+
+  //public List<String> getAirportCodes(){ return this.airports.getAirportCodes(); }
+  public ClientServices getClientServices(String id){ return this.clients.getClientServices(id); }
 
 }

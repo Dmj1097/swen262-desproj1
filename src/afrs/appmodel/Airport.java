@@ -1,12 +1,15 @@
 package afrs.appmodel;
 
+import afrs.appcontroller.WeatherCollection;
+import afrs.appcontroller.WeatherIterator;
+
 import java.util.ArrayList;
 
 
 /**
  * Airport
  *
- * Create By Alex Piazza - 03/01/2018
+ * @author Alex Piazza - 03/01/2018
  */
 public class Airport {
 
@@ -18,10 +21,15 @@ public class Airport {
    * The airport code (e.g. LAS, ATL, LAX, ... etc.)
    */
   private String abbreviation;
+
   /**
    * The airport's weather states (e.g rainy, cloudy, sunny), alternating per query
+   * @deprecated
    */
   private ArrayList<Weather> weatherlist;
+
+  private WeatherCollection weatherCollection;
+
   /**
    * The average delay that the airport expects
    */
@@ -39,6 +47,7 @@ public class Airport {
 
     this.abbreviation = abbreviation;
     this.name = name;
+    this.weatherCollection = null;
 
   }
 
@@ -48,7 +57,7 @@ public class Airport {
    * @param weather - the collection of weather states
    */
   public void setWeather(ArrayList<Weather> weather) {
-    this.weatherlist = weather;
+    this.weatherCollection = new WeatherCollection(weather);
   }
 
   /**
@@ -78,6 +87,7 @@ public class Airport {
 
   /**
    * @return current weather, and update the current weather state
+   * @deprecated
    */
   public String getWeather() {
     for (Weather weather : weatherlist) {
@@ -92,6 +102,11 @@ public class Airport {
     weatherlist.get(0).setChecked();
     return weatherlist.get(0).toString();
   }
+
+  /**
+   * Get the collection of weather objects
+   */
+  public WeatherIterator getWeatherIterator(){ return this.weatherCollection.iterator(); }
 
   /**
    * @return the expected delay time

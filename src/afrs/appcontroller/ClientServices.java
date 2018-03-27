@@ -1,10 +1,15 @@
-package afrs.uicontroller;
+package afrs.appcontroller;
 
+import afrs.appcontroller.AirportStorage;
+import afrs.appmodel.Airport;
 import afrs.appmodel.Journey;
+import afrs.appcontroller.WeatherIterator;
 import afrs.uicontroller.collection.RequestCollection;
 import afrs.uicontroller.requests.Request;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Collection of client-related data
@@ -15,19 +20,32 @@ public class ClientServices {
 
 	public enum Service { FAA, Local }
 
+	private static List<String> airports;
+
 	private RequestCollection requests;
 	private boolean connectionStatus;
 	private Service service;
 	private String partialString;
 	private List<Journey> latestJourneys;
-
+	private Map<String, WeatherIterator> weather;
 
 	public ClientServices(){
+		this(airports);
+	}
+
+	public ClientServices(List<String> aiports){
 		this.requests = new RequestCollection();
 		this.connectionStatus = true;
 		this.service = Service.Local;
 		this.latestJourneys = null;
 		this.partialString = "";
+
+		this.weather = new HashMap<>();
+		for (String airport : airports ){
+			//this.weather.put(airport, );
+		}
+
+		airports = airports;
 	}
 
 	/**
@@ -46,6 +64,22 @@ public class ClientServices {
 	 */
 	public boolean isConnected(){
 		return this.connectionStatus;
+	}
+
+	/**
+	 * Get the airport iterator, given an airport code
+	 */
+	public WeatherIterator getAirportWeatherIterator(String airportCode){
+		return this.weather.get(airportCode);
+	}
+
+	/**
+	 * Create the airportCode-WeatherIterator map given the list of airport codes
+	 */
+	public void populateWeatherIterators(List<String> airportCode, AirportStorage airports){
+		for (String code : airportCode){
+			this.weather.put(code, airports.getAirport(code).getWeatherIterator());
+		}
 	}
 
 	/**
