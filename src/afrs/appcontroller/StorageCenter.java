@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Dylan Johnston
  */
-public class StorageCenter {
+public class StorageCenter implements Storage{
 
 
   private FlightStorage flights;
@@ -30,11 +30,22 @@ public class StorageCenter {
    * Create a new StorageCenter object
    */
   public StorageCenter() {
+    setupMap();
+  }
+
+  @Override
+  public void setupMap() {
     flights = new FlightStorage();
     airports = new AirportStorage();
     passengers = new PassengerStorage();
     itineraryGenerator = new ItineraryGenerator(this);
     clients = new Clients(airports.getAirportCodes());
+
+  }
+
+  @Override
+  public Object getInstance(Object ID) {
+    return null;
   }
 
   /**
@@ -44,7 +55,7 @@ public class StorageCenter {
    * @return airport with given name
    */
   public Airport getAirport(String ID) {
-    return airports.getAirport(ID);
+    return (Airport)airports.getInstance(ID);
   }
 
   /**
@@ -54,7 +65,7 @@ public class StorageCenter {
    * @return Journey object associated with ID
    */
   public Journey getFlight(int ID) {
-    return flights.getFlight(ID);
+    return (Journey)flights.getInstance(ID);
   }
 
   /**
@@ -74,7 +85,7 @@ public class StorageCenter {
    * @return Passenger object associated with given name
    */
   public Passenger getPassenger(String ID) {
-    return passengers.getPassenger(ID);
+    return (Passenger)passengers.getInstance(ID);
   }
 
   /**

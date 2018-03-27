@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author Dylan Johnston
  */
-public class FlightStorage {
+public class FlightStorage implements Storage {
 
 
   private Map<Integer, Flight> flights; //map of flights to their unique number
@@ -24,13 +24,13 @@ public class FlightStorage {
    */
   public FlightStorage() {
     flights = new HashMap<>();
-    setupFlightMap();
+    setupMap();
   }
 
   /**
    * setup for the flight map. reads each line, parses it, creates the object, and stores it
    */
-  private void setupFlightMap() {
+  public void setupMap() {
     try {
       BufferedReader reader = new BufferedReader(
           new InputStreamReader(getClass().getResourceAsStream("/flights.txt")));
@@ -57,7 +57,7 @@ public class FlightStorage {
    * @param ID flight number
    * @return corresponding flight
    */
-  public Journey getFlight(int ID) {
+  public Object getInstance(Object ID) {
     return flights.get(ID);
   }
 

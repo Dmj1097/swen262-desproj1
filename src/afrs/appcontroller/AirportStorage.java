@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author Dylan Johnston
  */
-public class AirportStorage {
+public class AirportStorage implements Storage {
 
 
   private Map<String, Airport> airports; //map of all airport objects to their abbreviation strings
@@ -24,7 +24,7 @@ public class AirportStorage {
    */
   public AirportStorage() {
     airports = new HashMap<>();
-    setupAirportMap();
+    setupMap();
     setupAirportWeather();
   }
 
@@ -34,7 +34,7 @@ public class AirportStorage {
    * @param ID ID for airport
    * @return Airport asscoiated with abbreviation
    */
-  public Airport getAirport(String ID) {
+  public Object getInstance(Object ID) {
     return airports.get(ID);
   }
 
@@ -43,7 +43,7 @@ public class AirportStorage {
    * initialization class that reads from cities.txt, connectTime.txt, delayTime.txt, and weather.txt to create, put
    * into storage, and fill in information for each airport object
    */
-  private void setupAirportMap() {
+  public void setupMap() {
     try { //starts by reading cities.txt
       BufferedReader reader = new BufferedReader(
           new InputStreamReader(getClass().getResourceAsStream("/cities.txt")));

@@ -24,7 +24,7 @@ import java.util.Map;
  *
  * @author Dylan Johnston
  */
-public class PassengerStorage {
+public class PassengerStorage implements Storage{
 
   private static String location = PassengerStorage.class.getProtectionDomain().getCodeSource()
       .getLocation().getPath().replaceFirst("/", "").replaceFirst("/[^/]*\\.jar$", "").replaceAll("%20", " ");
@@ -35,14 +35,14 @@ public class PassengerStorage {
    */
   public PassengerStorage() {
     passengers = new HashMap<>();
-    setupPassengerMap();
+    setupMap();
   }
 
   /**
    * setup for the passenger map. reads line by line of passenger.txt and parses it down to individual flights,then creates
    * itineraries, which turns it into reservations which is placed in passenger object
    */
-  private void setupPassengerMap() {
+  public void setupMap() {
     try {
       File file = new File(location + "/passengers.txt");
       file.createNewFile();
@@ -87,7 +87,7 @@ public class PassengerStorage {
    * @param ID name of passenger
    * @return passenger with name
    */
-  public Passenger getPassenger(String ID) {
+  public Object getInstance(Object ID) {
     return passengers.get(ID);
   }
 

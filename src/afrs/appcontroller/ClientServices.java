@@ -78,7 +78,8 @@ public class ClientServices {
 	 */
 	public void populateWeatherIterators(List<String> airportCode, AirportStorage airports){
 		for (String code : airportCode){
-			this.weather.put(code, airports.getAirport(code).getWeatherIterator());
+			Airport airport = (Airport)airports.getInstance(code);
+			this.weather.put(code, airport.getWeatherIterator());
 		}
 	}
 
