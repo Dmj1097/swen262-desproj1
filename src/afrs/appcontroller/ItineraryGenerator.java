@@ -12,9 +12,12 @@ public class ItineraryGenerator {
   private static final int FLIGHT_LIMIT = 3;
   private StorageCenter storageCenter;
   private List<Journey> latestItineraries;
+  private FAAWeatherCenter faaWeatherCenter;
 
-  public ItineraryGenerator(StorageCenter storageCenter) {
+
+  public ItineraryGenerator(StorageCenter storageCenter, FAAWeatherCenter faaWeatherCenter) {
     this.storageCenter = storageCenter;
+    this.faaWeatherCenter = faaWeatherCenter;
   }
 
   /**
@@ -24,7 +27,7 @@ public class ItineraryGenerator {
    * @param destination - the name of the destination airport
    * @return a collection of journeys
    */
-  public List<Journey> generateJourneys(String origin, String destination, int connections) {
+  public List<Journey> generateJourneys(String origin, String destination, int connections, boolean FAAMode) {
 
     LinkedList<Flight> flightPath = new LinkedList<>();
     List<Journey> journeys = new ArrayList<>();      // Collection of Itineraries

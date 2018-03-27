@@ -38,7 +38,7 @@ public class StorageCenter implements Storage{
     flights = new FlightStorage();
     airports = new AirportStorage();
     passengers = new PassengerStorage();
-    itineraryGenerator = new ItineraryGenerator(this);
+    itineraryGenerator = new ItineraryGenerator(this, new FAAWeatherCenter());
     clients = new Clients(airports.getAirportCodes());
 
   }
@@ -109,8 +109,8 @@ public class StorageCenter implements Storage{
   /**
    * calls itineraryGenerqator's getLatestJourneys method
    */
-  public List<Journey> getLatestJourneys(String origin, String destination, int connections) {
-    return this.itineraryGenerator.generateJourneys(origin, destination, connections);
+  public List<Journey> getLatestJourneys(String origin, String destination, int connections, boolean FAAMode) {
+    return this.itineraryGenerator.generateJourneys(origin, destination, connections,FAAMode);
   }
 
   /**
