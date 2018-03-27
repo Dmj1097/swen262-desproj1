@@ -15,6 +15,6 @@ public abstract class RequestState {
   }
 
   public abstract void add(Request request);
-  public abstract void undo();
-  public abstract void redo();
+  public abstract boolean undo();
+  public abstract boolean redo();
 }

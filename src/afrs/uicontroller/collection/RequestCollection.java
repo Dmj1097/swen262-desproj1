@@ -48,11 +48,11 @@ public class RequestCollection {
   public void add(Request request) {
     c_state.add(request);
   }
-  public void undo() {
-    c_state.undo();
+  public boolean undo() {
+    return c_state.undo();
   }
-  public void redo() {
-    c_state.redo();
+  public boolean redo() {
+    return c_state.redo();
   }
 
   // Internal functions used by states
@@ -72,12 +72,12 @@ public class RequestCollection {
 	}
 	void undoRequest() {
 		Request r = undoStack.pop();
-		//r.undo();
+		r.undo();
 		redoStack.push(r);
 	}
 	void redoRequest() {
 		Request r = redoStack.pop();
-		//r.redo();
+		r.redo();
 		undoStack.push(r);
 	}
 }

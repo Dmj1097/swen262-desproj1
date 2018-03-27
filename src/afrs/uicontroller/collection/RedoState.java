@@ -16,15 +16,18 @@ public class RedoState extends RequestState {
   }
 
   @Override
-  public void undo() {}
+  public boolean undo() {
+    return false;
+  }
 
   @Override
-  public void redo() {
+  public boolean redo() {
     instance.redoRequest();
     if (instance.canRedo()) {
       instance.changeState(instance.getUndoRedoState());
     } else {
       instance.changeState(instance.getUndoState());
     }
+    return true;
   }
 }

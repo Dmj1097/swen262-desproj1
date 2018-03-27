@@ -21,9 +21,8 @@ public class RequestHandler implements Observer {
   /**
    * Create a new RequestHandler object
    */
-  public RequestHandler(RequestGenerator requestGenerator, ResponseHandler responseHandler) {
+  public RequestHandler(ResponseHandler responseHandler) {
     this.requests = new RequestCollection();
-    requestGenerator.addObserver(this);
     this.handler = responseHandler;
   }
 
@@ -39,5 +38,13 @@ public class RequestHandler implements Observer {
         requests.add((Request) arg);
       }
     }
+  }
+
+  public boolean undo() {
+    return requests.undo();
+  }
+
+  public boolean redo() {
+    return requests.redo();
   }
 }
