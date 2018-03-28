@@ -4,10 +4,7 @@ import afrs.appmodel.Airport;
 import afrs.appmodel.Weather;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class responsible for storing all information of each airport provided to us
@@ -119,5 +116,9 @@ public class AirportStorage implements Storage {
     List<String> result = new ArrayList<>();
     result.addAll( this.airports.keySet());
     return result;
+  }
+
+  public Set<String> getKeys(){
+    return airports.keySet();
   }
 }

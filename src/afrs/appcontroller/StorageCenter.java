@@ -7,6 +7,7 @@ import afrs.appmodel.Passenger;
 import afrs.appmodel.Reservation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * StorageCenter class that handles the different types of storages and the itinerary generator
@@ -141,4 +142,8 @@ public class StorageCenter implements Storage{
   //public List<String> getAirportCodes(){ return this.airports.getAirportCodes(); }
   public ClientServices getClientServices(String id){ return this.clients.getClientServices(id); }
 
+
+  public Set<String> getAirportKeys(){
+      return airports.getKeys();
+  }
 }

@@ -3,9 +3,8 @@ package afrs.appcontroller;
 import afrs.appmodel.Flight;
 import afrs.appmodel.Itinerary;
 import afrs.appmodel.Journey;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+
+import java.util.*;
 
 public class ItineraryGenerator {
 
@@ -13,6 +12,7 @@ public class ItineraryGenerator {
   private StorageCenter storageCenter;
   private List<Journey> latestItineraries;
   private FAAWeatherCenter faaWeatherCenter;
+  private Map<String,Integer> delayMap = new HashMap<>();
 
 
   public ItineraryGenerator(StorageCenter storageCenter, FAAWeatherCenter faaWeatherCenter) {
@@ -28,7 +28,16 @@ public class ItineraryGenerator {
    * @return a collection of journeys
    */
   public List<Journey> generateJourneys(String origin, String destination, int connections, boolean FAAMode) {
-
+    Set<String> keys = storageCenter.getAirportKeys();
+    if(FAAMode){
+      for(String ID: keys){
+        delayMap.put(ID,faaWeatherCenter.getAirportDelay(ID));
+      }
+    }else {
+      for (String ID : keys) {
+        delayMap.put(ID, storageCenter.getAirport(ID).getDelayTime());
+      }
+    }
     LinkedList<Flight> flightPath = new LinkedList<>();
     List<Journey> journeys = new ArrayList<>();      // Collection of Itineraries
 
@@ -102,7 +111,7 @@ public class ItineraryGenerator {
    */
   private boolean isValidNextFlight(Flight firstFlight, Flight secondFlight) {
     int inBetTime = firstFlight.getArrivalTime().getInBetweenTime(secondFlight.getDepartureTime());
-    return (storageCenter.getAirport(secondFlight.getOrigin()).getDelayTime() + storageCenter
+    return (delayMap.get(storageCenter.getAirport(secondFlight.getOrigin()).getAbbreviation()) + storageCenter
         .getAirport(secondFlight.getOrigin()).getLayoverTime()) <= inBetTime;
   }
 

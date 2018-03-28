@@ -93,6 +93,11 @@ public class FAAWeatherCenter {
 
     }
 
+    public int getAirportDelay(String ID){
+        return generateAirport(ID).getDelayTime();
+
+    }
+
 
 
 
