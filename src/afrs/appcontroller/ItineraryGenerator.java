@@ -10,13 +10,11 @@ public class ItineraryGenerator {
 
   private static final int FLIGHT_LIMIT = 3;
   private StorageCenter storageCenter;
-  private FAAWeatherCenter faaWeatherCenter;
   private Map<String,Integer> delayMap = new HashMap<>();
 
 
-  public ItineraryGenerator(StorageCenter storageCenter, FAAWeatherCenter faaWeatherCenter) {
+  public ItineraryGenerator(StorageCenter storageCenter) {
     this.storageCenter = storageCenter;
-    this.faaWeatherCenter = faaWeatherCenter;
   }
 
   /**
@@ -30,14 +28,13 @@ public class ItineraryGenerator {
     Set<String> keys = storageCenter.getAirportKeys();
     if(FAAMode){
       for(String ID: keys){
-        delayMap.put(ID,faaWeatherCenter.getAirportDelay(ID));
+        delayMap.put(ID,FAAWeatherCenter.getAirportDelay(ID));
       }
     }else {
       for (String ID : keys) {
         delayMap.put(ID, storageCenter.getAirport(ID).getDelayTime());
       }
     }
-    LinkedList<Flight> flightPath = new LinkedList<>();
     List<Journey> journeys = new ArrayList<>();      // Collection of Itineraries
 
     List<Journey> availableFlights = new ArrayList<>(

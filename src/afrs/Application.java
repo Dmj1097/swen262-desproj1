@@ -22,6 +22,6 @@ public class Application {
 
     new Terminal(requestGenerator, storageCenter).run();
     new Terminal(requestGenerator, storageCenter).run();
-    storageCenter.close();
+    storageCenter.save();
   }
 }

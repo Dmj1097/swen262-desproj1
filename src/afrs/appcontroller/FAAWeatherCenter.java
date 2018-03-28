@@ -64,7 +64,7 @@ public class FAAWeatherCenter {
      * @param ID airport ID
      * @return airport object with info from website
      */
-    private Airport generateAirport(String ID){
+    private static Airport generateAirport(String ID){
         Airport airport;
         try {
           JsonObject JSONairport = getAirport(ID);
@@ -109,7 +109,7 @@ public class FAAWeatherCenter {
      * @param ID airport ID
      * @return airport object
      */
-    public Airport getInstance(String ID){
+    public static Airport getInstance(String ID){
         return generateAirport(ID);
 
     }
@@ -119,7 +119,7 @@ public class FAAWeatherCenter {
      * @param ID airport ID
      * @return delaytime in minutes
      */
-    public int getAirportDelay(String ID){
+    public static int getAirportDelay(String ID){
         return generateAirport(ID).getDelayTime();
 
     }

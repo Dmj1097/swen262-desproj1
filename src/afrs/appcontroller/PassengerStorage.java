@@ -124,8 +124,12 @@ public class PassengerStorage implements Storage{
    * @return true if removed, false otherwise
    */
   public boolean removeReservation(String name, String origin, String destination) {
-    return passengers.containsKey(name) && passengers.get(name)
+    boolean result = passengers.containsKey(name) && passengers.get(name)
         .removeReservation(origin, destination);
+    if (passengers.containsKey(name) && passengers.get(name).getReservations().isEmpty()) {
+      passengers.remove(name);
+    }
+    return result;
   }
 
   /**

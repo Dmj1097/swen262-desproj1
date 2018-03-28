@@ -50,7 +50,7 @@ public class Client {
       iterator = airport.getWeatherIterator();
       weather.put(airportCode, iterator);
     } else if (service == Service.FAA) {
-      Airport airport = new FAAWeatherCenter().getInstance(airportCode);
+      Airport airport = FAAWeatherCenter.getInstance(airportCode);
       iterator = airport.getWeatherIterator();
       weather.put(airportCode, iterator);
     }

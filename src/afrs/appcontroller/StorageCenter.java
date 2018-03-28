@@ -39,7 +39,7 @@ public class StorageCenter implements Storage{
     flights = new FlightStorage();
     airports = new AirportStorage();
     passengers = new PassengerStorage();
-    itineraryGenerator = new ItineraryGenerator(this, new FAAWeatherCenter());
+    itineraryGenerator = new ItineraryGenerator(this);
     clientServices = new ClientServices(this);
 
   }
@@ -97,13 +97,15 @@ public class StorageCenter implements Storage{
    * @return true if already present, false otherwise
    */
   public boolean addPassengerOrReservation(String passenger, Reservation res) {
-    return passengers.addPassengerOrReservation(passenger, res);
+    boolean result = passengers.addPassengerOrReservation(passenger, res);
+    save();
+    return result;
   }
 
   /**
    * called when system is given quit command
    */
-  public void close() {
+  public void save() {
     passengers.writePassengersFile();
   }
 
@@ -118,7 +120,9 @@ public class StorageCenter implements Storage{
    * calls passengerStorage's removeReservation method
    */
   public boolean removeReservation(String name, String origin, String destination) {
-    return passengers.removeReservation(name, origin, destination);
+    boolean result = passengers.removeReservation(name, origin, destination);
+    save();
+    return result;
   }
 
   /**

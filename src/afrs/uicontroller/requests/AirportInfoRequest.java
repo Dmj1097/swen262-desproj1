@@ -48,7 +48,7 @@ public class AirportInfoRequest extends Request {
     Airport airport;
     boolean mode = storageCenter.getClientServices(clientID).getService() == Service.FAA;
     if (mode) {
-      airport = new FAAWeatherCenter().getInstance(airportCode);
+      airport = FAAWeatherCenter.getInstance(airportCode);
     } else {
       airport = storageCenter.getAirport(airportCode);
     }
