@@ -100,7 +100,7 @@ public class AirportStorage implements Storage {
         ArrayList<Weather> weatherList = new ArrayList<>();
         for (int i = 1; i <= line_info.length - 1; i += 2) {
           weatherList.add(new Weather(line_info[i],
-              Integer.parseInt(line_info[i + 1]))); //takes each weather pair in line
+              line_info[i + 1])); //takes each weather pair in line
         }                                                                               // and turns it into weather object
         airports.get(line_info[0]).setWeather(
             weatherList); //takes list of weather objects and adds it to corresponding airport
@@ -113,8 +113,7 @@ public class AirportStorage implements Storage {
   }
 
   public List<String> getAirportCodes(){
-    List<String> result = new ArrayList<>();
-    result.addAll( this.airports.keySet());
+    List<String> result = new ArrayList<>(this.airports.keySet());
     return result;
   }
 

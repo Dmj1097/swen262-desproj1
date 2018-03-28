@@ -15,6 +15,9 @@ import java.util.List;
 public class CreateReservationRequest extends Request {
 
   private Reservation created;
+  public Reservation getCreated() {
+    return created;
+  }
 
   /**
    * Create a new CreateReservationRequest object
@@ -22,8 +25,9 @@ public class CreateReservationRequest extends Request {
    * @param storageCenter the StorageCenter instance
    * @param parameters the list of parameters to the command
    */
-  public CreateReservationRequest(StorageCenter storageCenter, List<String> parameters) {
+  public CreateReservationRequest(String clientID, StorageCenter storageCenter, List<String> parameters) {
     super(storageCenter, parameters);
+    this.clientID = clientID;
     this.created = null;
   }
 
@@ -36,12 +40,21 @@ public class CreateReservationRequest extends Request {
   public Response execute() {
     // If invalid number of parameters
     if (!(parameters.size() == 2)) {
-      return new Response("error,unknown request");
+      return new Response(clientID + ",error,unknown request");
     }
 
     try {
+      Journey journey;
       // Attempt to get journey from latestJourneys
-      Journey journey = storageCenter.getItinerary(Integer.parseInt(parameters.get(0)));
+      List<Journey> journeys = storageCenter.getClientServices(clientID).getLatestJourneys();
+      if (journeys != null) {
+          journey = journeys.get(Integer.parseInt(parameters.get(0)));
+      } else {
+        return new Response(clientID + ",error,invalid id");
+      }
+      if (journey == null) {
+        return new Response(clientID + ",error,invalid id");
+      }
 
       // Validate passenger
       String name = parameters.get(1);
@@ -53,12 +66,13 @@ public class CreateReservationRequest extends Request {
       // Attempt reservation
       this.created = new Reservation(passenger, journey);
       if (storageCenter.addPassengerOrReservation(created.getPassenger().getName(), created)) {
-        return new Response("reserve,successful");
+        storageCenter.getClientServices(clientID).makeRequest(this);
+        return new Response(clientID + ",reserve,successful");
       } else {
-        return new Response("error,duplicate reservation");
+        return new Response(clientID + ",error,duplicate reservation");
       }
     } catch (IndexOutOfBoundsException ignored) {
-      return new Response("error,invalid id");
+      return new Response(clientID + ",error,invalid id");
     }
   }
 

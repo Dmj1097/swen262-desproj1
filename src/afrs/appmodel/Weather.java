@@ -3,14 +3,14 @@ package afrs.appmodel;
 public class Weather {
 
 
-  private int temperature;
+  private String temperature;
 
   private String forecast;
 
   private boolean checked;
 
 
-  public Weather(String condition, int temp) {
+  public Weather(String condition, String temp) {
     temperature = temp;
     forecast = condition;
   }

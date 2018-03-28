@@ -21,8 +21,9 @@ public class SearchReservationRequest extends Request {
    * @param storageCenter the StorageCenter instance
    * @param parameters the list of parameters to the command
    */
-  public SearchReservationRequest(StorageCenter storageCenter, List<String> parameters) {
+  public SearchReservationRequest(String clientID, StorageCenter storageCenter, List<String> parameters) {
     super(storageCenter, parameters);
+    this.clientID = clientID;
   }
 
   /**
@@ -34,7 +35,7 @@ public class SearchReservationRequest extends Request {
   public Response execute() {
     // If invalid number of parameters
     if (!(parameters.size() >= 1 && parameters.size() <= 3)) {
-      return new Response("error,unknown request");
+      return new Response(clientID + ",error,unknown request");
     }
 
     // Get [optional] parameters
@@ -51,14 +52,14 @@ public class SearchReservationRequest extends Request {
     // Validate passenger
     Passenger passenger = storageCenter.getPassenger(name);
     if (passenger == null) {
-      return new Response("retrieve,0");
+      return new Response(clientID + ",retrieve,0");
     }
 
     // Validate origin airport if exists
     if (!origin.equals("")) {
       Airport orig = storageCenter.getAirport(origin);
       if (orig == null) {
-        return new Response("error,unknown origin");
+        return new Response(clientID + ",error,unknown origin");
       }
     }
 
@@ -66,7 +67,7 @@ public class SearchReservationRequest extends Request {
     if (!destination.equals("")) {
       Airport dest = storageCenter.getAirport(destination);
       if (dest == null) {
-        return new Response("error,unknown destination");
+        return new Response(clientID + ",error,unknown destination");
       }
     }
 
@@ -79,7 +80,7 @@ public class SearchReservationRequest extends Request {
     for (Journey j : journeys) {
       result.append(j).append("\n");
     }
-    return new Response("retrieve," + journeys.size() + "\n" + result);
+    return new Response(clientID + ",retrieve," + journeys.size() + "\n" + result);
 
   }
 }

@@ -1,4 +1,3 @@
-
 package afrs.appcontroller;
 
 import afrs.appmodel.Airport;
@@ -68,18 +67,23 @@ public class FAAWeatherCenter {
     private Airport generateAirport(String ID){
         Airport airport;
         try {
-                JsonObject JSONairport = getAirport(ID); //gets jsonobject of airport
-                String condition = JSONairport.get("Weather").getAsJsonObject().get("Weather").getAsJsonObject().toString(); //generates weather object for airport
-                int temp = Integer.parseInt(JSONairport.get("Weather").getAsJsonObject().get("Weather").getAsJsonArray().get(0).getAsJsonObject().get("Temp").toString());
-                Weather weather = new Weather(condition,temp);
-                ArrayList<Weather> weatherlist  = new ArrayList<>();
-                weatherlist.add(weather);
-                airport = new Airport(JSONairport.get("IATA").toString(),JSONairport.get("City").toString()); //creates the actual object
-                airport.setWeather(weatherlist);
-                airport.setDelayTime(Integer.parseInt(JSONairport.get("DelayCount").toString()));
-                return airport;
-
-
+          JsonObject JSONairport = getAirport(ID);
+          String condition = JSONairport.
+              get("Weather").getAsJsonObject().
+              get("Weather").getAsJsonArray().get(0).getAsJsonObject().
+              get("Temp").getAsJsonArray().get(0).
+              toString().replace("\"", "");
+          String temp = JSONairport.
+              get("Weather").getAsJsonObject().
+              get("Temp").getAsJsonArray().get(0).
+              toString().replace("\"", "");
+          Weather weather = new Weather(condition,temp);
+          ArrayList<Weather> weatherlist = new ArrayList<>();
+          weatherlist.add(weather);
+          airport = new Airport(JSONairport.get("IATA").toString(),JSONairport.get("Name").toString().replace("\"", ""));
+          airport.setWeather(weatherlist);
+          airport.setDelayTime(Integer.parseInt(JSONairport.get("DelayCount").toString()));
+          return airport;
         }
         catch (FileNotFoundException e) { //exceptions for all possible errors that could occur
             System.out.print("URL not found: ");

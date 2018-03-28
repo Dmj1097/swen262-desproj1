@@ -55,6 +55,14 @@ public class RequestCollection {
     return c_state.redo();
   }
 
+  public Request getUndo() {
+    return undoStack.peek();
+  }
+
+  public Request getRedo() {
+    return redoStack.peek();
+  }
+
   // Internal functions used by states
   void changeState(RequestState state) {
     this.c_state = state;

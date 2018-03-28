@@ -1,26 +1,27 @@
 package afrs.uicontroller.requests;
 
-import afrs.uicontroller.RequestHandler;
+import afrs.appcontroller.ClientServices;
+import afrs.appcontroller.StorageCenter;
+import afrs.appmodel.Journey;
+import afrs.appmodel.Passenger;
 import afrs.uiview.Response;
 
 /**
- * AirportInfoRequest
+ * UndoRedoRequest
  *
  * Created By Brian Taylor - 03/03/2018
  */
 public class UndoRedoRequest extends Request {
 
-  private RequestHandler requestHandler;
   private boolean undo;
 
   /**
-   * Create a new AirportInfoRequest object
+   * Create a new UndoRedoRequest object
    *
-   * @param requestHandler the RequestHandler instance
    */
-  public UndoRedoRequest(RequestHandler requestHandler, boolean undo) {
-    super(null, null);
-    this.requestHandler = requestHandler;
+  public UndoRedoRequest(String clientID, StorageCenter storageCenter, boolean undo) {
+    super(storageCenter, null);
+    this.clientID = clientID;
     this.undo = undo;
   }
 
@@ -31,12 +32,45 @@ public class UndoRedoRequest extends Request {
    */
   @Override
   public Response execute() {
-    // If successful undo
-    boolean check = (undo) ? requestHandler.undo() : requestHandler.redo();
-    if (check) {
-      return new Response("");
+    ClientServices client = storageCenter.getClientServices(clientID);
+
+    String mode;
+    String type;
+    Request r;
+    Passenger passenger;
+    Journey journey;
+    if (undo) {
+      mode = "undo";
+      r = client.getUndo();
+      if (r == null) {
+        return new Response(clientID + ",error,no request available");
+      }
     } else {
-      return new Response("error,no request available");
+      mode = "redo";
+      r = client.getRedo();
+      if (r == null) {
+        return new Response(clientID + ",error,no request available");
+      }
+    }
+
+    if (r instanceof CreateReservationRequest) {
+      CreateReservationRequest create = (CreateReservationRequest) r;
+      type = "reserve";
+      passenger = create.getCreated().getPassenger();
+      journey = create.getCreated().getJourney();
+    } else {
+      DeleteReservationRequest del = (DeleteReservationRequest) r;
+      type = "delete";
+      passenger = del.getDeleted().getPassenger();
+      journey = del.getDeleted().getJourney();
+    }
+
+    // If successful undo
+    boolean check = (undo) ? client.undoRequest() : client.redoRequest();
+    if (check) {
+      return new Response(clientID + "," + mode + "," + type + "," + passenger.getName() + "," + journey);
+    } else {
+      return new Response(clientID + ",error,no request available");
     }
   }
 }

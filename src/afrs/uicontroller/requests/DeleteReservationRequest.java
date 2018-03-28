@@ -14,6 +14,9 @@ import java.util.List;
 public class DeleteReservationRequest extends Request {
 
   private Reservation deleted;
+  public Reservation getDeleted() {
+    return deleted;
+  }
 
   /**
    * Create a new Request object
@@ -21,8 +24,9 @@ public class DeleteReservationRequest extends Request {
    * @param storageCenter the StorageCenter instance
    * @param parameters the list of parameters to the command
    */
-  public DeleteReservationRequest(StorageCenter storageCenter, List<String> parameters) {
+  public DeleteReservationRequest(String clientID, StorageCenter storageCenter, List<String> parameters) {
     super(storageCenter, parameters);
+    this.clientID = clientID;
     this.deleted = null;
   }
 
@@ -35,21 +39,22 @@ public class DeleteReservationRequest extends Request {
   public Response execute() {
     // If invalid number of parameters
     if (!(parameters.size() == 3)) {
-      return new Response("error,unknown request");
+      return new Response(clientID + ",error,unknown request");
     }
 
     // Validate passenger
     Passenger passenger = storageCenter.getPassenger(parameters.get(0));
     if (passenger == null) {
-      return new Response("error,reservation not found");
+      return new Response(clientID + ",error,reservation not found");
     }
 
     // Attempt deletion of reservation
     this.deleted = storageCenter.getReservation(parameters.get(0), parameters.get(1), parameters.get(2));
     if (deleted != null && storageCenter.removeReservation(parameters.get(0), parameters.get(1), parameters.get(2))) {
-      return new Response("delete,successful");
+      storageCenter.getClientServices(clientID).makeRequest(this);
+      return new Response(clientID + ",delete,successful");
     } else {
-      return new Response("error,reservation not found");
+      return new Response(clientID + ",error,reservation not found");
     }
   }
 
