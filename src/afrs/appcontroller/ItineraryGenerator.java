@@ -10,7 +10,6 @@ public class ItineraryGenerator {
 
   private static final int FLIGHT_LIMIT = 3;
   private StorageCenter storageCenter;
-  private List<Journey> latestItineraries;
   private FAAWeatherCenter faaWeatherCenter;
   private Map<String,Integer> delayMap = new HashMap<>();
 
@@ -97,7 +96,6 @@ public class ItineraryGenerator {
         }
       }
     }
-    setLatestItineraries(journeys);
     return journeys;
   }
 
@@ -113,25 +111,5 @@ public class ItineraryGenerator {
     int inBetTime = firstFlight.getArrivalTime().getInBetweenTime(secondFlight.getDepartureTime());
     return (delayMap.get(storageCenter.getAirport(secondFlight.getOrigin()).getAbbreviation()) + storageCenter
         .getAirport(secondFlight.getOrigin()).getLayoverTime()) <= inBetTime;
-  }
-
-  /**
-   * takes the query of itineraries and sets it as the current list of itineraries that can be called back for
-   * reservation
-   *
-   * @param itineraries list of itineraries
-   */
-  private void setLatestItineraries(List<Journey> itineraries) {
-    latestItineraries = itineraries;
-  }
-
-  /**
-   * gets specfic itinerary from the list based on given index
-   *
-   * @param idx index being looked at
-   * @return specfic itinerary
-   */
-  public Journey getItinerary(int idx) {
-    return latestItineraries.get(idx - 1);
   }
 }

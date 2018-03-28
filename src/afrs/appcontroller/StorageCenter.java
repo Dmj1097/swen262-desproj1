@@ -40,7 +40,7 @@ public class StorageCenter implements Storage{
     airports = new AirportStorage();
     passengers = new PassengerStorage();
     itineraryGenerator = new ItineraryGenerator(this, new FAAWeatherCenter());
-    clients = new Clients(airports.getAirportCodes());
+    clients = new Clients(this);
 
   }
 
@@ -108,17 +108,10 @@ public class StorageCenter implements Storage{
   }
 
   /**
-   * calls itineraryGenerqator's getLatestJourneys method
+   * calls itineraryGenerator's getLatestJourneys method
    */
   public List<Journey> getLatestJourneys(String origin, String destination, int connections, boolean FAAMode) {
-    return this.itineraryGenerator.generateJourneys(origin, destination, connections,FAAMode);
-  }
-
-  /**
-   * calls itineraryGenerator's getItinerary method
-   */
-  public Journey getItinerary(int idx) {
-    return itineraryGenerator.getItinerary(idx);
+    return itineraryGenerator.generateJourneys(origin, destination, connections,FAAMode);
   }
 
   /**
@@ -142,6 +135,13 @@ public class StorageCenter implements Storage{
   //public List<String> getAirportCodes(){ return this.airports.getAirportCodes(); }
   public ClientServices getClientServices(String id){ return this.clients.getClientServices(id); }
 
+  public void connectClient(String ID) {
+    this.clients.connectClient(ID);
+  }
+
+  public void disconnectClient(String ID) {
+    this.clients.disconnectClient(ID);
+  }
 
   public Set<String> getAirportKeys(){
       return airports.getKeys();

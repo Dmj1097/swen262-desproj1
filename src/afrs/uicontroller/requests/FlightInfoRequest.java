@@ -1,5 +1,6 @@
 package afrs.uicontroller.requests;
 
+import afrs.appcontroller.ClientServices.Service;
 import afrs.appcontroller.StorageCenter;
 import afrs.appmodel.Airport;
 import afrs.appmodel.Journey;
@@ -23,8 +24,9 @@ public class FlightInfoRequest extends Request {
    * @param storageCenter the StorageCenter instance
    * @param parameters the list of parameters to the command
    */
-  public FlightInfoRequest(StorageCenter storageCenter, List<String> parameters) {
+  public FlightInfoRequest(String clientID, StorageCenter storageCenter, List<String> parameters) {
     super(storageCenter, parameters);
+    this.clientID = clientID;
   }
 
   /**
@@ -36,19 +38,19 @@ public class FlightInfoRequest extends Request {
   public Response execute() {
     // If invalid number of parameters
     if (!(parameters.size() >= 2 && parameters.size() <= 4)) {
-      return new Response("error,unknown request");
+      return new Response(clientID + ",error,unknown request");
     }
 
     // Validate origin airport
     Airport origin = storageCenter.getAirport(parameters.get(0));
     if (origin == null) {
-      return new Response("error,unknown origin");
+      return new Response(clientID + ",error,unknown origin");
     }
 
     // Validate destination airport
     Airport destination = storageCenter.getAirport(parameters.get(1));
     if (destination == null) {
-      return new Response("error,unknown destination");
+      return new Response(clientID + ",error,unknown destination");
     }
 
     // Validate connection limit if exists
@@ -56,7 +58,7 @@ public class FlightInfoRequest extends Request {
     if (parameters.size() > 2 && !parameters.get(2).equals("")) {
       connections = Integer.parseInt(parameters.get(2));
       if (connections < 0 || connections > 2) {
-        return new Response("error,invalid connection limit");
+        return new Response(clientID + ",error,invalid connection limit");
       }
     }
 
@@ -74,14 +76,16 @@ public class FlightInfoRequest extends Request {
           sort = new CostSort();
           break;
         default:
-          return new Response("error,invalid sort order");
+          return new Response(clientID + ",error,invalid sort order");
       }
     }
 
     // Get list of journeys, sorted
+    boolean mode = storageCenter.getClientServices(clientID).getService() == (Service.FAA);
     List<Journey> journeys = storageCenter
-        .getLatestJourneys(origin.getAbbreviation(), destination.getAbbreviation(), connections);
+        .getLatestJourneys(origin.getAbbreviation(), destination.getAbbreviation(), connections, mode);
     journeys.sort(sort);
+    storageCenter.getClientServices(clientID).setLatestJourneys(journeys);
 
     // Create response
     StringBuilder result = new StringBuilder();
@@ -90,6 +94,6 @@ public class FlightInfoRequest extends Request {
       result.append(index).append(",").append(j).append("\n");
       index++;
     }
-    return new Response("info," + journeys.size() + "\n" + result);
+    return new Response(clientID + ",info," + journeys.size() + "\n" + result);
   }
 }

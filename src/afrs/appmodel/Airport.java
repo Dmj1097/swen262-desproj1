@@ -22,12 +22,6 @@ public class Airport {
    */
   private String abbreviation;
 
-  /**
-   * The airport's weather states (e.g rainy, cloudy, sunny), alternating per query
-   * @deprecated
-   */
-  private ArrayList<Weather> weatherlist;
-
   private WeatherCollection weatherCollection;
 
   /**
@@ -86,24 +80,6 @@ public class Airport {
   }
 
   /**
-   * @return current weather, and update the current weather state
-   * @deprecated
-   */
-  public String getWeather() {
-    for (Weather weather : weatherlist) {
-      if (!weather.getChecked()) {
-        weather.setChecked();
-        return weather.toString();
-      }
-    }
-    for (Weather weather : weatherlist) {
-      weather.setChecked();
-    }
-    weatherlist.get(0).setChecked();
-    return weatherlist.get(0).toString();
-  }
-
-  /**
    * Get the collection of weather objects
    */
   public WeatherIterator getWeatherIterator(){ return this.weatherCollection.iterator(); }
@@ -122,9 +98,8 @@ public class Airport {
     return layoverTime;
   }
 
-  @Override
-  public String toString() {
-    return (name + "," + getWeather() + "," + delayTime);
+  public String getString(WeatherIterator iterator) {
+    return (name + "," + iterator.next() + "," + delayTime);
   }
 }
 

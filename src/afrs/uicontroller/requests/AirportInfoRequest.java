@@ -1,5 +1,7 @@
 package afrs.uicontroller.requests;
 
+import afrs.appcontroller.ClientServices.Service;
+import afrs.appcontroller.FAAWeatherCenter;
 import afrs.appcontroller.StorageCenter;
 import afrs.appmodel.Airport;
 import afrs.uiview.Response;
@@ -18,8 +20,9 @@ public class AirportInfoRequest extends Request {
    * @param storageCenter the StorageCenter instance
    * @param parameters the list of parameters to the command
    */
-  public AirportInfoRequest(StorageCenter storageCenter, List<String> parameters) {
+  public AirportInfoRequest(String clientID, StorageCenter storageCenter, List<String> parameters) {
     super(storageCenter, parameters);
+    this.clientID = clientID;
   }
 
   /**
@@ -31,15 +34,25 @@ public class AirportInfoRequest extends Request {
   public Response execute() {
     // If invalid number of parameters
     if (!(parameters.size() == 1)) {
-      return new Response("error,unknown request");
+      return new Response(clientID + ",error,unknown request");
     }
 
+    String airportCode = parameters.get(0);
+
     // If airport exists, respond with information
-    Airport airport = storageCenter.getAirport(parameters.get(0));
-    if (airport != null) {
-      return new Response("airport," + airport.toString());
-    } else {
-      return new Response("error,unknown airport");
+    if (!storageCenter.getAirportKeys().contains(airportCode)) {
+      return new Response(clientID + ",error,unknown airport");
     }
+
+    // Get airport based on Service mode
+    Airport airport;
+    boolean mode = storageCenter.getClientServices(clientID).getService() == Service.FAA;
+    if (mode) {
+      airport = new FAAWeatherCenter().getInstance(airportCode);
+    } else {
+      airport = storageCenter.getAirport(airportCode);
+    }
+
+    return new Response(clientID + ",airport," + airport.getString(storageCenter.getClientServices(clientID).getAirportWeatherIterator(airportCode)));
   }
 }

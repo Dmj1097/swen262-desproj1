@@ -1,9 +1,12 @@
 package afrs.uicontroller;
 
+import afrs.appcontroller.ClientServices;
 import afrs.appcontroller.StorageCenter;
+import afrs.uicontroller.requests.AiportModeRequest;
 import afrs.uicontroller.requests.AirportInfoRequest;
 import afrs.uicontroller.requests.CreateReservationRequest;
 import afrs.uicontroller.requests.DeleteReservationRequest;
+import afrs.uicontroller.requests.DisconnectionRequest;
 import afrs.uicontroller.requests.FlightInfoRequest;
 import afrs.uicontroller.requests.InvalidRequest;
 import afrs.uicontroller.requests.Request;
@@ -26,9 +29,6 @@ public class RequestGenerator extends Observable {
 
   private RequestHandler requestHandler;
 
-  // String representing part of a request that has not yet been terminated
-  private String partialRequestString;
-
   /**
    * Create a new RequestGenerator object
    *
@@ -38,7 +38,6 @@ public class RequestGenerator extends Observable {
     this.storageCenter = storageCenter;
     this.requestHandler = requestHandler;
     addObserver(requestHandler);
-    this.partialRequestString = "";
   }
 
   /**
@@ -46,60 +45,76 @@ public class RequestGenerator extends Observable {
    *
    * @param input - the string input from stdin
    */
-  public void parseRequest(String input) {
-    // Non-partial request
-    if (input.endsWith(";")) {
+  public void parseRequest(String clientID, String input) {
+    ClientServices client = storageCenter.getClientServices(clientID);
+    Request request = new InvalidRequest(clientID, "error,unknown request");
 
-      // The current input is the end of a pre-existing, partially-complete request
-      if (!partialRequestString.equals("")) {
-        input = partialRequestString + input;
-        partialRequestString = "";
-      }
+    // If clientID is valid
+    if (client != null) {
+      // Non-partial request
+      if (input.endsWith(";")) {
+        // Append any pre-existing partial input
+        input = client.getCompleteRequest() + input;
 
-      // Get request type and create list of parameters
-      String[] params = input.replace(";", "").split(",");
-      String type = params[0];
-      List<String> parameters = new ArrayList<>(Arrays.asList(params).subList(1, params.length));
-      Request request = new InvalidRequest();
-      System.out.println(type);
+        // Get request type and create list of parameters
+        String[] params = input.replace(";", "").split(",");
 
-      // Validate request type and create request
-      if (parameters.size() >= 1) {
-        switch (type) {
-          case "airport":
-            request = new AirportInfoRequest(storageCenter, parameters);
-            break;
-          case "info":
-            request = new FlightInfoRequest(storageCenter, parameters);
-            break;
-          case "retrieve":
-            request = new SearchReservationRequest(storageCenter, parameters);
-            break;
-          case "reserve":
-            request = new CreateReservationRequest(storageCenter, parameters);
-            break;
-          case "delete":
-            request = new DeleteReservationRequest(storageCenter, parameters);
-            break;
-          case "undo":
-            request = new UndoRedoRequest(requestHandler, true);
-            break;
-          case "redo":
-            request = new UndoRedoRequest(requestHandler, false);
-            break;
+        // Confirm command has at least the type
+        if (params.length >= 1) {
+
+          // Validate request type and create request
+          String type = params[0];
+          List<String> parameters = new ArrayList<>(
+              Arrays.asList(params).subList(1, params.length));
+          switch (type) {
+            case "disconnect":
+              request = new DisconnectionRequest(clientID, storageCenter);
+              break;
+
+            case "airport":
+              request = new AirportInfoRequest(clientID, storageCenter, parameters);
+              break;
+            case "server":
+              request = new AiportModeRequest(clientID, storageCenter, parameters);
+              break;
+
+            case "info":
+              request = new FlightInfoRequest(clientID, storageCenter, parameters);
+              break;
+
+            case "retrieve":
+              request = new SearchReservationRequest(clientID, storageCenter, parameters);
+              break;
+            case "reserve":
+              request = new CreateReservationRequest(clientID, storageCenter, parameters);
+              break;
+            case "delete":
+              request = new DeleteReservationRequest(clientID, storageCenter, parameters);
+              break;
+
+            case "undo":
+              request = new UndoRedoRequest(clientID, storageCenter, true);
+              break;
+            case "redo":
+              request = new UndoRedoRequest(clientID, storageCenter, false);
+              break;
+          }
         }
       }
-
-      // Update RequestHandler
-      setChanged();
-      notifyObservers(request);
+      // Partial request
+      else {
+        // Track each input string as a continuous partial request
+        client.makePartialRequest(input);
+        request = new InvalidRequest(clientID, "partial-request");
+      }
     }
-
-    // Partial request
+    // Invalid clientID
     else {
-      // Track each input string as a continuous partial request
-      this.partialRequestString += input;
-      System.out.println("partial-request");  // Relevant output
+      request = new InvalidRequest(clientID, "error,invalid connection");
     }
+
+    // Update RequestHandler
+    setChanged();
+    notifyObservers(request);
   }
 }

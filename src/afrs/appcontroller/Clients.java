@@ -1,7 +1,6 @@
 package afrs.appcontroller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,11 +14,10 @@ public class Clients {
 	/** Map client IDs to client related information */
 	private Map<String, ClientServices> services;
 
-	/** Save aiport codes so they may be used  */
-	private List<String> airportCodes;
+	private StorageCenter storageCenter;
 
-	public Clients(List<String> airportCodes){
-		this.airportCodes = airportCodes;
+	public Clients(StorageCenter storageCenter){
+		this.storageCenter = storageCenter;
 		this.services = new HashMap<>();
 	}
 
@@ -30,7 +28,7 @@ public class Clients {
 
 	/** Add a new client upon connection */
 	public void connectClient(String id){
-		this.services.put(id, new ClientServices(this.airportCodes));
+		this.services.put(id, new ClientServices(storageCenter));
 	}
 
 	/** Disconnect a client */

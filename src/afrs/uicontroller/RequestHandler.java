@@ -1,8 +1,6 @@
 package afrs.uicontroller;
 
-import afrs.uicontroller.collection.RequestCollection;
-import afrs.uicontroller.requests.CreateReservationRequest;
-import afrs.uicontroller.requests.DeleteReservationRequest;
+import afrs.appcontroller.StorageCenter;
 import afrs.uicontroller.requests.Request;
 import afrs.uiview.ResponseHandler;
 import java.util.Observable;
@@ -15,14 +13,14 @@ import java.util.Observer;
  */
 public class RequestHandler implements Observer {
 
-  private RequestCollection requests;
+  private StorageCenter storageCenter;
   private ResponseHandler handler;
 
   /**
    * Create a new RequestHandler object
    */
-  public RequestHandler(ResponseHandler responseHandler) {
-    this.requests = new RequestCollection();
+  public RequestHandler(StorageCenter storageCenter, ResponseHandler responseHandler) {
+    this.storageCenter = storageCenter;
     this.handler = responseHandler;
   }
 
@@ -34,17 +32,6 @@ public class RequestHandler implements Observer {
   public void update(Observable o, Object arg) {
     if (arg instanceof Request) {
       handler.writeResponse(((Request) arg).execute());
-      if (arg instanceof CreateReservationRequest || arg instanceof DeleteReservationRequest) {
-        requests.add((Request) arg);
-      }
     }
-  }
-
-  public boolean undo() {
-    return requests.undo();
-  }
-
-  public boolean redo() {
-    return requests.redo();
   }
 }

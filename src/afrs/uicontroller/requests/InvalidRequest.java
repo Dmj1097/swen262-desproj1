@@ -9,11 +9,15 @@ import afrs.uiview.Response;
  */
 public class InvalidRequest extends Request {
 
+  private String message;
+
   /**
    * Create a new Request object
    */
-  public InvalidRequest() {
+  public InvalidRequest(String clientID, String message) {
     super(null, null);
+    this.clientID = clientID;
+    this.message = message;
   }
 
   /**
@@ -23,6 +27,6 @@ public class InvalidRequest extends Request {
    */
   @Override
   public Response execute() {
-    return new Response("error,unknown request");
+    return new Response(clientID + "," + message);
   }
 }

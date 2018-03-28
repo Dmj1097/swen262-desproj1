@@ -11,8 +11,13 @@ import java.util.List;
  */
 public abstract class Request {
 
+  protected String clientID;
   protected StorageCenter storageCenter;
   protected List<String> parameters;
+
+  public String getClientID() {
+    return clientID;
+  }
 
 
   /**
