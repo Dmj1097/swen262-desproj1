@@ -14,16 +14,24 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-
+/**
+ * Class that represents the FAA airport query service that gets airport info when a uses switches to FAA mode
+ * @author Dylan Johnston
+ */
 public class FAAWeatherCenter {
 
-
+    /**
+     * generates the json object of the airport data from the specific URL
+     * @param code airport ID
+     * @return JSONObject representing the airport information
+     * @throws IOException in case URL is invalid
+     */
     private static JsonObject getAirport(String code) throws IOException {
         String url =
                 "https://soa.smext.faa.gov/asws/api/airport/status/";
-        URL FAAURL = new URL(url + code);
+        URL FAAURL = new URL(url + code); //specifies the airport that is being looked up
         HttpURLConnection urlConnection =
-                (HttpURLConnection) FAAURL.openConnection();
+                (HttpURLConnection) FAAURL.openConnection(); //inits connection
 
         // Set the paramters for the HTTP Request
         urlConnection.setRequestMethod("GET");
@@ -39,7 +47,7 @@ public class FAAWeatherCenter {
         String inputLine;
         StringBuilder response = new StringBuilder();
 
-        while ((inputLine = in.readLine()) != null) {
+        while ((inputLine = in.readLine()) != null) { //builds json response
             response.append(inputLine);
         }
 
@@ -48,9 +56,14 @@ public class FAAWeatherCenter {
 
         // response is in JSON format
         JsonParser parser = new JsonParser();
-        return parser.parse(response.toString()).getAsJsonObject();
+        return parser.parse(response.toString()).getAsJsonObject(); //parses jsonstring into jsonobject
     }
 
+    /**
+     * generates airport object based on information from website in json format
+     * @param ID airport ID
+     * @return airport object with info from website
+     */
     private Airport generateAirport(String ID){
         Airport airport;
         try {
@@ -72,7 +85,7 @@ public class FAAWeatherCenter {
           airport.setDelayTime(Integer.parseInt(JSONairport.get("DelayCount").toString()));
           return airport;
         }
-        catch (FileNotFoundException e) {
+        catch (FileNotFoundException e) { //exceptions for all possible errors that could occur
             System.out.print("URL not found: ");
             System.out.println(e.getMessage());
         }
@@ -91,13 +104,21 @@ public class FAAWeatherCenter {
     }
 
 
-
-
+    /**
+     * gets an airport from the website based on provided airport ID
+     * @param ID airport ID
+     * @return airport object
+     */
     public Airport getInstance(String ID){
         return generateAirport(ID);
 
     }
 
+    /**
+     * gets delay time of specifc airport from FAA website
+     * @param ID airport ID
+     * @return delaytime in minutes
+     */
     public int getAirportDelay(String ID){
         return generateAirport(ID).getDelayTime();
 
