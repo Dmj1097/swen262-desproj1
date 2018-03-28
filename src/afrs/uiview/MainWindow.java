@@ -56,12 +56,14 @@ public class MainWindow extends Application {
 		ta.setEditable(false);
 		view.setCenter( ta );
 
-
 		view.setBottom( this.getBottom() );
 
 		return view;
 	}
 
+	/**
+	 * Return the top part of the window
+	 */
 	private HBox getTabBar(){
 		HBox hbox = new HBox();
 
@@ -82,6 +84,9 @@ public class MainWindow extends Application {
 		return hbox;
 	}
 
+	/**
+	 * Return the bottom part of the window
+	 */
 	private VBox getBottom(){
 		VBox vbox = new VBox();
 
@@ -89,9 +94,10 @@ public class MainWindow extends Application {
 
 		// Create input menu
 		TextField input = new TextField();
+		input.setPromptText("Input commands here");
 		Button submitButton = new Button(SUBMIT_BUTTON_NAME);
+		bottom.setHgrow(input, Priority.ALWAYS);
 
-		input.setText("Input commands here.");
 
 		// Create services menu
 		VBox serviceMenu = new VBox();
