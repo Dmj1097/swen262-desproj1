@@ -52,7 +52,11 @@ public class MainWindow extends Application {
 
 		BorderPane view = new BorderPane();
 		view.setTop( this.getTabBar() );
-		view.setCenter( new TextArea("Welcome to AFRS!") );
+		TextArea ta = new TextArea("Welcome to AFRS!");
+		ta.setEditable(false);
+		view.setCenter( ta );
+
+
 		view.setBottom( this.getBottom() );
 
 		return view;
