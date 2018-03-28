@@ -1,6 +1,6 @@
 package afrs.uicontroller;
 
-import afrs.appcontroller.ClientServices;
+import afrs.appcontroller.Client;
 import afrs.appcontroller.StorageCenter;
 import afrs.uicontroller.requests.AiportModeRequest;
 import afrs.uicontroller.requests.AirportInfoRequest;
@@ -46,7 +46,7 @@ public class RequestGenerator extends Observable {
    * @param input - the string input from stdin
    */
   public void parseRequest(String clientID, String input) {
-    ClientServices client = storageCenter.getClientServices(clientID);
+    Client client = storageCenter.getClientServices(clientID);
     Request request = new InvalidRequest(clientID, "error,unknown request");
 
     // If clientID is valid

@@ -1,6 +1,6 @@
 package afrs.uicontroller.requests;
 
-import afrs.appcontroller.ClientServices;
+import afrs.appcontroller.Client;
 import afrs.appcontroller.StorageCenter;
 import afrs.appmodel.Journey;
 import afrs.appmodel.Passenger;
@@ -32,7 +32,7 @@ public class UndoRedoRequest extends Request {
    */
   @Override
   public Response execute() {
-    ClientServices client = storageCenter.getClientServices(clientID);
+    Client client = storageCenter.getClientServices(clientID);
 
     String mode;
     String type;

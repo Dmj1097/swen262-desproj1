@@ -1,7 +1,7 @@
 package afrs.uicontroller.requests;
 
-import afrs.appcontroller.ClientServices;
-import afrs.appcontroller.ClientServices.Service;
+import afrs.appcontroller.Client;
+import afrs.appcontroller.Client.Service;
 import afrs.appcontroller.StorageCenter;
 import afrs.uiview.Response;
 import java.util.List;
@@ -25,7 +25,7 @@ public class AiportModeRequest extends Request {
       return new Response(clientID + ",error,unknown information server");
     }
 
-    ClientServices client = storageCenter.getClientServices(clientID);
+    Client client = storageCenter.getClientServices(clientID);
     Service service = client.getService();
     if ((service == Service.Local && mode.equals("faa"))
         || (service == Service.FAA && mode.equals("local"))) {

@@ -1,6 +1,6 @@
 package afrs.uicontroller.requests;
 
-import afrs.appcontroller.ClientServices.Service;
+import afrs.appcontroller.Client.Service;
 import afrs.appcontroller.FAAWeatherCenter;
 import afrs.appcontroller.StorageCenter;
 import afrs.appmodel.Airport;

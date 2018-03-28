@@ -25,7 +25,7 @@ public class StorageCenter implements Storage{
 
   private ItineraryGenerator itineraryGenerator;
 
-  private Clients clients;
+  private ClientServices clientServices;
 
   /**
    * Create a new StorageCenter object
@@ -40,7 +40,7 @@ public class StorageCenter implements Storage{
     airports = new AirportStorage();
     passengers = new PassengerStorage();
     itineraryGenerator = new ItineraryGenerator(this, new FAAWeatherCenter());
-    clients = new Clients(this);
+    clientServices = new ClientServices(this);
 
   }
 
@@ -133,14 +133,14 @@ public class StorageCenter implements Storage{
   }
 
   //public List<String> getAirportCodes(){ return this.airports.getAirportCodes(); }
-  public ClientServices getClientServices(String id){ return this.clients.getClientServices(id); }
+  public Client getClientServices(String id){ return this.clientServices.getClient(id); }
 
   public void connectClient(String ID) {
-    this.clients.connectClient(ID);
+    this.clientServices.connectClient(ID);
   }
 
   public void disconnectClient(String ID) {
-    this.clients.disconnectClient(ID);
+    this.clientServices.disconnectClient(ID);
   }
 
   public Set<String> getAirportKeys(){
