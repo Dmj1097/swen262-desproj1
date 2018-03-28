@@ -13,7 +13,6 @@ public class Application {
   private static StorageCenter storageCenter;
 
   public static void main(String[] args) {
-    System.out.println("Welcome to AFRS!");
     storageCenter = new StorageCenter();
     responseHandler = new ResponseHandler();
     requestHandler = new RequestHandler(storageCenter, responseHandler);
