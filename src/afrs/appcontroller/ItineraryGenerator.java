@@ -55,7 +55,7 @@ public class ItineraryGenerator {
         for (Journey secondLeg : this.storageCenter
             .getFlightsFromOrigin(firstFlight.getDestination())) {
           Flight secondFlight = (Flight) secondLeg;
-          if (isValidNextFlight(firstFlight, secondFlight) && !secondFlight.getOrigin().equals(origin)) {
+          if (isValidNextFlight(firstFlight, secondFlight) && !secondFlight.getOrigin().equals(origin) && !firstFlight.getDestination().equals(destination)) {
             if (secondFlight.getDestination().equals(destination)) {
               it = new Itinerary();
               it.addFlight(firstFlight);
@@ -74,13 +74,13 @@ public class ItineraryGenerator {
         for (Journey secondLeg : this.storageCenter
             .getFlightsFromOrigin(firstFlight.getDestination())) {
           Flight secondFlight = (Flight) secondLeg;
-          if (isValidNextFlight(firstFlight, secondFlight) && !secondFlight.getOrigin().equals(origin)) {
+          if (isValidNextFlight(firstFlight, secondFlight) && !secondFlight.getOrigin().equals(origin) && !firstFlight.getDestination().equals(destination)) {
             // Test each possible third flight
             for (Journey thirdLeg : this.storageCenter
                 .getFlightsFromOrigin(secondFlight.getDestination())) {
               Flight thirdFlight = (Flight) thirdLeg;
               if (isValidNextFlight(secondFlight, thirdFlight) && thirdFlight.getDestination()
-                  .equals(destination) && !thirdFlight.getOrigin().equals(origin)) {
+                  .equals(destination)) {
                 it = new Itinerary();
                 it.addFlight(firstFlight);
                 it.addFlight(secondFlight);
