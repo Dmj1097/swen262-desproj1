@@ -2,26 +2,26 @@ package afrs;
 
 import afrs.appcontroller.StorageCenter;
 import afrs.uicontroller.RequestGenerator;
+import afrs.uiview.Response;
 import afrs.uiview.TerminalClient;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import javax.xml.soap.Text;
 
 public class GuiApplication extends Application {
 
@@ -112,7 +112,7 @@ public class GuiApplication extends Application {
 	 */
 	private Node getTabBar(){
 		BorderPane borderPane = new BorderPane();
-	  HBox hbox = new HBox();
+		HBox hbox = new HBox();
 
 		Button newClientButton = new Button(NEW_CLIENT_BUTTON);
 		newClientButton.setPadding(new Insets(6, 10, 6, 10));
@@ -142,6 +142,15 @@ public class GuiApplication extends Application {
 		TextField input = new TextField();
 		input.setPromptText("Input commands here");
 		Button submitButton = new Button(SUBMIT_BUTTON_NAME);
+
+		submitButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				submit( input.getText() );
+				input.setText("");
+			}
+		});
+
 		bottom.setHgrow(input, Priority.ALWAYS);
 
 
@@ -170,6 +179,22 @@ public class GuiApplication extends Application {
 
 		vbox.getChildren().addAll(bottom, macros);
 		return vbox;
+	}
+
+	/**
+	 * Accept a string from the input text field
+	 * Called by the submit button when pressed
+	 */
+	private void submit(String input){
+		this.currentClient.doRequestGUI(input);
+	}
+
+	/**
+	 * Put the text from a response on the current output window
+	 */
+	private void putResponse(Response response){
+		TextArea textArea = this.currentClient.getOutput();
+		textArea.appendText(response.getText());
 	}
 
 	/**

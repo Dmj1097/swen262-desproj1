@@ -44,6 +44,10 @@ public class RequestGenerator {
     Client client = storageCenter.getClientServices(clientID);
     Request request = new InvalidRequest(clientID, "error,unknown request");
 
+    // TODO check if an input is prefaced with a client id
+    // If so, discard it
+    // Else continue
+
     // If clientID is valid
     if (client != null) {
       // Non-partial request
