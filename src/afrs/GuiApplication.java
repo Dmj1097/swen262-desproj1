@@ -229,10 +229,19 @@ public class GuiApplication extends Application {
 		Button deleteReservation = new Button("Delete Reservation");
 		deleteReservation.setOnAction(event -> input.setText("delete,passenger,origin,destination;")
     );
+
+		Button undoButton = new Button("Undo");
+		undoButton.setOnAction(event -> input.setText("undo;"));
+
+		Button redoButton = new Button("Redo");
+		redoButton.setOnAction(event -> input.setText("redo;"));
+
 		ButtonBar.setButtonData(deleteReservation, ButtonBar.ButtonData.YES);
 
-		buttonBar.getButtons().addAll(flightInfo,makeReservation,retrieveReservation,deleteReservation,airportInfo);
+		buttonBar.getButtons().addAll(redoButton, undoButton, flightInfo,makeReservation,retrieveReservation,deleteReservation,airportInfo);
 		return buttonBar;
 
 	}
+
+
 }
