@@ -118,4 +118,8 @@ public class Client {
 		return result;
 	}
 
+	public void clearPartial() {
+	  this.partialString = "";
+  }
+
 }
