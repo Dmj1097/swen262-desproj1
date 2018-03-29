@@ -145,14 +145,17 @@ public class MainWindow extends Application {
 		return;
 	}
 
-	/* Additional Buttons to autofill input text boxes with well-formed request strings */
 
-	// TODO make this work
+	/**
+	 * Additional Buttons to autofill input text boxes with well-formed request strings
+	 * @param input The textfield to autofill
+	 * @return a ButtonBar for the GUI
+	 */
 	private ButtonBar getMacroButtons(TextField input){
 
-
 		ButtonBar buttonBar = new ButtonBar();
-		Button flightInfo = new Button("FlightInfo");
+
+		Button flightInfo = new Button("Flight Info");
 		flightInfo.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -160,20 +163,52 @@ public class MainWindow extends Application {
 			}
 			}
 		);
-		ButtonBar.setButtonData(flightInfo, ButtonBar.ButtonData.YES); //implement
-		Button airportInfo = new Button("AirportInfo");
-		airportInfo.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override
-		    public void handle(ActionEvent event) {
-			   input.setText("airport,airport");
-		    }
+		ButtonBar.setButtonData(flightInfo, ButtonBar.ButtonData.YES);
+
+		Button makeReservation = new Button("Make Reservation");
+		makeReservation.setOnAction(new EventHandler<ActionEvent>() {
+		   @Override
+		   public void handle(ActionEvent event) {
+			   input.setText("reserve,id,passenger; ");
+		   }
+		   }
+		);
+		ButtonBar.setButtonData(makeReservation, ButtonBar.ButtonData.YES);
+
+		Button retrieveReservation = new Button("Retrieve Reservation");
+		retrieveReservation.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				input.setText("retrieve,passenger[,origin[,destination]];");
+			}
 			}
 		);
-		ButtonBar.setButtonData(airportInfo, ButtonBar.ButtonData.YES); //implement
-		buttonBar.getButtons().addAll(flightInfo,airportInfo);
+		ButtonBar.setButtonData(retrieveReservation, ButtonBar.ButtonData.YES);
+
+		Button deleteReservation = new Button("Delete Reservation");
+		deleteReservation.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				input.setText("delete,passenger,origin,destination;");
+			}
+			}
+		);
+		ButtonBar.setButtonData(deleteReservation, ButtonBar.ButtonData.YES);
+
+
+		Button airportInfo = new Button("Airport Info");
+		airportInfo.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				input.setText("airport,airport;");
+			}
+			}
+		);
+		ButtonBar.setButtonData(airportInfo, ButtonBar.ButtonData.YES);
+
+		buttonBar.getButtons().addAll(flightInfo,makeReservation,retrieveReservation,deleteReservation,airportInfo);
 		return buttonBar;
 
-		//return new ButtonBar();
 	}
 
 	/**
