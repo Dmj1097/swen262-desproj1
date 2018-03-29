@@ -55,7 +55,7 @@ public class ItineraryGenerator {
         for (Journey secondLeg : this.storageCenter
             .getFlightsFromOrigin(firstFlight.getDestination())) {
           Flight secondFlight = (Flight) secondLeg;
-          if (isValidNextFlight(firstFlight, secondFlight)) {
+          if (isValidNextFlight(firstFlight, secondFlight) && !secondFlight.getOrigin().equals(origin)) {
             if (secondFlight.getDestination().equals(destination)) {
               it = new Itinerary();
               it.addFlight(firstFlight);
@@ -74,13 +74,13 @@ public class ItineraryGenerator {
         for (Journey secondLeg : this.storageCenter
             .getFlightsFromOrigin(firstFlight.getDestination())) {
           Flight secondFlight = (Flight) secondLeg;
-          if (isValidNextFlight(firstFlight, secondFlight)) {
+          if (isValidNextFlight(firstFlight, secondFlight) && !secondFlight.getOrigin().equals(origin)) {
             // Test each possible third flight
             for (Journey thirdLeg : this.storageCenter
                 .getFlightsFromOrigin(secondFlight.getDestination())) {
               Flight thirdFlight = (Flight) thirdLeg;
               if (isValidNextFlight(secondFlight, thirdFlight) && thirdFlight.getDestination()
-                  .equals(destination)) {
+                  .equals(destination) && !thirdFlight.getOrigin().equals(origin)) {
                 it = new Itinerary();
                 it.addFlight(firstFlight);
                 it.addFlight(secondFlight);
@@ -106,6 +106,6 @@ public class ItineraryGenerator {
   private boolean isValidNextFlight(Flight firstFlight, Flight secondFlight) {
     int inBetTime = firstFlight.getArrivalTime().getInBetweenTime(secondFlight.getDepartureTime());
     return (delayMap.get(storageCenter.getAirport(secondFlight.getOrigin()).getAbbreviation()) + storageCenter
-        .getAirport(secondFlight.getOrigin()).getLayoverTime()) <= inBetTime && firstFlight.getOrigin() != secondFlight.getDestination();
+        .getAirport(secondFlight.getOrigin()).getLayoverTime()) <= inBetTime && !firstFlight.getOrigin().equals(secondFlight.getDestination());
   }
 }
