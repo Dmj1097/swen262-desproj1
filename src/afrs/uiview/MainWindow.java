@@ -9,7 +9,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MainWindow extends Application {
@@ -43,7 +42,9 @@ public class MainWindow extends Application {
 	/**
 	 * Create a new client and return their ID
 	 */
-	protected static String newClient(){ return new String(); }
+	protected static String newClient(){
+		return new String();
+	}
 
 	/**
 	 * Create and return the window with javafx elements
@@ -145,7 +146,13 @@ public class MainWindow extends Application {
 
 	// TODO make this work
 	private ButtonBar getMacroButtons(){
-		return new ButtonBar();
+		ButtonBar buttonBar = new ButtonBar();
+		Button flightInfo = new Button("FlightInfo");
+		ButtonBar.setButtonData(flightInfo, ButtonBar.ButtonData.FLIGHTINFO); //implement
+		Button airportInfo = new Button("AirportInfo");
+		ButtonBar.setButtonData(airportInfo, ButtonBar.ButtonData.AIRPORTINFO); //implement
+		buttonBar.getButtons().addAll(flightInfo,airportInfo);
+		return buttonBar;
 	}
 
 	/**
