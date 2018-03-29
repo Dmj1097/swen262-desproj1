@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Passenger
  *
- * Create By Alex Piazza - 03/01/2018
+ * @author Alex Piazza - 03/01/2018
  */
 public class Passenger {
 

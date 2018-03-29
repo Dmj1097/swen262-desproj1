@@ -3,7 +3,7 @@ package afrs.appmodel;
 /**
  * Reservation
  *
- * Create By Alex Piazza - 03/01/2018
+ * @author Alex Piazza - 03/01/2018
  */
 public class Reservation {
 
@@ -29,6 +29,9 @@ public class Reservation {
     return (journey.getOrigin().equals(origin) && journey.getDestination().equals(destination));
   }
 
+  /**
+   * @return the passenger associated with this reservation
+   */
   public Passenger getPassenger() {
     return passenger;
   }

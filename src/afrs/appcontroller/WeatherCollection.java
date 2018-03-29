@@ -13,6 +13,7 @@ import java.lang.Iterable;
  */
 public class WeatherCollection implements Iterable<Weather> {
 
+	/** The underlying collection of weather objects */
 	private List<Weather> weatherList;
 
 	public WeatherCollection(List<Weather> weather){

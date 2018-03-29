@@ -30,7 +30,7 @@ public class AiportModeRequest extends Request {
       return new Response(clientID + ",error,unknown information server");
     }
 
-    Client client = storageCenter.getClientServices(clientID);
+    Client client = storageCenter.getClient(clientID);
     Service service = client.getService();
     if ((service == Service.Local && mode.equals("faa"))
         || (service == Service.FAA && mode.equals("local"))) {

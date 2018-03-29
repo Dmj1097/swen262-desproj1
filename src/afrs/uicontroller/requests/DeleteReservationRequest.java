@@ -51,7 +51,7 @@ public class DeleteReservationRequest extends Request {
     // Attempt deletion of reservation
     this.deleted = storageCenter.getReservation(parameters.get(0), parameters.get(1), parameters.get(2));
     if (deleted != null && storageCenter.removeReservation(parameters.get(0), parameters.get(1), parameters.get(2))) {
-      storageCenter.getClientServices(clientID).makeRequest(this);
+      storageCenter.getClient(clientID).makeRequest(this);
       return new Response(clientID + ",delete,successful");
     } else {
       return new Response(clientID + ",error,reservation not found");

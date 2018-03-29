@@ -98,6 +98,9 @@ public class Airport {
     return layoverTime;
   }
 
+  /**
+   * Get a human-readable string that describes this weather object.
+   */
   public String getString(WeatherIterator iterator) {
     return (name + "," + iterator.next() + "," + delayTime);
   }

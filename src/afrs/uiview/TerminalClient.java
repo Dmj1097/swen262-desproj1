@@ -8,7 +8,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 
 /**
- * class that represents the GUI used for having one or multiple clients connected to the system at once
+ * Class that represents the GUI used for having one or multiple clients connected to the system at once
  */
 public class TerminalClient {
 
@@ -34,7 +34,7 @@ public class TerminalClient {
     this.requestGenerator = requestGenerator;
 
     this.clientID = UUID.randomUUID().toString().substring(0, 5);
-    while (storageCenter.getClientServices(clientID) != null) {
+    while (storageCenter.getClient(clientID) != null) {
       this.clientID = UUID.randomUUID().toString().substring(0, 5);
     }
     storageCenter.connectClient(clientID);
@@ -67,7 +67,7 @@ public class TerminalClient {
    * deletes current partial request
    */
   public void clearPartial() {
-    storageCenter.getClientServices(clientID).clearPartial();
+    storageCenter.getClient(clientID).clearPartial();
   }
 
   /**

@@ -3,11 +3,13 @@ package afrs.appmodel;
 /**
  * Time
  *
- * Create By Alex Piazza - 03/01/2018
+ * @author Alex Piazza - 03/01/2018
  */
 public class Time implements Comparable<Time> {
 
-
+  /**
+   * Which half of the day that this time is in
+   */
   public enum Half {
     AM, PM
   }
@@ -34,12 +36,7 @@ public class Time implements Comparable<Time> {
     minute = Integer.parseInt(time_line[1]);
   }
 
-  public Time(int hour, int minute, Half half) {
-    this.hour = hour;
-    this.minute = minute;
-    this.half = half;
-  }
-
+  /** Return a human-readable version of this time */
   public String toString() {
     String dayHalf;
     if (half.equals(Half.AM)) {
@@ -75,6 +72,9 @@ public class Time implements Comparable<Time> {
 
   }
 
+  /**
+   * Calculate the time taken from this time to anther, given time
+   */
   public int getInBetweenTime(Time time) {
     int inBetTime = 0;
     if (this.half == time.half) {

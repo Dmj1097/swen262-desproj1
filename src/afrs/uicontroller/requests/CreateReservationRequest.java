@@ -46,7 +46,7 @@ public class CreateReservationRequest extends Request {
     try {
       Journey journey;
       // Attempt to get journey from latestJourneys
-      List<Journey> journeys = storageCenter.getClientServices(clientID).getLatestJourneys();
+      List<Journey> journeys = storageCenter.getClient(clientID).getLatestJourneys();
       if (journeys != null) {
           journey = journeys.get(Integer.parseInt(parameters.get(0)));
       } else {
@@ -66,7 +66,7 @@ public class CreateReservationRequest extends Request {
       // Attempt reservation
       this.created = new Reservation(passenger, journey);
       if (storageCenter.addPassengerOrReservation(created.getPassenger().getName(), created)) {
-        storageCenter.getClientServices(clientID).makeRequest(this);
+        storageCenter.getClient(clientID).makeRequest(this);
         return new Response(clientID + ",reserve,successful");
       } else {
         return new Response(clientID + ",error,duplicate reservation");

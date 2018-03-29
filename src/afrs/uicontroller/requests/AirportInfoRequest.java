@@ -46,13 +46,13 @@ public class AirportInfoRequest extends Request {
 
     // Get airport based on Service mode
     Airport airport;
-    boolean mode = storageCenter.getClientServices(clientID).getService() == Service.FAA;
+    boolean mode = storageCenter.getClient(clientID).getService() == Service.FAA;
     if (mode) {
       airport = FAAWeatherCenter.getInstance(airportCode);
     } else {
       airport = storageCenter.getAirport(airportCode);
     }
 
-    return new Response(clientID + ",airport," + airport.getString(storageCenter.getClientServices(clientID).getAirportWeatherIterator(airportCode)));
+    return new Response(clientID + ",airport," + airport.getString(storageCenter.getClient(clientID).getAirportWeatherIterator(airportCode)));
   }
 }

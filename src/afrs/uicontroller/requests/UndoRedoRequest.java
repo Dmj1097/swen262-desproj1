@@ -32,7 +32,7 @@ public class UndoRedoRequest extends Request {
    */
   @Override
   public Response execute() {
-    Client client = storageCenter.getClientServices(clientID);
+    Client client = storageCenter.getClient(clientID);
 
     String mode;
     String type;

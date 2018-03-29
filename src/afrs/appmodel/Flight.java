@@ -3,7 +3,7 @@ package afrs.appmodel;
 /**
  * Flight
  *
- * Create By Alex Piazza - 03/01/2018
+ * @author Alex Piazza - 03/01/2018
  */
 public class Flight implements Journey {
 
@@ -70,14 +70,6 @@ public class Flight implements Journey {
   }
 
   /**
-   * @return single flight is single
-   */
-  @Override
-  public int getFlights() {
-    return 1;
-  }
-
-  /**
    * @return the departure time
    */
   @Override
@@ -124,10 +116,12 @@ public class Flight implements Journey {
     return ID + "," + cost + "," + origin + "," + depart + "," + destination + "," + arrive;
   }
 
+  /** Get the arrival time of a flight */
   public Time getArrivalTime() {
     return this.arrive;
   }
 
+  /** Get the departure time of a flight */
   public Time getDepartureTime() {
     return this.depart;
   }
