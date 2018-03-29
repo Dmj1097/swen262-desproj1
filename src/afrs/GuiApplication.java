@@ -1,12 +1,13 @@
-package afrs.uiview;
+package afrs;
 
 import afrs.appcontroller.StorageCenter;
 import afrs.uicontroller.RequestGenerator;
+import afrs.uiview.TerminalClient;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
@@ -22,25 +23,24 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class MainWindow extends Application {
+public class GuiApplication extends Application {
 
 	private static final String WINDOW_NAME = "Airline Flight Reservation System";
 	private static final String SUBMIT_BUTTON_NAME = "Submit";
 	private static final String FAA_RADIO_NAME = "FAA";
 	private static final String LOCAL_RADIO_NAME = "Local";
 	private static final String SERVICES_LABEL_NAME = "Services";
-	private static final String NEW_CLIENT_BUTTON = "NewClient";
-
-	// The string id of the client - corresponds to tab name
-	private TerminalClient currentClient;
-	private TabPane tabPane;
-	private BorderPane outputBox;
-	private Scene windowScene;
+	private static final String NEW_CLIENT_BUTTON = "Connect";
 
   private StorageCenter storageCenter;
   private RequestGenerator requestGenerator;
 
   private List<TerminalClient> connectedUsers;
+	private TerminalClient currentClient;
+
+	private TabPane tabPane;
+	private BorderPane outputBox;
+
 
 	public static void main(String[] args) {
 		Application.launch( args );
@@ -56,16 +56,42 @@ public class MainWindow extends Application {
     switchTab(newClient());
 
 		stage.setTitle(WINDOW_NAME);
-		Scene scene = new Scene( this.getView() );
-		windowScene = scene;
-		stage.setScene( scene );
+		stage.setScene(new Scene(getView()));
+		stage.setMinWidth(600);
+		stage.setMinHeight(400);
 		stage.show();
 	}
+
+  private TerminalClient newClient() {
+    TerminalClient terminalClient = new TerminalClient(storageCenter, requestGenerator);
+    connectedUsers.add(terminalClient);
+    terminalClient.getTab().setOnCloseRequest(event -> {
+      terminalClient.disconnect();
+      connectedUsers.remove(terminalClient);
+      tabPane.getTabs().remove(terminalClient.getTab());
+    });
+    tabPane.getTabs().add(terminalClient.getTab());
+    return terminalClient;
+  }
 
 	private void switchTab(TerminalClient terminalClient) {
 	  this.currentClient = terminalClient;
 	  tabPane.getSelectionModel().select(currentClient.getTab());
 	  outputBox.setCenter(currentClient.getOutput());
+  }
+
+  private void changeService(String mode) {
+    currentClient.clearPartial();
+    currentClient.doRequestGUI("server," + mode + ";");
+  }
+
+  private TerminalClient getClientFromTab(Tab tab) {
+    for (TerminalClient client : connectedUsers) {
+      if (client.getTab().equals(tab)) {
+        return client;
+      }
+    }
+    return null;
   }
 
 	/**
@@ -74,9 +100,9 @@ public class MainWindow extends Application {
 	private BorderPane getView(){
 
 		this.outputBox = new BorderPane();
-		outputBox.setTop( this.getTabBar() );
+		outputBox.setTop(getTabBar());
 		outputBox.setCenter( currentClient.getOutput() );
-		outputBox.setBottom( this.getBottom() );
+		outputBox.setBottom(getBottom());
 
 		return outputBox;
 	}
@@ -84,33 +110,33 @@ public class MainWindow extends Application {
 	/**
 	 * Return the top part of the window
 	 */
-	private HBox getTabBar(){
-		HBox hbox = new HBox();
+	private Node getTabBar(){
+		BorderPane borderPane = new BorderPane();
+	  HBox hbox = new HBox();
 
 		Button newClientButton = new Button(NEW_CLIENT_BUTTON);
+		newClientButton.setPadding(new Insets(6, 10, 6, 10));
 
 		// New client button indicates a new client has connected, and switches to that tab
 		newClientButton.setOnAction(event -> switchTab(newClient()));
+
+		// Changing tabs changes which client is the focus
 		tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> switchTab(getClientFromTab(newTab)));
 
-		hbox.getChildren().addAll(tabPane, newClientButton);
-		return hbox;
+		hbox.getChildren().addAll(tabPane);
+		borderPane.setLeft(newClientButton);
+		borderPane.setCenter(hbox);
+		return borderPane;
 	}
-
-	private TerminalClient newClient() {
-    TerminalClient terminalClient = new TerminalClient(storageCenter, requestGenerator);
-    connectedUsers.add(terminalClient);
-    tabPane.getTabs().add(terminalClient.getTab());
-    return terminalClient;
-  }
 
 	/**
 	 * Return the bottom part of the window
 	 */
-	private VBox getBottom(){
+	private Node getBottom(){
 		VBox vbox = new VBox();
-
+		vbox.setSpacing(5);
 		HBox bottom = new HBox();
+		bottom.setSpacing(5);
 
 		// Create input menu
 		TextField input = new TextField();
@@ -121,6 +147,7 @@ public class MainWindow extends Application {
 
 		// Create services menu
 		VBox serviceMenu = new VBox();
+		serviceMenu.setPrefWidth(60);
 		Label serviceLabel = new Label(SERVICES_LABEL_NAME);
 		ToggleGroup toggleGroup = new ToggleGroup();
 		RadioButton faaServiceButton = new RadioButton(FAA_RADIO_NAME);
@@ -145,13 +172,6 @@ public class MainWindow extends Application {
 		return vbox;
 	}
 
-	// TODO make this able to reference clients by ID
-	private void changeService(String mode) {
-	  currentClient.clearPartial();
-	  currentClient.doRequestGUI("server," + mode + ";");
-	}
-
-
 	/**
 	 * Additional Buttons to autofill input text boxes with well-formed request strings
 	 * @param input The textfield to autofill
@@ -161,75 +181,33 @@ public class MainWindow extends Application {
 
 		ButtonBar buttonBar = new ButtonBar();
 
+    Button airportInfo = new Button("Airport Info");
+    airportInfo.setOnAction(event -> input.setText("airport,airport;")
+    );
+    ButtonBar.setButtonData(airportInfo, ButtonBar.ButtonData.YES);
+
 		Button flightInfo = new Button("Flight Info");
-		flightInfo.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				input.setText("info,origin,destination[,connections[,sort-order]]; ");
-			}
-			}
-		);
+		flightInfo.setOnAction(event -> input.setText("info,origin,destination[,connections[,sort-order]]; ")
+    );
 		ButtonBar.setButtonData(flightInfo, ButtonBar.ButtonData.YES);
 
 		Button makeReservation = new Button("Make Reservation");
-		makeReservation.setOnAction(new EventHandler<ActionEvent>() {
-		   @Override
-		   public void handle(ActionEvent event) {
-			   input.setText("reserve,id,passenger; ");
-		   }
-		   }
-		);
+		makeReservation.setOnAction(event -> input.setText("reserve,id,passenger; ")
+    );
 		ButtonBar.setButtonData(makeReservation, ButtonBar.ButtonData.YES);
 
 		Button retrieveReservation = new Button("Retrieve Reservation");
-		retrieveReservation.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				input.setText("retrieve,passenger[,origin[,destination]];");
-			}
-			}
-		);
+		retrieveReservation.setOnAction(event -> input.setText("retrieve,passenger[,origin[,destination]];")
+    );
 		ButtonBar.setButtonData(retrieveReservation, ButtonBar.ButtonData.YES);
 
 		Button deleteReservation = new Button("Delete Reservation");
-		deleteReservation.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				input.setText("delete,passenger,origin,destination;");
-			}
-			}
-		);
+		deleteReservation.setOnAction(event -> input.setText("delete,passenger,origin,destination;")
+    );
 		ButtonBar.setButtonData(deleteReservation, ButtonBar.ButtonData.YES);
-
-
-		Button airportInfo = new Button("Airport Info");
-		airportInfo.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				input.setText("airport,airport;");
-			}
-			}
-		);
-		ButtonBar.setButtonData(airportInfo, ButtonBar.ButtonData.YES);
 
 		buttonBar.getButtons().addAll(flightInfo,makeReservation,retrieveReservation,deleteReservation,airportInfo);
 		return buttonBar;
 
 	}
-
-	/**
-	 * Put the string onto the output window
-	 */
-	protected void output(String output){
-		//this.windowScene.
-	}
-
-	private TerminalClient getClientFromTab(Tab tab) {
-	  for (TerminalClient client : connectedUsers) {
-	    if (client.getTab().equals(tab)) {
-	      return client;
-      }
-    }
-	  return null;
-  }
 }
