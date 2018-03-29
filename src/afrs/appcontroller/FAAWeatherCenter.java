@@ -50,9 +50,7 @@ public class FAAWeatherCenter {
         while ((inputLine = in.readLine()) != null) { //builds json response
             response.append(inputLine);
         }
-
-        // MAKE SURE TO CLOSE YOUR CONNECTION!
-        in.close();
+in.close();
 
         // response is in JSON format
         JsonParser parser = new JsonParser();
@@ -67,6 +65,8 @@ public class FAAWeatherCenter {
     private static Airport generateAirport(String ID){
         Airport airport;
         try {
+
+            //get json object of airport info
           JsonObject JSONairport = getAirport(ID);
           String condition = JSONairport.
               get("Weather").getAsJsonObject().
@@ -78,7 +78,7 @@ public class FAAWeatherCenter {
               get("Temp").getAsJsonArray().get(0).
               toString().replace("\"", "");
           Weather weather = new Weather(condition,temp);
-          ArrayList<Weather> weatherlist = new ArrayList<>();
+          ArrayList<Weather> weatherlist = new ArrayList<>(); //setup weather object for airport
           weatherlist.add(weather);
           airport = new Airport(JSONairport.get("IATA").toString(),JSONairport.get("Name").toString().replace("\"", ""));
           airport.setWeather(weatherlist);

@@ -2,6 +2,9 @@ package afrs.uicontroller.collection;
 
 import afrs.uicontroller.requests.Request;
 
+/**
+ * state when both redo and undo stacks are empty
+ */
 public class EmptyState extends RequestState {
 
   EmptyState(final RequestCollection instance) {

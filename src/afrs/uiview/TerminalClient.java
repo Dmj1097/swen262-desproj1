@@ -7,6 +7,9 @@ import java.util.UUID;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 
+/**
+ * class that represents the GUI used for having one or multiple clients connected to the system at once
+ */
 public class TerminalClient {
 
   private String clientID;
@@ -41,20 +44,35 @@ public class TerminalClient {
     this.tab = new Tab(String.format("Client: %s", clientID ));
   }
 
+  /**
+   * takes an input string from the input line, creates a request,executes it, and puts it into the output area
+   * @param input input request string
+   */
   public void doRequestGUI(String input) {
       Request request = requestGenerator.parseRequest(clientID, input);
       output.appendText(request.execute().getText() + "\n");
   }
 
+  /**
+   * takes a request string, creates a request object, and exectues it
+   * @param input input string
+   * @return response object in String form
+   */
   public String doRequest(String input) {
     Request request = requestGenerator.parseRequest(clientID, input);
     return request.execute().getText();
   }
 
+  /**
+   * deletes current partial request
+   */
   public void clearPartial() {
     storageCenter.getClientServices(clientID).clearPartial();
   }
 
+  /**
+   * disconnects client from their client services
+   */
   public void disconnect() {
     storageCenter.disconnectClient(clientID);
   }

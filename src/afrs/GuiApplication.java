@@ -23,6 +23,9 @@ import javafx.stage.Stage;
 
 import javax.xml.soap.Text;
 
+/**
+ * application class that launches the input output service through a GUI
+ */
 public class GuiApplication extends Application {
 
 	private static final String WINDOW_NAME = "Airline Flight Reservation System";
@@ -46,22 +49,31 @@ public class GuiApplication extends Application {
 		Application.launch( args );
 	}
 
+	/**
+	 * starts the GUI
+	 * @param stage stage that GUI will be setup on
+	 */
 	public void start(Stage stage) {
     this.storageCenter = new StorageCenter();
     this.requestGenerator = new RequestGenerator(storageCenter);
 
-    this.connectedUsers = new ArrayList<>();
+    this.connectedUsers = new ArrayList<>(); //generate all parameters of the GUI
     this.tabPane = new TabPane();
     this.outputBox = new BorderPane();
     switchTab(newClient());
 
 		stage.setTitle(WINDOW_NAME);
-		stage.setScene(new Scene(getView()));
+		stage.setScene(new Scene(getView())); //sets all parts of the stage
 		stage.setMinWidth(600);
 		stage.setMinHeight(400);
 		stage.show();
 	}
 
+	/**
+	 * creates a new client in the terminal
+	 * this happens when the "Connect" button is clicked
+	 * @return new TerminalClient object with clients information
+	 */
   private TerminalClient newClient() {
     TerminalClient terminalClient = new TerminalClient(storageCenter, requestGenerator);
     connectedUsers.add(terminalClient);
@@ -74,17 +86,30 @@ public class GuiApplication extends Application {
     return terminalClient;
   }
 
+	/**
+	 * switches the clikced on tab to be the displayed tab
+	 * @param terminalClient
+	 */
 	private void switchTab(TerminalClient terminalClient) {
 	  this.currentClient = terminalClient;
 	  tabPane.getSelectionModel().select(currentClient.getTab());
 	  outputBox.setCenter(currentClient.getOutput());
   }
 
+	/**
+	 * changes the airport info server
+	 * @param mode
+	 */
   private void changeService(String mode) {
     currentClient.clearPartial();
     currentClient.doRequestGUI("server," + mode + ";");
   }
 
+	/**
+	 * gets the client that is present in a specific tab
+	 * @param tab tab request is made from
+	 * @return client as the new TerminalClient
+	 */
   private TerminalClient getClientFromTab(Tab tab) {
     for (TerminalClient client : connectedUsers) {
       if (client.getTab().equals(tab)) {

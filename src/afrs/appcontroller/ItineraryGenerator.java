@@ -8,7 +8,6 @@ import java.util.*;
 
 public class ItineraryGenerator {
 
-  private static final int FLIGHT_LIMIT = 3;
   private StorageCenter storageCenter;
   private Map<String,Integer> delayMap = new HashMap<>();
 

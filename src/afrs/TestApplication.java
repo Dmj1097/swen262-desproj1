@@ -5,6 +5,9 @@ import afrs.uicontroller.RequestGenerator;
 import afrs.uiview.TerminalClient;
 import java.util.Scanner;
 
+/**
+ * application class that uses the input-output service through command line
+ */
 public class TestApplication {
   private StorageCenter storageCenter;
   private RequestGenerator requestGenerator;

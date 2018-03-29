@@ -6,6 +6,11 @@ import afrs.appcontroller.StorageCenter;
 import afrs.uiview.Response;
 import java.util.List;
 
+/**
+ * class representing a request that changes the current server that a user is using for airport info and reservation making
+ *
+ * Created By Brian Taylor - 3/27/2018
+ */
 public class AiportModeRequest extends Request {
 
   public AiportModeRequest(String clientID, StorageCenter storageCenter, List<String> parameters) {

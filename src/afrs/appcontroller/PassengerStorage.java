@@ -201,6 +201,13 @@ public class PassengerStorage implements Storage{
     }
   }
 
+  /**
+   * gets reservation based on supplied name, origin, and destination
+   * @param name passenger name
+   * @param origin origin airport abbreviation
+   * @param destination destination airport abbreviation
+   * @return specified reservation
+   */
   public Reservation getReservation(String name, String origin, String destination) {
     Passenger p = passengers.get(name);
     if (p != null) {

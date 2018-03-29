@@ -2,6 +2,9 @@ package afrs.uicontroller.collection;
 
 import afrs.uicontroller.requests.Request;
 
+/**
+ * state when an undo is in process
+ */
 public class UndoState extends RequestState {
 
   UndoState(final RequestCollection instance) {

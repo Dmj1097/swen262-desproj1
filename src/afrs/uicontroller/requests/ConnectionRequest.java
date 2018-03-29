@@ -4,6 +4,9 @@ import afrs.appcontroller.StorageCenter;
 import afrs.uiview.Response;
 import java.util.UUID;
 
+/**
+ * Request that connects a new user to the system
+ */
 public class ConnectionRequest extends Request {
 
   public ConnectionRequest(StorageCenter storageCenter) {

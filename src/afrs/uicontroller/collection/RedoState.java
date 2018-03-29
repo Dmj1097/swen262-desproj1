@@ -2,6 +2,9 @@ package afrs.uicontroller.collection;
 
 import afrs.uicontroller.requests.Request;
 
+/**
+ * state when a redo is called for
+ */
 public class RedoState extends RequestState {
 
   RedoState(final RequestCollection instance) {

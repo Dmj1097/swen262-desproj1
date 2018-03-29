@@ -19,13 +19,26 @@ public class WeatherCollection implements Iterable<Weather> {
 		this.weatherList = weather;
 	}
 
+	/**
+	 * creates a new weather iterator for an object
+	 * @return
+	 */
 	@Override
 	public WeatherIterator iterator(){
 		return new WeatherIterator(this);
 	}
 
+	/**
+	 * gets size of weather list
+	 * @return size
+	 */
 	protected int size(){ return this.weatherList.size();}
 
+	/**
+	 * gets weather object at specific index
+	 * @param index
+	 * @return weather object at specified index
+	 */
 	protected Weather getWeather(int index){
 		return this.weatherList.get(index);
 	}
