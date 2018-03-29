@@ -47,6 +47,11 @@ public class RequestGenerator {
     // TODO check if an input is prefaced with a client id
     // If so, discard it
     // Else continue
+    // If the client enterd command prefaced with a client id,
+
+    if (input.matches("^[0-9a-f],*$")){
+
+    }
 
     // If clientID is valid
     if (client != null) {
