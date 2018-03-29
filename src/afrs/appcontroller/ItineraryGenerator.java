@@ -106,6 +106,6 @@ public class ItineraryGenerator {
   private boolean isValidNextFlight(Flight firstFlight, Flight secondFlight) {
     int inBetTime = firstFlight.getArrivalTime().getInBetweenTime(secondFlight.getDepartureTime());
     return (delayMap.get(storageCenter.getAirport(secondFlight.getOrigin()).getAbbreviation()) + storageCenter
-        .getAirport(secondFlight.getOrigin()).getLayoverTime()) <= inBetTime;
+        .getAirport(secondFlight.getOrigin()).getLayoverTime()) <= inBetTime && firstFlight.getOrigin() != secondFlight.getDestination();
   }
 }
