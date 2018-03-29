@@ -15,29 +15,24 @@ import afrs.uicontroller.requests.UndoRedoRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Observable;
 
 /**
  * RequestGenerator
  *
  * Created By Brian Taylor - 03/03/2018
  */
-public class RequestGenerator extends Observable {
+public class RequestGenerator {
 
   // The storage of all relevant objects
   private StorageCenter storageCenter;
-
-  private RequestHandler requestHandler;
 
   /**
    * Create a new RequestGenerator object
    *
    * @param storageCenter the instance of StorageCenter
    */
-  public RequestGenerator(StorageCenter storageCenter, RequestHandler requestHandler) {
+  public RequestGenerator(StorageCenter storageCenter) {
     this.storageCenter = storageCenter;
-    this.requestHandler = requestHandler;
-    addObserver(requestHandler);
   }
 
   /**
@@ -45,7 +40,7 @@ public class RequestGenerator extends Observable {
    *
    * @param input - the string input from stdin
    */
-  public void parseRequest(String clientID, String input) {
+  public Request parseRequest(String clientID, String input) {
     Client client = storageCenter.getClientServices(clientID);
     Request request = new InvalidRequest(clientID, "error,unknown request");
 
@@ -114,7 +109,6 @@ public class RequestGenerator extends Observable {
     }
 
     // Update RequestHandler
-    setChanged();
-    notifyObservers(request);
+    return request;
   }
 }
