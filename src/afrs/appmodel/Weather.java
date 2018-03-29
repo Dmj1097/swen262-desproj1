@@ -1,7 +1,9 @@
 package afrs.appmodel;
 
+/**
+ * The weather at an airport
+ */
 public class Weather {
-
 
   private String temperature;
 
@@ -12,6 +14,9 @@ public class Weather {
     forecast = condition;
   }
 
+  /**
+   * Get a human-readable string from this object
+   */
   @Override
   public String toString() {
     return forecast + "," + temperature;

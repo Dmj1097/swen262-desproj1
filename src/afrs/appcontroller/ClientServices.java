@@ -14,6 +14,7 @@ public class ClientServices {
 	/** Map client IDs to client related information */
 	private Map<String, Client> services;
 
+	/** The storage center which holds this client services */
 	private StorageCenter storageCenter;
 
 	public ClientServices(StorageCenter storageCenter){

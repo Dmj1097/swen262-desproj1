@@ -41,7 +41,7 @@ public class RequestGenerator {
    * @param input - the string input from stdin
    */
   public Request parseRequest(String clientID, String input) {
-    Client client = storageCenter.getClientServices(clientID);
+    Client client = storageCenter.getClient(clientID);
     Request request = new InvalidRequest(clientID, "error,unknown request");
 
     // TODO check if an input is prefaced with a client id

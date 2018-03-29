@@ -136,17 +136,28 @@ public class StorageCenter implements Storage{
     return passengers.getReservation(name, origin, destination);
   }
 
-  //public List<String> getAirportCodes(){ return this.airports.getAirportCodes(); }
-  public Client getClientServices(String id){ return this.clientServices.getClient(id); }
+  /**
+   * Return a client given a client id
+   */
+  public Client getClient(String id){ return this.clientServices.getClient(id); }
 
+  /**
+   * Add a new client given by specifying an id
+   */
   public void connectClient(String ID) {
     this.clientServices.connectClient(ID);
   }
 
+  /**
+   * Remove a client by specifying their id
+   */
   public void disconnectClient(String ID) {
     this.clientServices.disconnectClient(ID);
   }
 
+  /**
+   * Get the set of local airports
+   */
   public Set<String> getAirportKeys(){
       return airports.getKeys();
   }

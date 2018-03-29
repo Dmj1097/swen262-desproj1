@@ -13,8 +13,8 @@ import java.util.*;
  */
 public class AirportStorage implements Storage {
 
-
-  private Map<String, Airport> airports; //map of all airport objects to their abbreviation strings
+  /** map of all airport objects to their abbreviation strings */
+  private Map<String, Airport> airports;
 
   /**
    * Create a new AirportStorage object
@@ -110,11 +110,6 @@ public class AirportStorage implements Storage {
       System.err.format("Exception occurred trying to read weather.txt");
       e.printStackTrace();
     }
-  }
-
-  public List<String> getAirportCodes(){
-    List<String> result = new ArrayList<>(this.airports.keySet());
-    return result;
   }
 
   public Set<String> getKeys(){

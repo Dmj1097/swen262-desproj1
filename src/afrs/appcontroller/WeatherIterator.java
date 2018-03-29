@@ -13,7 +13,10 @@ import java.util.Iterator;
  */
 public class WeatherIterator implements Iterator {
 
+	/** The weather collection that this iterator is iterating over */
 	private WeatherCollection collection;
+
+	/** The current index in the weather collection */
 	private int index;
 
 	public WeatherIterator(WeatherCollection collection){
@@ -21,7 +24,7 @@ public class WeatherIterator implements Iterator {
 		this.index = 0;
 	}
 
-	/** Because weather getting is cyclic, hasNext is always true */
+	/** Getting weather is cyclic, so hasNext will always return true */
 	public boolean hasNext(){ return true; }
 
 	/** Get the next valid weather object */

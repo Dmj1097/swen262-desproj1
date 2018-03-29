@@ -5,7 +5,7 @@ import java.util.LinkedList;
 /**
  * Itinerary
  *
- * Create By Alex Piazza - 03/01/2018
+ * @author Alex Piazza - 03/01/2018
  */
 public class Itinerary implements Journey {
 
@@ -100,14 +100,6 @@ public class Itinerary implements Journey {
       cost += flight.getCost();
     }
     return cost;
-  }
-
-  /**
-   * @return number of flights in itinerary
-   */
-  @Override
-  public int getFlights() {
-    return flights.size();
   }
 
   /**

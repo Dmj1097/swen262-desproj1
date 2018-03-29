@@ -12,9 +12,11 @@ import java.util.Map;
  * Collection of client-related data
  *
  * @author Alex Piazza
+ * @author Brian Taylor
  */
 public class Client {
 
+	/** The service that is being used */
 	public enum Service { FAA, Local }
 
 	private RequestCollection requests;
@@ -29,7 +31,7 @@ public class Client {
 		this.service = Service.Local;
 		this.latestJourneys = null;
 		this.partialString = "";
-    this.storageCenter = storageCenter;
+    	this.storageCenter = storageCenter;
 		this.weather = new HashMap<>();
 	}
 

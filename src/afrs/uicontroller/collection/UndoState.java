@@ -11,7 +11,6 @@ public class UndoState extends RequestState {
     super(instance);
   }
 
-
   @Override
   public void add(Request request) {
     instance.addRequest(request);

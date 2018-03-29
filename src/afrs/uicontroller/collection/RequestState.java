@@ -14,7 +14,12 @@ public abstract class RequestState {
     this.instance = instance;
   }
 
+  /** Add a new request to the collection */
   public abstract void add(Request request);
+
+  /** Undo the most recently done request, if there is one */
   public abstract boolean undo();
+
+  /** Redo the most recently undone request, if there is one */
   public abstract boolean redo();
 }

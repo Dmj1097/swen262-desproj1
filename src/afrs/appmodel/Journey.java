@@ -2,8 +2,9 @@ package afrs.appmodel;
 
 /**
  * Journey
+ * An interface for flights and collections of flights
  *
- * Create By Alex Piazza - 03/01/2018
+ * @author Alex Piazza - 03/01/2018
  */
 public interface Journey {
 
@@ -21,11 +22,6 @@ public interface Journey {
    * @return the cost of the journey
    */
   int getCost();
-
-  /**
-   * @return number of flights
-   */
-  int getFlights();
 
   /**
    * @return a CSV friendly string representing this journey

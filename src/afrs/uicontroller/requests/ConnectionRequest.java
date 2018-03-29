@@ -14,6 +14,11 @@ public class ConnectionRequest extends Request {
     this.clientID = "invalid";
   }
 
+  /**
+   * Executes the command
+   *
+   * @return the command's response
+   */
   @Override
   public Response execute() {
 
