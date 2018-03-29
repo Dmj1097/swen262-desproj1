@@ -129,7 +129,10 @@ public class MainWindow extends Application {
 		 }
 		);
 
-		ButtonBar macros = this.getMacroButtons();
+
+
+		//input.setText("airport,airport");
+		ButtonBar macros = this.getMacroButtons(input);
 
 		bottom.getChildren().addAll(input,submitButton,serviceMenu);
 
@@ -145,14 +148,32 @@ public class MainWindow extends Application {
 	/* Additional Buttons to autofill input text boxes with well-formed request strings */
 
 	// TODO make this work
-	private ButtonBar getMacroButtons(){
+	private ButtonBar getMacroButtons(TextField input){
+
+
 		ButtonBar buttonBar = new ButtonBar();
 		Button flightInfo = new Button("FlightInfo");
-		ButtonBar.setButtonData(flightInfo, ButtonBar.ButtonData.FLIGHTINFO); //implement
+		flightInfo.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				input.setText("info,origin,destination[,connections[,sort-order]]; ");
+			}
+			}
+		);
+		ButtonBar.setButtonData(flightInfo, ButtonBar.ButtonData.YES); //implement
 		Button airportInfo = new Button("AirportInfo");
-		ButtonBar.setButtonData(airportInfo, ButtonBar.ButtonData.AIRPORTINFO); //implement
+		airportInfo.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override
+		    public void handle(ActionEvent event) {
+			   input.setText("airport,airport");
+		    }
+			}
+		);
+		ButtonBar.setButtonData(airportInfo, ButtonBar.ButtonData.YES); //implement
 		buttonBar.getButtons().addAll(flightInfo,airportInfo);
 		return buttonBar;
+
+		//return new ButtonBar();
 	}
 
 	/**
