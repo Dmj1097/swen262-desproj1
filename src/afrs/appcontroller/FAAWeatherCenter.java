@@ -116,7 +116,7 @@ public class FAAWeatherCenter {
   }
 
   /**
-   * gets delay time of specifc airport from FAA website
+   * gets delay time of specific airport from FAA website
    *
    * @param ID airport ID
    * @return delaytime in minutes
