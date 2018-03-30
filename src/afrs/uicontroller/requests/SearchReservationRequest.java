@@ -21,7 +21,8 @@ public class SearchReservationRequest extends Request {
    * @param storageCenter the StorageCenter instance
    * @param parameters the list of parameters to the command
    */
-  public SearchReservationRequest(String clientID, StorageCenter storageCenter, List<String> parameters) {
+  public SearchReservationRequest(String clientID, StorageCenter storageCenter,
+      List<String> parameters) {
     super(storageCenter, parameters);
     this.clientID = clientID;
   }

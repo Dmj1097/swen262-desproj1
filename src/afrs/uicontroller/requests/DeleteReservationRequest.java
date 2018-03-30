@@ -14,6 +14,7 @@ import java.util.List;
 public class DeleteReservationRequest extends Request {
 
   private Reservation deleted;
+
   public Reservation getDeleted() {
     return deleted;
   }
@@ -24,7 +25,8 @@ public class DeleteReservationRequest extends Request {
    * @param storageCenter the StorageCenter instance
    * @param parameters the list of parameters to the command
    */
-  public DeleteReservationRequest(String clientID, StorageCenter storageCenter, List<String> parameters) {
+  public DeleteReservationRequest(String clientID, StorageCenter storageCenter,
+      List<String> parameters) {
     super(storageCenter, parameters);
     this.clientID = clientID;
     this.deleted = null;
@@ -49,8 +51,10 @@ public class DeleteReservationRequest extends Request {
     }
 
     // Attempt deletion of reservation
-    this.deleted = storageCenter.getReservation(parameters.get(0), parameters.get(1), parameters.get(2));
-    if (deleted != null && storageCenter.removeReservation(parameters.get(0), parameters.get(1), parameters.get(2))) {
+    this.deleted = storageCenter
+        .getReservation(parameters.get(0), parameters.get(1), parameters.get(2));
+    if (deleted != null && storageCenter
+        .removeReservation(parameters.get(0), parameters.get(1), parameters.get(2))) {
       storageCenter.getClient(clientID).makeRequest(this);
       return new Response(clientID + ",delete,successful");
     } else {

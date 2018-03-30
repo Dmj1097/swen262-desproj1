@@ -44,21 +44,17 @@ public class RequestGenerator {
     Client client = storageCenter.getClient(clientID);
     Request request = new InvalidRequest(clientID, "error,unknown request");
 
-    // TODO check if an input is prefaced with a client id
-    // If so, discard it
-    // Else continue
-    // If the client enterd command prefaced with a client id,
-
-    if (input.matches("^[0-9a-f],*$")){
-
-    }
-
     // If clientID is valid
     if (client != null) {
       // Non-partial request
-      if (input.endsWith(";")) {
+      if (input.trim().endsWith(";")) {
         // Append any pre-existing partial input
         input = client.getCompleteRequest() + input;
+
+        // If user prefaced command with clientID, strip it
+        if (input.startsWith(clientID + ",")) {
+          input = input.replaceFirst(clientID + ",", "");
+        }
 
         // Get request type and create list of parameters
         String[] params = input.replace(";", "").split(",");
@@ -117,7 +113,6 @@ public class RequestGenerator {
       request = new InvalidRequest(clientID, "error,invalid connection");
     }
 
-    // Update RequestHandler
     return request;
   }
 }

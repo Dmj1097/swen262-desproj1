@@ -2,7 +2,6 @@ package afrs.appmodel;
 
 import afrs.appcontroller.WeatherCollection;
 import afrs.appcontroller.WeatherIterator;
-
 import java.util.ArrayList;
 
 
@@ -82,7 +81,9 @@ public class Airport {
   /**
    * Get the collection of weather objects
    */
-  public WeatherIterator getWeatherIterator(){ return this.weatherCollection.iterator(); }
+  public WeatherIterator getWeatherIterator() {
+    return this.weatherCollection.iterator();
+  }
 
   /**
    * @return the expected delay time

@@ -1,8 +1,6 @@
 package afrs.appcontroller;
 
-import afrs.appcontroller.WeatherCollection;
 import afrs.appmodel.Weather;
-
 import java.util.Iterator;
 
 /**
@@ -13,27 +11,37 @@ import java.util.Iterator;
  */
 public class WeatherIterator implements Iterator {
 
-	/** The weather collection that this iterator is iterating over */
-	private WeatherCollection collection;
+  /**
+   * The weather collection that this iterator is iterating over
+   */
+  private WeatherCollection collection;
 
-	/** The current index in the weather collection */
-	private int index;
+  /**
+   * The current index in the weather collection
+   */
+  private int index;
 
-	public WeatherIterator(WeatherCollection collection){
-		this.collection = collection;
-		this.index = 0;
-	}
+  public WeatherIterator(WeatherCollection collection) {
+    this.collection = collection;
+    this.index = 0;
+  }
 
-	/** Getting weather is cyclic, so hasNext will always return true */
-	public boolean hasNext(){ return true; }
+  /**
+   * Getting weather is cyclic, so hasNext will always return true
+   */
+  public boolean hasNext() {
+    return true;
+  }
 
-	/** Get the next valid weather object */
-	public Weather next(){
-		Weather result = this.collection.getWeather(index);
-		index++;
-		if (this.index >= this.collection.size()){
-			this.index = 0;
-		}
-		return result;
-	}
+  /**
+   * Get the next valid weather object
+   */
+  public Weather next() {
+    Weather result = this.collection.getWeather(index);
+    index++;
+    if (this.index >= this.collection.size()) {
+      this.index = 0;
+    }
+    return result;
+  }
 }

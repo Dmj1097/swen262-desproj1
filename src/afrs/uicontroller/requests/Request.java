@@ -38,9 +38,15 @@ public abstract class Request {
    */
   public abstract Response execute();
 
-  /** Perform necessary actions to undo whatever this request did */
-  public void undo() {}
+  /**
+   * Perform necessary actions to undo whatever this request did
+   */
+  public void undo() {
+  }
 
-  /** Do this request again */
-  public void redo() {}
+  /**
+   * Do this request again
+   */
+  public void redo() {
+  }
 }

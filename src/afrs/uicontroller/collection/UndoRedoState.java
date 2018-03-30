@@ -4,6 +4,7 @@ import afrs.uicontroller.requests.Request;
 
 /**
  * state when an undoredorequest is made
+ * Brian Taylor
  */
 public class UndoRedoState extends RequestState {
 

@@ -53,6 +53,7 @@ public class AirportInfoRequest extends Request {
       airport = storageCenter.getAirport(airportCode);
     }
 
-    return new Response(clientID + ",airport," + airport.getString(storageCenter.getClient(clientID).getAirportWeatherIterator(airportCode)));
+    return new Response(clientID + ",airport," + airport
+        .getString(storageCenter.getClient(clientID).getAirportWeatherIterator(airportCode)));
   }
 }

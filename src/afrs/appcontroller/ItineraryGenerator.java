@@ -3,13 +3,16 @@ package afrs.appcontroller;
 import afrs.appmodel.Flight;
 import afrs.appmodel.Itinerary;
 import afrs.appmodel.Journey;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ItineraryGenerator {
 
   private StorageCenter storageCenter;
-  private Map<String,Integer> delayMap = new HashMap<>();
+  private Map<String, Integer> delayMap = new HashMap<>();
 
 
   public ItineraryGenerator(StorageCenter storageCenter) {
@@ -23,13 +26,14 @@ public class ItineraryGenerator {
    * @param destination - the name of the destination airport
    * @return a collection of journeys
    */
-  public List<Journey> generateJourneys(String origin, String destination, int connections, boolean FAAMode) {
+  public List<Journey> generateJourneys(String origin, String destination, int connections,
+      boolean FAAMode) {
     Set<String> keys = storageCenter.getAirportKeys();
-    if(FAAMode){
-      for(String ID: keys){
-        delayMap.put(ID,FAAWeatherCenter.getAirportDelay(ID));
+    if (FAAMode) {
+      for (String ID : keys) {
+        delayMap.put(ID, FAAWeatherCenter.getAirportDelay(ID));
       }
-    }else {
+    } else {
       for (String ID : keys) {
         delayMap.put(ID, storageCenter.getAirport(ID).getDelayTime());
       }
@@ -55,7 +59,8 @@ public class ItineraryGenerator {
         for (Journey secondLeg : this.storageCenter
             .getFlightsFromOrigin(firstFlight.getDestination())) {
           Flight secondFlight = (Flight) secondLeg;
-          if (isValidNextFlight(firstFlight, secondFlight) && !secondFlight.getOrigin().equals(origin) && !firstFlight.getDestination().equals(destination)) {
+          if (isValidNextFlight(firstFlight, secondFlight) && !secondFlight.getOrigin()
+              .equals(origin) && !firstFlight.getDestination().equals(destination)) {
             if (secondFlight.getDestination().equals(destination)) {
               it = new Itinerary();
               it.addFlight(firstFlight);
@@ -74,7 +79,8 @@ public class ItineraryGenerator {
         for (Journey secondLeg : this.storageCenter
             .getFlightsFromOrigin(firstFlight.getDestination())) {
           Flight secondFlight = (Flight) secondLeg;
-          if (isValidNextFlight(firstFlight, secondFlight) && !secondFlight.getOrigin().equals(origin) && !firstFlight.getDestination().equals(destination)) {
+          if (isValidNextFlight(firstFlight, secondFlight) && !secondFlight.getOrigin()
+              .equals(origin) && !firstFlight.getDestination().equals(destination)) {
             // Test each possible third flight
             for (Journey thirdLeg : this.storageCenter
                 .getFlightsFromOrigin(secondFlight.getDestination())) {
@@ -105,7 +111,9 @@ public class ItineraryGenerator {
    */
   private boolean isValidNextFlight(Flight firstFlight, Flight secondFlight) {
     int inBetTime = firstFlight.getArrivalTime().getInBetweenTime(secondFlight.getDepartureTime());
-    return (delayMap.get(storageCenter.getAirport(secondFlight.getOrigin()).getAbbreviation()) + storageCenter
-        .getAirport(secondFlight.getOrigin()).getLayoverTime()) <= inBetTime && !firstFlight.getOrigin().equals(secondFlight.getDestination());
+    return (delayMap.get(storageCenter.getAirport(secondFlight.getOrigin()).getAbbreviation())
+        + storageCenter
+        .getAirport(secondFlight.getOrigin()).getLayoverTime()) <= inBetTime && !firstFlight
+        .getOrigin().equals(secondFlight.getDestination());
   }
 }

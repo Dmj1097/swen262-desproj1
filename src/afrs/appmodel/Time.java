@@ -36,7 +36,9 @@ public class Time implements Comparable<Time> {
     minute = Integer.parseInt(time_line[1]);
   }
 
-  /** Return a human-readable version of this time */
+  /**
+   * Return a human-readable version of this time
+   */
   public String toString() {
     String dayHalf;
     if (half.equals(Half.AM)) {

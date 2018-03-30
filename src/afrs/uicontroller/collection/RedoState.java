@@ -4,6 +4,7 @@ import afrs.uicontroller.requests.Request;
 
 /**
  * state when a redo is called for
+ * Brian Taylor
  */
 public class RedoState extends RequestState {
 

@@ -116,12 +116,16 @@ public class Flight implements Journey {
     return ID + "," + cost + "," + origin + "," + depart + "," + destination + "," + arrive;
   }
 
-  /** Get the arrival time of a flight */
+  /**
+   * Get the arrival time of a flight
+   */
   public Time getArrivalTime() {
     return this.arrive;
   }
 
-  /** Get the departure time of a flight */
+  /**
+   * Get the departure time of a flight
+   */
   public Time getDepartureTime() {
     return this.depart;
   }

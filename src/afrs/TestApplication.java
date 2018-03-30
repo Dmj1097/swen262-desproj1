@@ -7,20 +7,19 @@ import java.util.Scanner;
 
 /**
  * application class that uses the input-output service through command line
+ * Brian Taylor
  */
 public class TestApplication {
-  private StorageCenter storageCenter;
-  private RequestGenerator requestGenerator;
 
   public static void main(String[] args) {
-    new TestApplication();
+    StorageCenter storageCenter = new StorageCenter();
+    RequestGenerator requestGenerator = new RequestGenerator(storageCenter);
+    new TestApplication(storageCenter, requestGenerator);
   }
 
-  public TestApplication() {
-    this.storageCenter = new StorageCenter();
-    this.requestGenerator = new RequestGenerator(storageCenter);
-
-    TerminalClient client = new TerminalClient(storageCenter, requestGenerator);
+  public TestApplication(final StorageCenter storageCenter,
+      final RequestGenerator requestGenerator) {
+    TerminalClient client = new TerminalClient(storageCenter, requestGenerator, false);
     System.out.println("Welcome [" + client.getID() + "] to AFRS!");
 
     Scanner in = new Scanner(System.in);
@@ -28,7 +27,7 @@ public class TestApplication {
     while (!input.equals("quit;")) {
       if (input.equals("connect;")) {
         client.disconnect();
-        client = new TerminalClient(storageCenter, requestGenerator);
+        client = new TerminalClient(storageCenter, requestGenerator, false);
         System.out.println("Welcome [" + client.getID() + "] to AFRS!");
       } else {
         System.out.println(client.doRequest(input));

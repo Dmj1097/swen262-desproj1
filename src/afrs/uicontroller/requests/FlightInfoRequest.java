@@ -83,7 +83,8 @@ public class FlightInfoRequest extends Request {
     // Get list of journeys, sorted
     boolean mode = storageCenter.getClient(clientID).getService() == (Service.FAA);
     List<Journey> journeys = storageCenter
-        .getLatestJourneys(origin.getAbbreviation(), destination.getAbbreviation(), connections, mode);
+        .getLatestJourneys(origin.getAbbreviation(), destination.getAbbreviation(), connections,
+            mode);
     journeys.sort(sort);
     storageCenter.getClient(clientID).setLatestJourneys(journeys);
 

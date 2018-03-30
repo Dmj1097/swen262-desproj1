@@ -17,7 +17,6 @@ public class UndoRedoRequest extends Request {
 
   /**
    * Create a new UndoRedoRequest object
-   *
    */
   public UndoRedoRequest(String clientID, StorageCenter storageCenter, boolean undo) {
     super(storageCenter, null);
@@ -68,7 +67,8 @@ public class UndoRedoRequest extends Request {
     // If successful undo
     boolean check = (undo) ? client.undoRequest() : client.redoRequest();
     if (check) {
-      return new Response(clientID + "," + mode + "," + type + "," + passenger.getName() + "," + journey);
+      return new Response(
+          clientID + "," + mode + "," + type + "," + passenger.getName() + "," + journey);
     } else {
       return new Response(clientID + ",error,no request available");
     }

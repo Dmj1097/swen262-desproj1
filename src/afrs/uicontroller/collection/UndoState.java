@@ -4,6 +4,7 @@ import afrs.uicontroller.requests.Request;
 
 /**
  * state when an undo is in process
+ * Brian Taylor
  */
 public class UndoState extends RequestState {
 

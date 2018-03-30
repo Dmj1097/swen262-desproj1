@@ -15,6 +15,7 @@ import java.util.List;
 public class CreateReservationRequest extends Request {
 
   private Reservation created;
+
   public Reservation getCreated() {
     return created;
   }
@@ -25,7 +26,8 @@ public class CreateReservationRequest extends Request {
    * @param storageCenter the StorageCenter instance
    * @param parameters the list of parameters to the command
    */
-  public CreateReservationRequest(String clientID, StorageCenter storageCenter, List<String> parameters) {
+  public CreateReservationRequest(String clientID, StorageCenter storageCenter,
+      List<String> parameters) {
     super(storageCenter, parameters);
     this.clientID = clientID;
     this.created = null;
@@ -48,7 +50,7 @@ public class CreateReservationRequest extends Request {
       // Attempt to get journey from latestJourneys
       List<Journey> journeys = storageCenter.getClient(clientID).getLatestJourneys();
       if (journeys != null) {
-          journey = journeys.get(Integer.parseInt(parameters.get(0)));
+        journey = journeys.get(Integer.parseInt(parameters.get(0)));
       } else {
         return new Response(clientID + ",error,invalid id");
       }
@@ -78,7 +80,8 @@ public class CreateReservationRequest extends Request {
 
   @Override
   public void undo() {
-    storageCenter.removeReservation(created.getPassenger().getName(), created.getOrigin(), created.getDestination());
+    storageCenter.removeReservation(created.getPassenger().getName(), created.getOrigin(),
+        created.getDestination());
   }
 
   @Override

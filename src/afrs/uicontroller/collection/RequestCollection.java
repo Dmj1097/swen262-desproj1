@@ -10,82 +10,97 @@ import java.util.Stack;
  */
 public class RequestCollection {
 
-	private Stack<Request> undoStack;
-	private Stack<Request> redoStack;
+  private Stack<Request> undoStack;
+  private Stack<Request> redoStack;
 
 
   private RequestState c_state;
   private EmptyState emptyState;
-	private UndoState undoState;
-	private RedoState redoState;
-	private UndoRedoState undoRedoState;
+  private UndoState undoState;
+  private RedoState redoState;
+  private UndoRedoState undoRedoState;
 
   public EmptyState getEmptyState() {
     return emptyState;
   }
+
   public UndoState getUndoState() {
     return undoState;
   }
+
   public RedoState getRedoState() {
     return redoState;
   }
+
   public UndoRedoState getUndoRedoState() {
     return undoRedoState;
   }
 
   public RequestCollection() {
-		this.emptyState = new EmptyState(this);
-		this.undoState = new UndoState(this);
-		this.redoState = new RedoState(this);
-		this.undoRedoState = new UndoRedoState(this);
-		this.c_state = emptyState;
+    this.emptyState = new EmptyState(this);
+    this.undoState = new UndoState(this);
+    this.redoState = new RedoState(this);
+    this.undoRedoState = new UndoRedoState(this);
+    this.c_state = emptyState;
 
-		this.undoStack = new Stack<>();
-		this.redoStack = new Stack<>();
-	}
+    this.undoStack = new Stack<>();
+    this.redoStack = new Stack<>();
+  }
 
   // Public functions
   public void add(Request request) {
     c_state.add(request);
   }
+
   public boolean undo() {
     return c_state.undo();
   }
+
   public boolean redo() {
     return c_state.redo();
   }
 
   public Request getUndo() {
-    return undoStack.peek();
+    if (!undoStack.isEmpty()) {
+      return undoStack.peek();
+    }
+    return null;
   }
 
   public Request getRedo() {
-    return redoStack.peek();
+    if (!redoStack.isEmpty()) {
+      return redoStack.peek();
+    }
+    return null;
   }
 
   // Internal functions used by states
   void changeState(RequestState state) {
     this.c_state = state;
   }
-	boolean canUndo() {
-	  return !undoStack.isEmpty();
-  }
-  boolean canRedo() {
-	  return !redoStack.isEmpty();
+
+  boolean canUndo() {
+    return !undoStack.isEmpty();
   }
 
-	void addRequest(Request request) {
-		undoStack.push(request);
-		redoStack.clear();
-	}
-	void undoRequest() {
-		Request r = undoStack.pop();
-		r.undo();
-		redoStack.push(r);
-	}
-	void redoRequest() {
-		Request r = redoStack.pop();
-		r.redo();
-		undoStack.push(r);
-	}
+  boolean canRedo() {
+    return !redoStack.isEmpty();
+  }
+
+  void addRequest(Request request) {
+    undoStack.push(request);
+    redoStack.clear();
+  }
+
+  void undoRequest() {
+    Request r = undoStack.pop();
+    r.undo();
+    redoStack.push(r);
+  }
+
+  void redoRequest() {
+    Request r = redoStack.pop();
+    r.redo();
+    undoStack.push(r);
+  }
 }

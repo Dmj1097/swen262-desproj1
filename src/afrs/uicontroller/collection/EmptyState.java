@@ -4,6 +4,7 @@ import afrs.uicontroller.requests.Request;
 
 /**
  * state when both redo and undo stacks are empty
+ * Brian Taylor
  */
 public class EmptyState extends RequestState {
 

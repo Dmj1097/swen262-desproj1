@@ -14,7 +14,7 @@ import java.util.Set;
  *
  * @author Dylan Johnston
  */
-public class StorageCenter implements Storage{
+public class StorageCenter implements Storage {
 
 
   private FlightStorage flights;
@@ -56,7 +56,7 @@ public class StorageCenter implements Storage{
    * @return airport with given name
    */
   public Airport getAirport(String ID) {
-    return (Airport)airports.getInstance(ID);
+    return (Airport) airports.getInstance(ID);
   }
 
   /**
@@ -66,7 +66,7 @@ public class StorageCenter implements Storage{
    * @return Journey object associated with ID
    */
   public Journey getFlight(int ID) {
-    return (Journey)flights.getInstance(ID);
+    return (Journey) flights.getInstance(ID);
   }
 
   /**
@@ -86,7 +86,7 @@ public class StorageCenter implements Storage{
    * @return Passenger object associated with given name
    */
   public Passenger getPassenger(String ID) {
-    return (Passenger)passengers.getInstance(ID);
+    return (Passenger) passengers.getInstance(ID);
   }
 
   /**
@@ -105,15 +105,16 @@ public class StorageCenter implements Storage{
   /**
    * called when system is given quit command
    */
-  public void save() {
+  private void save() {
     passengers.writePassengersFile();
   }
 
   /**
    * calls itineraryGenerator's getLatestJourneys method
    */
-  public List<Journey> getLatestJourneys(String origin, String destination, int connections, boolean FAAMode) {
-    return itineraryGenerator.generateJourneys(origin, destination, connections,FAAMode);
+  public List<Journey> getLatestJourneys(String origin, String destination, int connections,
+      boolean FAAMode) {
+    return itineraryGenerator.generateJourneys(origin, destination, connections, FAAMode);
   }
 
   /**
@@ -139,7 +140,9 @@ public class StorageCenter implements Storage{
   /**
    * Return a client given a client id
    */
-  public Client getClient(String id){ return this.clientServices.getClient(id); }
+  public Client getClient(String id) {
+    return this.clientServices.getClient(id);
+  }
 
   /**
    * Add a new client given by specifying an id
@@ -158,7 +161,7 @@ public class StorageCenter implements Storage{
   /**
    * Get the set of local airports
    */
-  public Set<String> getAirportKeys(){
-      return airports.getKeys();
+  public Set<String> getAirportKeys() {
+    return airports.getKeys();
   }
 }

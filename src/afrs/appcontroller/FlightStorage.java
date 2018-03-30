@@ -1,7 +1,6 @@
 package afrs.appcontroller;
 
 import afrs.appmodel.Flight;
-import afrs.appmodel.Journey;
 import afrs.appmodel.Time;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

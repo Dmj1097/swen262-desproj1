@@ -24,10 +24,11 @@ import java.util.Map;
  *
  * @author Dylan Johnston
  */
-public class PassengerStorage implements Storage{
+public class PassengerStorage implements Storage {
 
   private static String location = PassengerStorage.class.getProtectionDomain().getCodeSource()
-      .getLocation().getPath().replaceFirst("/", "").replaceFirst("/[^/]*\\.jar$", "").replaceAll("%20", " ");
+      .getLocation().getPath().replaceFirst("/", "").replaceFirst("/[^/]*\\.jar$", "")
+      .replaceAll("%20", " ");
   private Map<String, Passenger> passengers; //map of name of passenger to their respective object
 
   /**
@@ -203,6 +204,7 @@ public class PassengerStorage implements Storage{
 
   /**
    * gets reservation based on supplied name, origin, and destination
+   *
    * @param name passenger name
    * @param origin origin airport abbreviation
    * @param destination destination airport abbreviation
@@ -214,7 +216,7 @@ public class PassengerStorage implements Storage{
       List<Journey> reservations = p.getReservations();
       for (Journey j : reservations) {
         if (j.getOrigin().equals(origin) && j.getDestination().equals(destination)) {
-            return new Reservation(p, j);
+          return new Reservation(p, j);
         }
       }
     }
