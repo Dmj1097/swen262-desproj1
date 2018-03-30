@@ -103,7 +103,7 @@ public class Client {
    * Get the most recent journeys that this client has requested
    */
   public List<Journey> getLatestJourneys() {
-    return this.latestJourneys;
+    return latestJourneys;
   }
 
   public void setLatestJourneys(List<Journey> journeys) {

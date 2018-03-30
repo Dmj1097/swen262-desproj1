@@ -50,7 +50,7 @@ public class CreateReservationRequest extends Request {
       // Attempt to get journey from latestJourneys
       List<Journey> journeys = storageCenter.getClient(clientID).getLatestJourneys();
       if (journeys != null) {
-        journey = journeys.get(Integer.parseInt(parameters.get(0)));
+        journey = journeys.get(Integer.parseInt(parameters.get(0)) - 1);
       } else {
         return new Response(clientID + ",error,invalid id");
       }
