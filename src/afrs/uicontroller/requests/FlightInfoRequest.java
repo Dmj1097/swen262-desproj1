@@ -95,6 +95,6 @@ public class FlightInfoRequest extends Request {
       result.append(index).append(",").append(j).append("\n");
       index++;
     }
-    return new Response(clientID + ",info," + journeys.size() + "\n" + result);
+    return new Response(clientID + ",info," + journeys.size() + "\n" + result.toString().replaceFirst("\n$", ""));
   }
 }

@@ -85,6 +85,7 @@ public class TerminalClient {
   private void doRequestGUI(String input) {
     Request request = requestGenerator.parseRequest(clientID, input);
     output.appendText(request.execute().getText() + "\n");
+    //output.setSc
   }
 
   /**

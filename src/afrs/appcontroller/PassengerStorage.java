@@ -26,15 +26,15 @@ import java.util.Map;
  */
 public class PassengerStorage implements Storage {
 
-  private static String location = PassengerStorage.class.getProtectionDomain().getCodeSource()
-      .getLocation().getPath().replaceFirst("/", "").replaceFirst("/[^/]*\\.jar$", "")
-      .replaceAll("%20", " ");
+  //private static String location = PassengerStorage.class.getProtectionDomain().getCodeSource()
+  private static String location = System.getProperty("user.home");
   private Map<String, Passenger> passengers; //map of name of passenger to their respective object
 
   /**
    * Create a new PassengerStorage object
    */
   public PassengerStorage() {
+    System.out.println(location);
     passengers = new HashMap<>();
     setupMap();
   }
@@ -45,7 +45,7 @@ public class PassengerStorage implements Storage {
    */
   public void setupMap() {
     try {
-      File file = new File(location + "/passengers.txt");
+      File file = new File(location + "\\passengers.txt");
       file.createNewFile();
       BufferedReader reader = new BufferedReader(new FileReader(file));
       String line;
@@ -141,7 +141,7 @@ public class PassengerStorage implements Storage {
     try {
 
       //Creating a file writer
-      Writer fileWriter = new FileWriter(location + "/passengers.txt");
+      Writer fileWriter = new FileWriter(location + "\\passengers.txt");
       Writer bufferedWriter = new BufferedWriter(fileWriter);
 
       // Writing the content

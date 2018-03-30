@@ -87,7 +87,6 @@ public class GuiApplication extends Application {
       terminalClient.disconnect();
       connectedUsers.remove(terminalClient);
       tabPane.getTabs().remove(terminalClient.getTab());
-      currentClient = null;
     });
     tabPane.getTabs().add(terminalClient.getTab());
     return terminalClient;
@@ -160,6 +159,8 @@ public class GuiApplication extends Application {
     tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
       if (!connectedUsers.isEmpty()) {
         switchTab(getClientFromTab(newTab));
+      } else {
+        currentClient = null;
       }
     });
 
