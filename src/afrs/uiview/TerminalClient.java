@@ -4,7 +4,11 @@ import afrs.appcontroller.StorageCenter;
 import afrs.uicontroller.RequestGenerator;
 import afrs.uicontroller.requests.Request;
 import java.util.UUID;
+
+import javafx.application.Platform;
 import javafx.scene.CacheHint;
+import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -83,9 +87,12 @@ public class TerminalClient {
    * @param input input request string
    */
   private void doRequestGUI(String input) {
-    Request request = requestGenerator.parseRequest(clientID, input);
+    if (!input.startsWith(clientID + ",")) {
+      input = clientID + "," + input;
+    }
+    Request request = requestGenerator.parseRequest(input);
     output.appendText(request.execute().getText() + "\n");
-    //output.setSc
+    output.setScrollTop(Double.MAX_VALUE);
   }
 
   /**
@@ -95,15 +102,8 @@ public class TerminalClient {
    * @return response object in String form
    */
   public String doRequest(String input) {
-    Request request = requestGenerator.parseRequest(clientID, input);
+    Request request = requestGenerator.parseRequest(input);
     return request.execute().getText();
-  }
-
-  /**
-   * deletes current partial request
-   */
-  public void clearPartial() {
-    storageCenter.getClient(clientID).clearPartial();
   }
 
   /**

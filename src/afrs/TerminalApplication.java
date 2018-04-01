@@ -25,13 +25,7 @@ public class TerminalApplication {
     Scanner in = new Scanner(System.in);
     String input = in.nextLine();
     while (!input.equals("quit;")) {
-      if (input.equals("connect;")) {
-        client.disconnect();
-        client = new TerminalClient(storageCenter, requestGenerator, false);
-        System.out.println("Welcome [" + client.getID() + "] to AFRS!");
-      } else {
-        System.out.println(client.doRequest(input));
-      }
+      System.out.println(client.doRequest(input));
       input = in.nextLine();
     }
   }

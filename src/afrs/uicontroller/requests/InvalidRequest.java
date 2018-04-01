@@ -14,9 +14,8 @@ public class InvalidRequest extends Request {
   /**
    * Create a new Request object
    */
-  public InvalidRequest(String clientID, String message) {
+  public InvalidRequest(String message) {
     super(null, null);
-    this.clientID = clientID;
     this.message = message;
   }
 
@@ -27,6 +26,6 @@ public class InvalidRequest extends Request {
    */
   @Override
   public Response execute() {
-    return new Response(clientID + "," + message);
+    return new Response(message);
   }
 }
