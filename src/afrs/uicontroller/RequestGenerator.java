@@ -2,16 +2,9 @@ package afrs.uicontroller;
 
 import afrs.appcontroller.Client;
 import afrs.appcontroller.StorageCenter;
-import afrs.uicontroller.requests.AiportModeRequest;
-import afrs.uicontroller.requests.AirportInfoRequest;
-import afrs.uicontroller.requests.CreateReservationRequest;
-import afrs.uicontroller.requests.DeleteReservationRequest;
-import afrs.uicontroller.requests.DisconnectionRequest;
-import afrs.uicontroller.requests.FlightInfoRequest;
-import afrs.uicontroller.requests.InvalidRequest;
-import afrs.uicontroller.requests.Request;
-import afrs.uicontroller.requests.SearchReservationRequest;
-import afrs.uicontroller.requests.UndoRedoRequest;
+import afrs.uicontroller.requests.*;
+import afrs.uiview.TerminalClient;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,79 +33,68 @@ public class RequestGenerator {
    *
    * @param input - the string input from stdin
    */
-  public Request parseRequest(String clientID, String input) {
+  public Request parseRequest(String input) {
+    if (input.equals("connect;")) {
+      return new ConnectionRequest(storageCenter);
+    }
+
+    String[] params = input.split(",");
+    if (params.length < 2) {
+      return new InvalidRequest("error,invalid connection");
+    }
+
+    String clientID = params[0];
     Client client = storageCenter.getClient(clientID);
-    Request request = new InvalidRequest(clientID, "error,unknown request");
+    if (client == null) {
+      return new InvalidRequest("error,invalid connection");
+    }
 
-    // If clientID is valid
-    if (client != null) {
-      // Non-partial request
-      if (input.trim().endsWith(";")) {
-        // Append any pre-existing partial input
-        input = client.getCompleteRequest() + input;
+    // Non-partial request
+    if (input.trim().endsWith(";")) {
+      // Trim clientID from input
+      input = input.replaceFirst(clientID + ",", "");
 
-        // If user prefaced command with clientID, strip it
-        if (input.startsWith(clientID + ",")) {
-          input = input.replaceFirst(clientID + ",", "");
-        }
+      // Append any pre-existing partial input
+      input = client.getCompleteRequest() + input;
 
-        // Get request type and create list of parameters
-        String[] params = input.replace(";", "").split(",");
-
-        // Confirm command has at least the type
-        if (params.length >= 1) {
-
-          // Validate request type and create request
-          String type = params[0];
-          List<String> parameters = new ArrayList<>(
+      params = input.replace(";", "").split(",");
+      String type = params[0];
+      List<String> parameters = new ArrayList<>(
               Arrays.asList(params).subList(1, params.length));
-          switch (type) {
-            case "disconnect":
-              request = new DisconnectionRequest(clientID, storageCenter);
-              break;
+      switch (type) {
+        case "disconnect":
+          return new DisconnectionRequest(clientID, storageCenter);
 
-            case "airport":
-              request = new AirportInfoRequest(clientID, storageCenter, parameters);
-              break;
-            case "server":
-              request = new AiportModeRequest(clientID, storageCenter, parameters);
-              break;
+        case "airport":
+          return new AirportInfoRequest(clientID, storageCenter, parameters);
+        case "server":
+          return new AiportModeRequest(clientID, storageCenter, parameters);
 
-            case "info":
-              request = new FlightInfoRequest(clientID, storageCenter, parameters);
-              break;
+        case "info":
+          return new FlightInfoRequest(clientID, storageCenter, parameters);
 
-            case "retrieve":
-              request = new SearchReservationRequest(clientID, storageCenter, parameters);
-              break;
-            case "reserve":
-              request = new CreateReservationRequest(clientID, storageCenter, parameters);
-              break;
-            case "delete":
-              request = new DeleteReservationRequest(clientID, storageCenter, parameters);
-              break;
+        case "retrieve":
+          return new SearchReservationRequest(clientID, storageCenter, parameters);
+        case "reserve":
+          return new CreateReservationRequest(clientID, storageCenter, parameters);
+        case "delete":
+          return new DeleteReservationRequest(clientID, storageCenter, parameters);
 
-            case "undo":
-              request = new UndoRedoRequest(clientID, storageCenter, true);
-              break;
-            case "redo":
-              request = new UndoRedoRequest(clientID, storageCenter, false);
-              break;
-          }
-        }
+        case "undo":
+          return new UndoRedoRequest(clientID, storageCenter, true);
+        case "redo":
+          return new UndoRedoRequest(clientID, storageCenter, false);
       }
-      // Partial request
-      else {
-        // Track each input string as a continuous partial request
-        client.makePartialRequest(input);
-        request = new InvalidRequest(clientID, "partial-request");
-      }
+      return new InvalidRequest(clientID + ",error,unknown request");
     }
-    // Invalid clientID
+    // Partial request
     else {
-      request = new InvalidRequest(clientID, "error,invalid connection");
-    }
+      // Trim clientID from input
+      input = input.replaceFirst(clientID + ",", "");
 
-    return request;
+      // Track each input string as a continuous partial request
+      client.makePartialRequest(input);
+      return new InvalidRequest(clientID + ",partial-request");
+    }
   }
 }
