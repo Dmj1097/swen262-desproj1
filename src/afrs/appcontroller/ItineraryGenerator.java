@@ -59,11 +59,12 @@ public class ItineraryGenerator {
         for (Journey secondLeg : this.storageCenter
             .getFlightsFromOrigin(firstFlight.getDestination())) {
           Flight secondFlight = (Flight) secondLeg;
-          if (isValidNextFlight(firstFlight, secondFlight) && secondFlight.getDestination().equals(destination)) {
-              it = new Itinerary();
-              it.addFlight(firstFlight);
-              it.addFlight(secondFlight);
-              journeys.add(it);
+          if (isValidNextFlight(firstFlight, secondFlight) && secondFlight.getDestination()
+              .equals(destination)) {
+            it = new Itinerary();
+            it.addFlight(firstFlight);
+            it.addFlight(secondFlight);
+            journeys.add(it);
           }
         }
       }

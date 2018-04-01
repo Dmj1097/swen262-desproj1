@@ -34,7 +34,7 @@ public class PassengerStorage implements Storage {
    * Create a new PassengerStorage object
    */
   public PassengerStorage() {
-    System.out.println(location);
+    //System.out.println(location);
     passengers = new HashMap<>();
     setupMap();
   }

@@ -18,7 +18,7 @@ public class TerminalApplication {
   }
 
   public TerminalApplication(final StorageCenter storageCenter,
-                             final RequestGenerator requestGenerator) {
+      final RequestGenerator requestGenerator) {
     TerminalClient client = new TerminalClient(storageCenter, requestGenerator, false);
     System.out.println("Welcome [" + client.getID() + "] to AFRS!");
 

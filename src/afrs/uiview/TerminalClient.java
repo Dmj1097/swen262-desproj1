@@ -4,11 +4,7 @@ import afrs.appcontroller.StorageCenter;
 import afrs.uicontroller.RequestGenerator;
 import afrs.uicontroller.requests.Request;
 import java.util.UUID;
-
-import javafx.application.Platform;
 import javafx.scene.CacheHint;
-import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -96,7 +92,7 @@ public class TerminalClient {
   }
 
   /**
-   * takes a request string, creates a request object, and exectues it
+   * takes a request string, creates a request object, and executes it
    *
    * @param input input string
    * @return response object in String form

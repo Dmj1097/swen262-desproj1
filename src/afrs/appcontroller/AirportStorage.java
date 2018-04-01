@@ -104,11 +104,11 @@ public class AirportStorage implements Storage {
         String[] line_info = line.split(",");
         ArrayList<Weather> weatherList = new ArrayList<>();
         for (int i = 1; i <= line_info.length - 1; i += 2) {
-          weatherList.add(new Weather(line_info[i],
-              line_info[i + 1])); //takes each weather pair in line
-        }                                                                               // and turns it into weather object
-        airports.get(line_info[0]).setWeather(
-            weatherList); //takes list of weather objects and adds it to corresponding airport
+          // Takes each weather pair in line and turns it into weather object
+          weatherList.add(new Weather(line_info[i], line_info[i + 1]));
+        }
+        // Takes list of weather objects and adds it to corresponding airport
+        airports.get(line_info[0]).setWeather(weatherList);
       }
       reader.close();
     } catch (Exception e) {

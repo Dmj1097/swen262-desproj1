@@ -6,7 +6,6 @@ import afrs.uiview.TerminalClient;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.CacheHint;
@@ -30,9 +29,6 @@ public class GuiApplication extends Application {
 
   private static final String WINDOW_NAME = "Airline Flight Reservation System";
   private static final String SUBMIT_BUTTON_NAME = "Submit";
-  private static final String FAA_RADIO_NAME = "FAA";
-  private static final String LOCAL_RADIO_NAME = "Local";
-  private static final String SERVICES_LABEL_NAME = "Services";
   private static final String NEW_CLIENT_BUTTON = "Connect";
 
   private StorageCenter storageCenter;

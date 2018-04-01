@@ -44,6 +44,7 @@ public class Client {
    */
   public void switchService() {
     this.service = (this.service == Service.Local) ? Service.FAA : Service.Local;
+    weather.clear();
   }
 
   /**
@@ -51,14 +52,17 @@ public class Client {
    */
   public WeatherIterator getAirportWeatherIterator(String airportCode) {
     WeatherIterator iterator = weather.get(airportCode);
-    if (iterator == null && service != Service.FAA) {
-      Airport airport = storageCenter.getAirport(airportCode);
+    Airport airport;
+
+    if (service == Service.Local) {
+      if (iterator == null) {
+        airport = storageCenter.getAirport(airportCode);
+        iterator = airport.getWeatherIterator();
+        weather.put(airportCode, iterator);
+      }
+    } else {
+      airport = FAAWeatherCenter.getInstance(airportCode);
       iterator = airport.getWeatherIterator();
-      weather.put(airportCode, iterator);
-    } else if (service == Service.FAA) {
-      Airport airport = FAAWeatherCenter.getInstance(airportCode);
-      iterator = airport.getWeatherIterator();
-      weather.put(airportCode, iterator);
     }
     return iterator;
   }

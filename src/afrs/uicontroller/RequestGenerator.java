@@ -2,9 +2,17 @@ package afrs.uicontroller;
 
 import afrs.appcontroller.Client;
 import afrs.appcontroller.StorageCenter;
-import afrs.uicontroller.requests.*;
-import afrs.uiview.TerminalClient;
-
+import afrs.uicontroller.requests.AiportModeRequest;
+import afrs.uicontroller.requests.AirportInfoRequest;
+import afrs.uicontroller.requests.ConnectionRequest;
+import afrs.uicontroller.requests.CreateReservationRequest;
+import afrs.uicontroller.requests.DeleteReservationRequest;
+import afrs.uicontroller.requests.DisconnectionRequest;
+import afrs.uicontroller.requests.FlightInfoRequest;
+import afrs.uicontroller.requests.InvalidRequest;
+import afrs.uicontroller.requests.Request;
+import afrs.uicontroller.requests.SearchReservationRequest;
+import afrs.uicontroller.requests.UndoRedoRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +68,7 @@ public class RequestGenerator {
       params = input.replace(";", "").split(",");
       String type = params[0];
       List<String> parameters = new ArrayList<>(
-              Arrays.asList(params).subList(1, params.length));
+          Arrays.asList(params).subList(1, params.length));
       switch (type) {
         case "disconnect":
           return new DisconnectionRequest(clientID, storageCenter);
