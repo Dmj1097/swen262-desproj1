@@ -34,7 +34,6 @@ public class PassengerStorage implements Storage {
    * Create a new PassengerStorage object
    */
   public PassengerStorage() {
-    //System.out.println(location);
     passengers = new HashMap<>();
     setupMap();
   }
@@ -156,9 +155,8 @@ public class PassengerStorage implements Storage {
         bufferedWriter.write(line.toString() + "\n");
       }
       bufferedWriter.close();
-    } catch (IOException e) {
-      System.out.println("Problem occurs when creating file " + "passengers.txt");
-      e.printStackTrace();
+    } catch (IOException e) { // Problem occurs when creating file "passengers.txt"
+      System.exit(-2);
     }
   }
 

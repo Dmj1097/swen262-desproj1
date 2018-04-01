@@ -5,14 +5,11 @@ import afrs.appmodel.Weather;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import javax.xml.ws.ProtocolException;
 
 /**
  * Class that represents the FAA airport query service that gets airport info when a uses switches to FAA mode
@@ -66,41 +63,34 @@ public class FAAWeatherCenter {
    * @return airport object with info from website
    */
   private static Airport generateAirport(String ID) {
+    JsonObject JSONairport;
     Airport airport;
-    try {
 
+    try {
       //get json object of airport info
-      JsonObject JSONairport = getAirport(ID);
-      String condition = JSONairport.
-          get("Weather").getAsJsonObject().
-          get("Weather").getAsJsonArray().get(0).getAsJsonObject().
-          get("Temp").getAsJsonArray().get(0).
-          toString().replace("\"", "");
-      String temp = JSONairport.
-          get("Weather").getAsJsonObject().
-          get("Temp").getAsJsonArray().get(0).
-          toString().replace("\"", "");
-      Weather weather = new Weather(condition, temp);
-      ArrayList<Weather> weatherlist = new ArrayList<>(); //setup weather object for airport
-      weatherlist.add(weather);
-      airport = new Airport(JSONairport.get("IATA").toString(),
-          JSONairport.get("Name").toString().replace("\"", ""));
-      airport.setWeather(weatherlist);
-      airport.setDelayTime(Integer.parseInt(JSONairport.get("DelayCount").toString()));
-      return airport;
-    } catch (FileNotFoundException e) { //exceptions for all possible errors that could occur
-      System.out.print("URL not found: ");
-      System.out.println(e.getMessage());
-    } catch (MalformedURLException e) {
-      System.out.print("Malformed URL: ");
-      System.out.println(e.getMessage());
-    } catch (ProtocolException e) {
-      System.out.print("Unsupported protocol: ");
-      System.out.println(e.getMessage());
-    } catch (IOException e) {
-      System.out.println(e.getMessage());
+      JSONairport = getAirport(ID);
+    } catch (IOException ex) {
+      System.exit(-1);
+      return null;
     }
-    return null;
+
+    String condition = JSONairport.
+        get("Weather").getAsJsonObject().
+        get("Weather").getAsJsonArray().get(0).getAsJsonObject().
+        get("Temp").getAsJsonArray().get(0).
+        toString().replace("\"", "");
+    String temp = JSONairport.
+        get("Weather").getAsJsonObject().
+        get("Temp").getAsJsonArray().get(0).
+        toString().replace("\"", "");
+    Weather weather = new Weather(condition, temp);
+    ArrayList<Weather> weatherlist = new ArrayList<>(); //setup weather object for airport
+    weatherlist.add(weather);
+    airport = new Airport(JSONairport.get("IATA").toString(),
+        JSONairport.get("Name").toString().replace("\"", ""));
+    airport.setWeather(weatherlist);
+    airport.setDelayTime(Integer.parseInt(JSONairport.get("DelayCount").toString()));
+    return airport;
   }
 
 
@@ -116,7 +106,7 @@ public class FAAWeatherCenter {
   }
 
   /**
-   * gets delay time of specific airport from FAA website
+   * gets delay time of specifc airport from FAA website
    *
    * @param ID airport ID
    * @return delaytime in minutes
