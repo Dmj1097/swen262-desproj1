@@ -9,16 +9,16 @@ import java.util.Scanner;
  * application class that uses the input-output service through command line
  * Brian Taylor
  */
-public class TestApplication {
+public class TerminalApplication {
 
   public static void main(String[] args) {
     StorageCenter storageCenter = new StorageCenter();
     RequestGenerator requestGenerator = new RequestGenerator(storageCenter);
-    new TestApplication(storageCenter, requestGenerator);
+    new TerminalApplication(storageCenter, requestGenerator);
   }
 
-  public TestApplication(final StorageCenter storageCenter,
-      final RequestGenerator requestGenerator) {
+  public TerminalApplication(final StorageCenter storageCenter,
+                             final RequestGenerator requestGenerator) {
     TerminalClient client = new TerminalClient(storageCenter, requestGenerator, false);
     System.out.println("Welcome [" + client.getID() + "] to AFRS!");
 

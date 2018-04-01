@@ -53,7 +53,7 @@ public class GuiApplication extends Application {
   public GuiApplication() {
     this.storageCenter = new StorageCenter();
     this.requestGenerator = new RequestGenerator(storageCenter);
-    new Thread(() -> new TestApplication(storageCenter, requestGenerator)).start();
+    new Thread(() -> new TerminalApplication(storageCenter, requestGenerator)).start();
   }
 
   /**
